@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<!-- Lobby.html -->
+<title>Lobby Page</title>
+
+
+
+<!-- 헤더.jsp부분 -->
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<link href="/resources/res/css/site.css" rel="stylesheet" media="screen">
+
+
+
+
+<!-- 메뉴 -->
+
+<link href="/resources/res/css/bootstrap.min.css" rel="stylesheet"
+   type="text/css" />
+<!-- Font Awesome Icons -->
+<link
+   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+   rel="stylesheet" type="text/css" />
+<!-- Ionicons -->
+<link
+   href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+   rel="stylesheet" type="text/css" />
+<!-- Theme style -->
+<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet"
+   type="text/css" />
+<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+
+<link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+   integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+   crossorigin="anonymous">
+
+
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+   crossorigin="anonymous"></script>
+
+
+<script>
+   $('#login').on('shown.bs.modal', function() {
+      $('#myInput').focus();
+   });
+</script>
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+   $(document).ready(function() {
+      var query = $(location).attr('search');
+      var param = query.split('?id=');
+      var id = param[1];
+      
+      
+      var getid = '<%=getid%>';
+ 	  document.getElementById("id").value = getid;
+ 	  document.getElementById("sessionid").innerHTML = getid + "님 환영합니다";
+      
+     
+      $.getJSON('/room', function(data) { // ajax 수행
+         $.each(data, function(index, item) { // 반복 수행, item은 쓰지 않지만 걍 넣음. http://localhost/room 에 접속해 json을 읽기바람
+            $('<button></button>').attr({
+               'data-room' : index
+            }).text('Room Number2: ' + index).appendTo('#container'); // 문서 객체 추가
+         });
+         eventPack();
+      });
+
+      var socket = io.connect();
+      
+	  socket.on('dddd', function(data) {
+		alert('받았어!!!!!!');
+	});
+      
+      
+      socket.on('create_room', function(data) { // socket 처리 수행
+    	  $('<button></button>').attr({
+            'data-room' : data.room
+         }).text('Room Number1: ' + data.room).appendTo('#container'); // 문서 객체 추가
+         eventPack();
+      });
+      
+      
+     
+      var eventPack = function() { // 이벤트를 등록. json(비동기), socket으로 만들어지는 button 태그는 이 이벤트 설정 후 뒤늦게 만들어 지기에 이벤트가 달라붙지 않는다.
+         $('#container > button').unbind('click'); // 반복 실행으로 인한 중복 이벤트 방지 - 이벤트 삭제
+         $('body > button').unbind('click');
+
+         $('#container > button').click(function() {
+            var room = $(this).attr('data-room'); // 변수 선언
+            var param = room.split('/');
+            var roomname = param[1];
+            var data = {
+               "room" : '?room=' + roomname,
+               "id" : '&id=' + $("#id").val()
+            };
+            //  alert(data.room);
+            window.location = '/temp' + data.room + data.id; // 페이지 이동. (window. 는 생략가능하지만 명시적으로 적어줌)
+           //window.location ='/canvas';
+         });
+         $('body > button').click(function() {
+            var room = '?' + $('#room').val(); // 변수 선언
+
+            var data = {
+               "room" : '?room=' + $("#room").val(),
+               "id" : '&id=' + $("#id").val()
+            };
+
+            socket.emit('create_room', {
+               room : room,
+            }); // 소켓 이벤트 발생
+
+            window.location = '/temp' + data.room + data.id; // 페이지 이동.
+
+         });
+      };
+
+      eventPack();
+   });
+</script>
+</head>
+<body>
+   <div id="page-wrapper">
+
+      <header id="header">
+         <h1 id="logo">
+            <a href="http://localhost:8080"><i class="fa fa-spinner" aria-hidden="true"></i>THINKPATTERN</a>
+         </h1>
+         <nav id="nav">
+            <ul>
+               <li><a href="../">MANUAL</a></li>
+               <li><a href="#">DESIGN PATTERN</a>
+                  <ul>
+
+                     <li><a href="#">PATTERN 1</a></li>
+                     <li><a href="#">PATTERN 2</a></li>
+                     <li><a href="#">PATTERN 3</a></li>
+                     <li><a href="#">PATTERN 4</a></li>
+
+                  </ul></li>
+               <li><a href="/notice/list">SERVICE CENTER</a></li>
+            </ul>
+
+         </nav>
+
+         </nav>
+         <sign id="sign">
+         <ul>
+               <li><span id="sessionid"></span>  <a href="http://localhost:8080/user/modifyConfirm"
+                  class="button small"><i class="fa fa-user" aria-hidden="true"></i>
+                     modify</a> <a href="http://localhost:8080/user/logout" class="button small"><i
+                     class="fa fa-sign-out" aria-hidden="true"></i> logout</a>
+
+               </li>
+            
+         </ul>
+
+         </sign>
+      </header>
+
+   </div>
+   <h1>Rint Real Time Canvas</h1>
+   <p>Connect Web Server With Socket.io</p>
+   <span>Room : </span>
+   <input id="room" />
+   <button>Create ROOM</button>
+   <input type="hidden" id="id" value="">
+
+   <hr />
+   <div id="container"></div>
+</body>
+<footer id="footer" style="margin: 0 auto; padding: 20px 0 10px 0">
+   <ul class="service_user">
+
+      <li>서비스 이용 약관</li>
+      <li>개인정보 취급방침</li>
+   </ul>
+
+   <a href="http://www.skhu.ac.kr"></a>
+
+   <div class="skhu">152-716 서울시 구로구 연동로 320 / 지하철 1,7호선
+      온수역(성공회대입구역) T.02-2610-4114 F.02-2683-8858</div>
+
+   <ul class="copyright">COPYRIGHTⓒ SUNGKONGHOE UNIVERSITY. ALL
+      RIGHTS RESERVED.
+   </ul>
+
+</footer>
+</html>
+
+
+
