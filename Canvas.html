@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-
+<script type='text/javascript' src='/js/all_values.js'></script>
 
  
 <style>
@@ -94,6 +94,15 @@
 		socket.emit('participant');
 		
 		
+		socket.on('completepj', function() {
+			alert('압축완성');
+			
+			socket.emit('deletefile');
+			window.location = '/download/';
+			
+		});
+		
+		
 		//참여자 목록을 받아옴
  	 	socket.on('participant', function(data) {
 			//참여자 목록을 저장시킨 후
@@ -163,8 +172,6 @@
 
 	//메일 삭제 영역 입력하기
 	$(document).on("click", ".del", function() {
-		
-		
 		$(this).parent().remove();
 		mailListValue--;
 
@@ -328,7 +335,7 @@
 </div>
 <button>파일 생성</button>
 
- <script>
+  <script>
         var canvas = document.getElementById('canvas1');     // Canvas 객체 추출
 
         var context = canvas.getContext('2d');
@@ -346,92 +353,8 @@
 
     </script>
 
-	    <script>
-   // 변수 선언
 
-        var width = 5;
-
-        var color = '#000000';
-
-        var isDown = false;     // 마우스 버튼을 눌렀나 안 눌렀나
-
-        var point;
-//
-
-	
-// 가변적으로 사용하기 위한 변수들 선언
-var xpos = 0; // x좌표
-var ypos = 0; // y좌표
-var con_num = 1; // list의 아이템 개수(controller의 개수)
-//var val_num = 2; // 변수의 개수
-//var m_num = 2; // 메소드의 개수
-var base_xpos = 150; // 기본 가로 길이
-var base_ypos = 30; // 기본 세로 길이
-
-var str_className = "";		// class의 이름을 저장하기 위한 변수
-var str_valuename = []; // class의 변수이름을 저장하기 위한 변수
-var str_methodname = []; // class의 함수이름을 저장하기 위한 변수
-
-var coordinate_X;
-var coordinate_Y;
-
-var con_pointx;
-var con_pointy;
-
-//변수들 간소화 및 대입을 위한 변수
-var width = 0;
-var height = 0;
-var index = 0;
-
-
-	
-		
-//
-	var list_click=false;
-	var check_package;
-
-
-// list마다(package에 따라서) class name을 구분하여 저장하기 위한 배열과 변수들...
-// class의 name, value, method를 저장하기 위한 mvc의 list
-var controllerList = [];
-var serviceList = [];
-var daoList = [];
-var classList = [];	// pattern이 아닌 기본 클래스를 만들 때 사용.
-
-
-var gubun=-1; //controller이면 1, service면 2, dao면 3, 세개다(mvc)이면 4, 그 외에 0
-
-//구조체를 선언해줄 이름(각 package 마다 다르게 저장하기 위해 사용.)
-var controller;
-var service;
-var dao;
-var basic_class;
-
-//list에 값을 저장하기 위한 구조체
-function element(){
-	var classname = "";
-	var valuename = new Array();
-	var methodname = new Array();
-	var point_X;
-	var point_Y;
-}
-
-var check_name=true;			// 중복체크를 위한 변수 (true면 같은 이름 x, false면 같은 이름의 class가 존재)
-var connectclass;		// 연결할 class의 name을 저장
-var isConn=false;		// 연결하는지 check
-
-// 각 List의 count를 세줄 변수(즉 list의 index값)
-var con_cnt = 0;
-var ser_cnt = 0;
-var dao_cnt = 0;
-var bc_cnt = 0;
-
-// 각각의 list를 구별하기 위한 변수.
-var conn_con = false;
-var conn_ser = false;
-var conn_dao = false;
-var conn_basic = false;
-
+  <script>
 
 
 
@@ -442,7 +365,7 @@ var conn_basic = false;
 
 
 
-
+		//mvc_modal.js
 //리스트에서 클릭한 거 check_package에 넣어주기
 		$("#crea_controller").click(function(){
 			list_click = true;
@@ -464,149 +387,19 @@ var conn_basic = false;
         
 
 
-	// 동적으로 connectclass에 list를 받아와 option으로 만들어주는 code
-function Dynamic_Connect_List(){
-	if(check_package == "Controller"){
-		Connect_Select_Delete();
-		for(var i=0; i<serviceList.length; i++){
-			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<daoList.length; i++){
-			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
-		}
-	}else if(check_package == "Service"){
-		Connect_Select_Delete();
-		for(var i=0; i<controllerList.length; i++){
-			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<daoList.length; i++){
-			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
-		}
-	}else if(check_package == "DAO"){
-		Connect_Select_Delete();
-		for(var i=0; i<controllerList.length; i++){
-			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<serviceList.length; i++){
-			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
-		}
-	}
-}
-
-// select box를 초기화해주는 code
-function Connect_Select_Delete(){
-	$('#connectclass').empty();
-	$('<option value="init">--선택하세요--</option>').appendTo('#connectclass');
-}
-
-function MVC_List_View(){
-	
-	$('#conlist').empty();
-	$('#serlist').empty();
-	$('#daolist').empty();
-	
-	for(var i=0;i<controllerList.length;i++){
-		$('<label value="' + controllerList[i].classname + '">' + controllerList[i].classname + '</label>').appendTo('#conlist');
-		$('<button>수정</button>').appendTo('#conlist');
-		$('<button>삭제</button></br>').appendTo('#conlist');
-	}
-	for(var i=0;i<serviceList.length;i++){
-		$('<label value="' + serviceList[i].classname + '">' + serviceList[i].classname + '</label>').appendTo('#serlist');
-		$('<button>수정</button>').appendTo('#serlist');
-		$('<button>삭제</button></br>').appendTo('#serlist');
-	}
-	for(var i=0;i<daoList.length;i++){
-		$('<label value="' + daoList[i].classname + '">' + daoList[i].classname + '</label>').appendTo('#daolist');
-		$('<button>수정</button>').appendTo('#daolist');
-		$('<button>삭제</button></br>').appendTo('#daolist');
-	}
-}
 
 
-//draw한 canvas정보들 emit해주는 함수
-function EmitCanvas(gb){
-	if(gb==1){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:controller,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==2){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:service,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==3){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:dao,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==4){
-	}else if(gb==0){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:basic_class,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}
-}
 
+		//dinamic_form.js
 
-	//모달창기능함수들
-
-var val_count = 1;
-var m_count = 1;
-var select_valcnt = 1;
-var select_mcnt = 1;
-
+/**
+ * value form을 하나하나 증가시켜주는 함수
+ */
 function AddValueForm() {
 	var addedValFormDiv = document.getElementById("valueDiv");
 	var str = "Value";
 	str += val_count + ":" + "<input type='text' id='valuename" + val_count + "'><select id = 'select_value"+ select_valcnt +"'> <option value='init'>선택하세요</option>"
 						+ "<option value='int'>int</option> <option value='String'>String</option></select>";
-	
 	// 추가할 폼(에 들어갈 HTML)
 	var addedValDiv = document.createElement("div"); // 폼 생성
 	addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
@@ -614,16 +407,47 @@ function AddValueForm() {
 	addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
 	val_count++;
 	select_valcnt++;
-	// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
-	//document.baseForm.val_count.value = val_count;
 }
 
+/**
+ * value form을 하나 감소시켜주는 함수
+ */
+function DelValueForm() {
+	var addedValFormDiv = document.getElementById("valueDiv");
+	
+	if (val_count > 1) { // 현재 폼이 두개 이상이면
+		var addedValDiv = document.getElementById("added_value" + (--val_count));
+		--select_valcnt;
+		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
+	}
+}
+
+/**
+ * value form을 하나빼고 모두 제거 하는 함수
+ */
+function DelValueAllForm()
+{
+	var addedValFormDiv = document.getElementById("valueDiv");
+	while(val_count > 1)
+	{
+		if (val_count > 1) { // 현재 폼이 두개 이상이면
+		var addedValDiv = document.getElementById("added_value" + (--val_count));
+		--select_valcnt;
+		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
+		} 
+	}
+}
+
+/**
+ * method form을 하나하나 증가시켜주는 함수
+ */
 function AddMethodForm() {
 	var addedMFormDiv = document.getElementById("methodDiv");
 	var str = "Method";
 	str += m_count + ":" + "<input type='text' id='methodname" + m_count + "'><select id = 'select_method"+ select_mcnt +"'> <option value='init'>선택하세요</option>"
 						+ "<option value='void'>void</option> <option value='int'>int</option> <option value='String'>String</option></select>";
-
 	// 추가할 폼(에 들어갈 HTML)
 	var addedMDiv = document.createElement("div"); // 폼 생성
 	addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
@@ -631,57 +455,24 @@ function AddMethodForm() {
 	addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
 	m_count++;
 	select_mcnt++;
-	//document.baseForm.count.value = m_count;
-	// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
 }
 
-function DelValueForm() {
-	var addedValFormDiv = document.getElementById("valueDiv");
-	
-	if (val_count > 1) { // 현재 폼이 두개 이상이면
-		var addedValDiv = document.getElementById("added_value" + (--val_count));
-		
-		--select_valcnt;
-		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
-		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
-	} /*else { // 마지막 폼만 남아있다면
-		document.baseForm.reset(); // 폼 내용 삭제
-	}*/
-}
-
-function DelValueAllForm()
-{
-	var addedValFormDiv = document.getElementById("valueDiv");
-
-	while(val_count > 1)
-	{
-		if (val_count > 1) { // 현재 폼이 두개 이상이면
-		var addedValDiv = document.getElementById("added_value" + (--val_count));
-		
-		--select_valcnt;
-		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
-		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
-		} 
-	}
-	/*if(val_count == 1)
-	{
-		document.baseForm.reset();
-	}*/
-}
-
+/**
+ * method form을 하나하나 삭제시켜주는 함수
+ */
 function DelMethodForm() {
 	var addedMFormDiv = document.getElementById("methodDiv");
-
 	if (m_count > 1) { // 현재 폼이 두개 이상이면
 		var addedMDiv = document.getElementById("added_method" + (--m_count));
 		--select_mcnt;
 		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
 		addedMFormDiv.removeChild(addedMDiv); // 폼 삭제 
-	}/* else { // 마지막 폼만 남아있다면
-		document.baseForm.reset(); // 폼 내용 삭제
-	}*/
+	}
 }
 
+/**
+ * method form을 하나를 제외하고 모두 삭제시켜주는 함수
+ */
 function DelMethodAllForm()
 {
 	var addedMFormDiv = document.getElementById("methodDiv");
@@ -692,140 +483,287 @@ function DelMethodAllForm()
 			--select_mcnt;
 			// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
 			addedMFormDiv.removeChild(addedMDiv); // 폼 삭제 
-		} 
-		
+		}
 	}
-	/*if(m_count == 1)
-	{
-		document.baseForm.reset();
-	}*/
 }
 
+/**
+ * 동적으로 connectclass에 list를 받아와 option으로 만들어주는 code
+ * modal창이 띄워지기 전에 호출해야함.
+ */
+function Dynamic_Connect_List(){
+	
+	// connectclass의 form을 초기화함.
+	$('#connectclass').empty();
+	$('<option value="init">--선택하세요--</option>').appendTo('#connectclass');
+	
+	if(check_package == "Controller"){
+		
+		for(var i=0; i<serviceList.length; i++){
+			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
+		}
+		
+		for(var i=0; i<daoList.length; i++){
+			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
+		}
+		
+	}else if(check_package == "Service"){
+		
+		for(var i=0; i<controllerList.length; i++){
+			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
+		}
+		
+		for(var i=0; i<daoList.length; i++){
+			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
+		}
+		
+	}else if(check_package == "DAO"){
+		
+		for(var i=0; i<controllerList.length; i++){
+			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
+		}
+		
+		for(var i=0; i<serviceList.length; i++){
+			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
+		}
+	}
+}
+
+/**
+ * side에 list들을 전부 띄워주는 함수. (실행하면 list들을 삭제하고 다시 그려준다.)
+ */
+function MVC_List_View(){
+	
+	$('#conlist').empty();
+	$('#serlist').empty();
+	$('#daolist').empty();
+	
+	for(var i=0;i<controllerList.length;i++){
+		$('<label value="' + controllerList[i].classname + '">' + controllerList[i].classname + '</label>').appendTo('#conlist');
+		$('<button onclick="List_Modify('+"\'" + controllerList[i].classname +"\'" +')">수정</button>').appendTo('#conlist');
+		$('<button onclick="List_Delete('+"\'" + controllerList[i].classname +"\'" +')">삭제</button></br>').appendTo('#conlist');
+	}
+	for(var i=0;i<serviceList.length;i++){
+		$('<label value="' + serviceList[i].classname + '">' + serviceList[i].classname + '</label>').appendTo('#serlist');
+		$('<button onclick="List_Modify('+"\'" + serviceList[i].classname +"\'" +')">수정</button>').appendTo('#serlist');
+		$('<button onclick="List_Delete('+"\'" + serviceList[i].classname +"\'" +')">삭제</button></br>').appendTo('#serlist');
+	}
+	for(var i=0;i<daoList.length;i++){
+		$('<label value="' + daoList[i].classname + '">' + daoList[i].classname + '</label>').appendTo('#daolist');
+		$('<button onclick="List_Modify('+"\'" + daoList[i].classname +"\'" +')">수정</button>').appendTo('#daolist');
+		$('<button onclick="List_Delete('+"\'" + daoList[i].classname +"\'" +')">삭제</button></br>').appendTo('#daolist');
+	}
+}
+
+/**
+ * form을 초기화 해주는 함수.
+ * */
 function FormInit(){
-	// input 태그의 값들을 초기화
+	
+	// 폼의 값들을 초기화
 	document.getElementById("classname").value = "";
 	document.getElementById("connectclass").value = "";
-	for(var i=0; i<val_count; i++){
-		document.getElementById("valuename"+i).value = "";
-	}
-	for(var i=0; i<m_count; i++){
-		document.getElementById("methodname"+i).value = "";
-	}
+	document.getElementById("valuename0").value = "";
+	document.getElementById("select_value0").value = "init";
+	document.getElementById("methodname0").value = "";
+	document.getElementById("select_method0").value = "init";
 	
 	// 폼 초기화
 	DelValueAllForm();
 	DelMethodAllForm();
-	
-	// 배열 초기화 
-	v_name = [];
-	m_name = [];
-	select_val = [];
-	select_method = [];
-	
-	// index 초기화
-	index = -1;
+}
 
-	gubun=-1;
-	isConn=false;
-	con_pointx = 0;
-	con_pointy = 0;
-	
-	check_name = false;
 
-	c_name = "";
 
-	check_name_con = false;
-	check_name_ser = false;
-	check_name_dao = false;
+
+
+
+
+
+
+
+
+
+
+//draw한 canvas정보들 emit해주는 함수
+function EmitCanvas(gb){
+	if(gb==1){
+		socket.emit('draw', {
+			gb:gb,
+			class:controller			
+			
+		});
+	}else if(gb==2){
+		socket.emit('draw', {
+			gb:gb,
+			class:service			
+			
+		});
+	}else if(gb==3){
+		socket.emit('draw', {
+			gb:gb,
+			class:dao			
+			
+		});
+	}
+}
+
+//수정한 canvas정보들 emit해주는 함수
+function EmitModifyCanvas(gb){
+	if(gb==1){
+		socket.emit('modifyCanvas', {
+			gb:gb,
+			m_class:modify_class,
+			m_idx:modify_index,
+			class:controller,
+			m_conn_list:m_conn_list			
+			
+		});
+	}else if(gb==2){
+		socket.emit('modifyCanvas', {
+			gb:gb,
+			m_class:modify_class,
+			m_idx:modify_index,
+			class:service,
+			m_conn_list:m_conn_list	
+			
+		});
+	}else if(gb==3){
+		socket.emit('modifyCanvas', {
+			gb:gb,
+			m_class:modify_class,
+			m_idx:modify_index,
+			class:dao,
+			m_conn_list:m_conn_list				
+			
+		});
+	}
+}
+
+
+//삭제한 canvas정보들 emit해주는 함수
+function EmitDeleteCanvas(){
 	
-	conn_con = false;
-	conn_ser = false;
-	conn_dao = false;
-	conn_basic = false;
+	socket.emit('deleteCanvas', {
+			gb:gubun,
+			d_class:delete_class,
+			d_idx:delete_index,
+			d_conn_list:d_conn_list			
+			
+	});
 	
 }
 
-//modal에서 받아온 값을 저장해주기 위한 변수들
-var c_name;				// document의 classname에 해당되는 input 태그의 id를 받아와 저장할 변수
-var v_name = new Array();	// document의 valuename에 해당되는 input 태그의 id를 받아와 저장할 배열
-							// 변수는 가변적이기 떄문에 배열로 선언
-var m_name = new Array();	// document의 methodname에 해당되는 input 태그의 id를 받아와 저장할 배열(위와 동일)
-var select_val = new Array();	// document의 select box(value)의 값을 저장하기 위한 배열
-var select_method = new Array();	// document의 select box(method)의 값을 저장하기 위한 배열
 
 
-// 중복체크 함수
+
+
+
+			//mvc_modal_create.js
+/**
+ * List들을 순회하면서 class의 name들이 곂치는지 확인하기 위한 함수.
+ */
 function Duplication_Check(){
-	alert('중복check');
+	
 	if(check_package == "Controller"){
-		for(var i=0;i<controllerList.length;i++){
-			if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("Controller의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
+		if(controllerList.length != 0){
+			for(var i=0;i<controllerList.length;i++){
+				if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("Controller의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name = true;
 		}
 	}else if(check_package == "Service"){
-		for(var i=0;i<serviceList.length;i++){
-			if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("Service의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
+		if(serviceList.length != 0){
+			for(var i=0;i<serviceList.length;i++){
+				if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("Service의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name = true;
 		}
 	}else if(check_package == "DAO"){
-		for(var i=0;i<daoList.length;i++){
-			if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("DAO의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
+		if(daoList.length != 0){
+			for(var i=0;i<daoList.length;i++){
+				if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("DAO의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name = true;
 		}
 	}else if(check_package == "mvc"){
 		var check_name_con;
 		var check_name_ser;
 		var check_name_dao;
 		
-		for(var i=0;i<controllerList.length;i++){
-			if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
-				c_name = document.getElementById("classname").value;
-				check_name_con = true;
-			}else{
-				alert("Controller의 Name이 중복 됩니다.");
-				check_name_con = false;
-				break;
+		if(controllerList.length != 0){
+			for(var i=0;i<controllerList.length;i++){
+				if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
+					c_name = document.getElementById("classname").value;
+					check_name_con = true;
+				}else{
+					alert("Controller의 Name이 중복 됩니다.");
+					check_name_con = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name_con = true;
 		}
 		
-		for(var i=0;i<serviceList.length;i++){
-			if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
-				c_name = document.getElementById("classname").value;
-				check_name_ser = true;
-			}else{
-				alert("Service의 Name이 중복 됩니다.");
-				check_name_ser = false;
-				break;
+		if(serviceList.length != 0){
+			for(var i=0;i<serviceList.length;i++){
+				if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
+					c_name = document.getElementById("classname").value;
+					check_name_ser = true;
+				}else{
+					alert("Service의 Name이 중복 됩니다.");
+					check_name_ser = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name_ser = true;
 		}
 		
-		for(var i=0;i<daoList.length;i++){
-			if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
-				c_name = document.getElementById("classname").value;
-				check_name_dao = true;
-			}else{
-				alert("DAO의 Name이 중복 됩니다.");
-				check_name_dao = false;
-				break;
+		if(controllerList.length != 0){
+			for(var i=0;i<daoList.length;i++){
+				if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
+					c_name = document.getElementById("classname").value;
+					check_name_dao = true;
+				}else{
+					alert("DAO의 Name이 중복 됩니다.");
+					check_name_dao = false;
+					break;
+				}
 			}
+		}else{
+			c_name = document.getElementById("classname").value;
+			check_name_dao = true;
 		}
 		
 		if(check_name_con == true && check_name_ser == true && check_name_dao == true){
@@ -833,199 +771,13 @@ function Duplication_Check(){
 		}else{
 			check_name = false;
 		}
-	}else{
-		for(var i=0;i<classList.length;i++){
-			if(classList[i].classname != document.getElementById("classname").value + "_basic"){
-				c_name = document.getElementById("classname").value + "_basic";
-				check_name = true;
-			}else{
-				alert("Class의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
-			}
-		}
 	}
 }
 
-// 연결할 class를 탐색해줌.
-function Connect_Class_Check(){
-	if(check_package == "Controller"){
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-				break;
-			}else{
-				conn_ser = false;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-				break;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-	/*	for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}*/
-		
-	}else if(check_package == "Service"){
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-				break;
-			}else{
-				conn_con = false;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-				break;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-		/*for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}*/
-		
-	}else if(check_package == "DAO"){
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-				break;
-			}else{
-				conn_con = false;
-			}
-		}
-		
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-				break;
-			}else{
-				conn_ser = false;
-			}
-		}
-		
-		/*for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}*/
-		
-		
-		
-		
-	}/*else{
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-			}else{
-				conn_con = false;
-			}
-		}
-		
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-			}else{
-				conn_ser = false;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-		for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}
-	}*/
-}
-
-function Connection_Class(){
-	
-	Connect_Class_Check();
-
-	if(conn_con == true){
-		con_pointx = controllerList[index].point_X;
-		con_pointy = controllerList[index].point_Y;
-		
-	}else if(conn_ser == true){
-		con_pointx = serviceList[index].point_X;
-		con_pointy = serviceList[index].point_Y;
-		
-	}else if(conn_dao == true){
-		con_pointx = daoList[index].point_X;
-		con_pointy = daoList[index].point_Y;
-		
-	}/*else if(conn_basic == true){ 
-		con_pointx = classList[index].point_X;
-		con_pointy = classList[index].point_Y;
-		
-	}*/
-	
-}
-
-// 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.
-function OnOK() {
-	alert('ok');
-	Connect_PointSave();
-	
-	
-	// 먼저 중복체크를 해서 이름이 같은 class가 있으면 class가 생성이 안되게 만듬.
-	Duplication_Check();
-	
-
-	connectclass = document.getElementById("connectclass").value;
-	if(connectclass!=""||connectclass!="init"){
-		isConn=true;
-		Connection_Class();
-	}	
-
-
-	
-	
+/**
+ * document의 input tag에 저장되어 있는 값들을 불러오는 함수.
+ */
+function Call_Value(){
 	// 중복된 class의 이름이 없으면 document의 값을 받아와 배열에 저장
 	if(check_name == true){
 		for(var i=0; i<val_count; i++){
@@ -1035,198 +787,959 @@ function OnOK() {
 		
 		for(var i=0; i<m_count; i++){
 			m_name[i] = document.getElementById("methodname"+i);
-			select_method[i] = document.getElementById("select_method"+i);
+			select_func[i] = document.getElementById("select_method"+i);
 		}
 		
 		// 각 document의 값들을 저장.
 		if(check_package != "mvc"){
-			str_className = c_name;
+			draw_className = c_name;
+			connectclass = document.getElementById("connectclass").value;
 		}
 		
 		// select box의 값이 선택되면 변수명 앞에 select box의 값을 붙여줌.
 		for(var j=0; j<val_count; j++){
-			if(select_val[j].value == "init"){
-				str_valuename[j] = v_name[j].value;
-			}else{
-				str_valuename[j] = select_val[j].value + " " +v_name[j].value;
-			}
+			draw_valueName[j] = v_name[j].value;
+			draw_select_val[j] = select_val[j].value;
 		}
 		
 		// select box의 값이 선택되면 메소드명 앞에 select box의 값을 붙여줌.
 		for(var j=0; j<m_count; j++){
-			if(select_method[j].value == "init"){
-				str_methodname[j] = m_name[j].value;
-			}else{
-				str_methodname[j] = select_method[j].value + " " +m_name[j].value;
-			}
+			draw_methodName[j] = m_name[j].value;
+			draw_select_func[j] = select_func[j].value;
 		}
 	}
+}
+
+
+/**
+ * 연결할 class를 탐색해줌.
+ */
+function Connect_Class_Check(){
+	if(check_package == "Controller" && connectclass != "init"){
+		for(var i=0;i<serviceList.length;i++){
+			if(connectclass == serviceList[i].classname){
+				conn_index = i;
+				conn_ser = true;
+				break;
+			}else{
+				conn_ser = false;
+			}
+		}
 		
+		for(var i=0;i<daoList.length;i++){
+			if(connectclass == daoList[i].classname){
+				conn_index = i;
+				conn_dao = true;
+				break;
+			}else{
+				conn_dao = false;
+			}
+		}
+		
+	}else if(check_package == "Service" && connectclass != "init"){
+		for(var i=0;i<controllerList.length;i++){
+			if(connectclass == controllerList[i].classname){
+				conn_index = i;
+				conn_con = true;
+				break;
+			}else{
+				conn_con = false;
+			}
+		}
+		
+		for(var i=0;i<daoList.length;i++){
+			if(connectclass == daoList[i].classname){
+				conn_index = i;
+				conn_dao = true;
+				break;
+			}else{
+				conn_dao = false;
+			}
+		}
+		
+	}else if(check_package == "DAO"  && connectclass != "init"){
+		for(var i=0;i<controllerList.length;i++){
+			if(connectclass == controllerList[i].classname){
+				conn_index = i;
+				conn_con = true;
+				break;
+			}else{
+				conn_con = false;
+			}
+		}
+		
+		for(var i=0;i<serviceList.length;i++){
+			if(connectclass == serviceList[i].classname){
+				conn_index = i;
+				conn_ser = true;
+				break;
+			}else{
+				conn_ser = false;
+			}
+		}		
+	}
+}
+
+/**
+ * connectclass에 입력하여 연결하고자 하는 class를 찾아서 그 좌표를 가져오는 함수
+ */
+function Connection_Class(){
+	
+	Connect_Class_Check();
+	
+	if(conn_con == true){
+		conn_point_X = controllerList[conn_index].end_point_x;
+		conn_point_Y = controllerList[conn_index].end_point_y;
+		
+	}else if(conn_ser == true){
+		conn_point_X = serviceList[conn_index].end_point_x;
+		conn_point_Y = serviceList[conn_index].end_point_y;
+		
+	}else if(conn_dao == true){
+		conn_point_X = daoList[conn_index].end_point_x;
+		conn_point_Y = daoList[conn_index].end_point_y;
+	}
+}
+
+function All_Draw_Connect_Line(){
+
+	for (var i=0;i<controllerList.length;i++) {
+		if (connectclass == controllerList[i].classname) {
+			conn_index = i;
+			conn_con = true;
+			break;
+		} else {
+			conn_con = false;
+		}
+	}
+
+	for (var i=0;i<serviceList.length;i++) {
+		if (connectclass == serviceList[i].classname) {
+			conn_index = i;
+			conn_ser = true;
+			break;
+		} else {
+			conn_ser = false;
+		}
+	}
+
+	for (var i=0;i<daoList.length;i++) {
+		if (connectclass == daoList[i].classname) {
+			conn_index = i;
+			conn_dao = true;
+			break;
+		} else {
+			conn_dao = false;
+		}
+	}
+	
+	if(conn_con){
+		conn_point_X = controllerList[conn_index].end_point_x;
+		conn_point_Y = controllerList[conn_index].end_point_y;
+	}else if(conn_ser){
+		conn_point_X = serviceList[conn_index].end_point_x;
+		conn_point_Y = serviceList[conn_index].end_point_y;
+	}else if(conn_dao){
+		conn_point_X = daoList[conn_index].end_point_x;
+		conn_point_Y = daoList[conn_index].end_point_y;
+	}
+	
+}
+
+/**
+ * document에서 받아온 값들을 list에 저장하는 함수
+ */
+function Value_List_Save(){
 	// 각각 들어오는 check_package의 값에 따라서 classname을 따로 저장
 	if(check_package == "Controller"){
 		// class name이 중복되지 않고 null이 아니면 값을 list에 저장. 
-		alert("controller"+check_name);
 		if(check_name == true && c_name != ""){
-			gubun=1;
-			
+		
 
-			Connect_PointSave();
-			str_className += "Controller";
-			
+			draw_className += "Controller";
+			gubun=1;
 			controller = new element();
-			controller.classname = str_className;
-			controller.valuename = str_valuename;
-			controller.methodname = str_methodname;
-			controller.point_X = coordinate_X;
-			controller.point_Y = coordinate_Y;
+			controller.classname = draw_className;
+			controller.valuename = draw_valueName;
+			controller.methodname = draw_methodName;
+			controller.selectvalue = draw_select_val;
+			controller.selectmethod = draw_select_func;
+			controller.connclassname = connectclass;
+			controller.start_point_x = xpos;
+			controller.start_point_y = ypos;
+			controller.end_point_x = end_xpos;
+			controller.end_point_y = end_ypos;
 			
+			//controllerList[con_cnt] = controller;
 			
-			
+			//con_cnt++;
+			EmitCanvas(gubun);
 		}
 	}else if(check_package == "Service"){
 		if(check_name == true && c_name != ""){
-			gubun=2;
-			Connect_PointSave();
-			str_className += "Service"
-				
-			service = new element();
-			service.classname = str_className;
-			service.valuename = str_valuename;
-			service.methodname = str_methodname;
-			service.point_X = coordinate_X;
-			service.point_Y = coordinate_Y;
 			
+
+			draw_className += "Service";
+			gubun=2;	
+			service = new element();
+			service.classname = draw_className;
+			service.valuename = draw_valueName;
+			service.methodname = draw_methodName;
+			service.selectvalue = draw_select_val;
+			service.selectmethod = draw_select_func;
+			service.connclassname = connectclass;
+			service.start_point_x = xpos;
+			service.start_point_y = ypos;
+			service.end_point_x = end_xpos;
+			service.end_point_y = end_ypos;
+			
+			//serviceList[ser_cnt] = service;
+			
+			//ser_cnt++;
+			EmitCanvas(gubun);
 		}
 	}else if(check_package == "DAO"){
 		if(check_name == true && c_name != ""){
+			
+		
+			draw_className += "DAO";
 			gubun=3;
-			Connect_PointSave();
-			str_className += "DAO";
-			
 			dao = new element();
-			dao.classname = str_className;
-			dao.valuename = str_valuename;
-			dao.methodname = str_methodname;
-			dao.point_X = coordinate_X;
-			dao.point_Y = coordinate_Y;
+			dao.classname = draw_className;
+			dao.valuename = draw_valueName;
+			dao.methodname = draw_methodName;
+			dao.selectvalue = draw_select_val;
+			dao.selectmethod = draw_select_func;
+			dao.connclassname = connectclass;
+			dao.start_point_x = xpos;
+			dao.start_point_y = ypos;
+			dao.end_point_x = end_xpos;
+			dao.end_point_y = end_ypos;
 			
+			//daoList[dao_cnt] = dao;
 			
+			//dao_cnt++;
+			EmitCanvas(gubun);
 		}
 	}else if(check_package == "mvc"){
 		if(check_name == true && c_name != ""){
-			gubun=4;
+		
 			controller = new element();
 			service = new element();
 			dao = new element();
 			
 			// controller 값을 list에 저장
-			Connect_PointSave();
-			str_className = c_name + "Controller";
-			controller.classname = str_className;
-			controller.valuename = str_valuename;
-			controller.methodname = str_methodname;
-			controller.point_X = coordinate_X;
-			controller.point_Y = coordinate_Y;
-			isConn=false;
+			draw_className = c_name + "Controller";
+			gubun=1;
+			controller.classname = draw_className;
+			controller.valuename = draw_valueName;
+			controller.methodname = draw_methodName;
+			controller.selectvalue = draw_select_val;
+			controller.selectmethod = draw_select_func;
+			controller.connclassname = connectclass;
+			controller.start_point_x = xpos;
+			controller.start_point_y = ypos;
+			controller.end_point_x = end_xpos;
+			controller.end_point_y = end_ypos;
 			
-			
-			//DrawClass();
-			EmitCanvas(1);
-			
-			con_pointx = coordinate_X;
-			con_pointy = coordinate_Y;
-			
+			//controllerList[con_cnt] = controller;
+			EmitCanvas(gubun);
+
 			// service 값을 list에 저장
 			xpos = xpos + 200;
 			ypos = ypos + 200;
-			Connect_PointSave();
+			Connect_SavePoint(draw_valueName.length, draw_methodName.length);
 			
-			str_className = c_name + "Service";
-			service.classname = str_className;
-			service.valuename = str_valuename;
-			service.methodname = str_methodname;
-			service.point_X = coordinate_X;
-			service.point_Y = coordinate_Y;
-			isConn=true;
+			connectclass = draw_className;
+			draw_className = c_name + "Service";
+			gubun=2;
+			service.classname = draw_className;
+			service.valuename = draw_valueName;
+			service.methodname = draw_methodName;
+			service.selectvalue = draw_select_val;
+			service.selectmethod = draw_select_func;
+			service.connclassname = connectclass;
+			service.start_point_x = xpos;
+			service.start_point_y = ypos;
+			service.end_point_x = end_xpos;
+			service.end_point_y = end_ypos;
 			
-			
-			
-			//DrawConnect();
-			//DrawClass();
-			EmitCanvas(2);
+			//serviceList[ser_cnt] = service;
+			EmitCanvas(gubun);
 
-			con_pointx = coordinate_X;
-			con_pointy = coordinate_Y;
-			
 			//dao 값을 list에 저장
 			xpos = xpos + 200;
 			ypos = ypos + 200;
-			Connect_PointSave();
+			Connect_SavePoint(draw_valueName.length, draw_methodName.length);
 			
-			str_className = c_name + "DAO";
-			dao.classname = str_className;
-			dao.valuename = str_valuename;
-			dao.methodname = str_methodname;
-			dao.point_X = coordinate_X;
-			dao.point_Y = coordinate_Y;
-			isConn=true;
+			connectclass = draw_className;
+			draw_className = c_name + "DAO";
+			gubun=3;
+			dao.classname = draw_className;
+			dao.valuename = draw_valueName;
+			dao.methodname = draw_methodName;
+			dao.selectvalue = draw_select_val;
+			dao.selectmethod = draw_select_func;
+			dao.connclassname = connectclass;
+			dao.start_point_x = xpos;
+			dao.start_point_y = ypos;
+			dao.end_point_x = end_xpos;
+			dao.end_point_y = end_ypos;
+			
+			//daoList[dao_cnt] = dao;
+			EmitCanvas(gubun);
+			//con_cnt++;
+			//ser_cnt++;
+			//dao_cnt++;
+		}
+	}
+}
+
+function ValuesInit(){
+	check_package = "";
+	c_name = "";
+	v_name = [];
+	m_name = [];
+	select_val = [];
+	select_func = [];
+	connectclass = "init";
+
+	conn_index = -1;
+	check_name = false;
+	check_name_con = false;
+	check_name_ser = false;
+	check_name_dao = false;
+	conn_ser = false;
+	conn_dao = false;
+	conn_con = false;
+	
+}
+
+
+			//mvc_modal_modify.js
+/**
+ * 수정 button을 눌렀을 떄 호출되는 함수.
+ */
+function List_Modify(a){
+	
+	modify_class = a;
+	
+	modify_choice = true;
+	Search_List_Modify();
+	
+	if(modify_con){	
+		
+		check_package = "Controller";
+		
+		document.getElementById("classname").value = controllerList[modify_index].classname;
+		// value와 method의 개수만큼 form을 늘려줌. 
+		for(var i=1;i<controllerList[modify_index].valuename.length;i++){
+			AddValueForm();
+		}
+		for(var i=1;i<controllerList[modify_index].methodname.length;i++){
+			AddMethodForm();
+		}
+		// form의 값을 설정해줌
+		for(var i=0; i<val_count; i++){
+			document.getElementById("valuename"+i).value = controllerList[modify_index].valuename[i];
+			document.getElementById("select_value"+i).value = controllerList[modify_index].selectvalue[i];
+		}
+		for(var i=0; i<m_count; i++){
+			document.getElementById("methodname"+i).value = controllerList[modify_index].methodname[i];
+			document.getElementById("select_method"+i).value = controllerList[modify_index].selectmethod[i];
+		}
+		
+		Dynamic_Connect_List();
+		document.getElementById("connectclass").value = controllerList[modify_index].connclassname;
+		
+		xpos = controllerList[modify_index].start_point_x;
+		ypos = controllerList[modify_index].start_point_y;
+		
+		// modal창을 불러옴
+		$(document).ready(function(){
+			$("#myModal").modal();
+		});
+		
+	}else if(modify_ser){
+		
+		check_package = "Service";
+		
+		document.getElementById("classname").value = serviceList[modify_index].classname;
+		// value와 method의 개수만큼 form을 늘려줌. 
+		for(var i=1;i<serviceList[modify_index].valuename.length;i++){
+			AddValueForm();
+		}
+		for(var i=1;i<serviceList[modify_index].methodname.length;i++){
+			AddMethodForm();
+		}
+		
+		// form의 값을 설정해줌
+		for(var i=0; i<val_count; i++){
+			document.getElementById("valuename"+i).value = serviceList[modify_index].valuename[i];
+			document.getElementById("select_value"+i).value = serviceList[modify_index].selectvalue[i];
+		}
+		for(var i=0; i<m_count; i++){
+			document.getElementById("methodname"+i).value = serviceList[modify_index].methodname[i];
+			document.getElementById("select_method"+i).value = serviceList[modify_index].selectmethod[i];
+		}
+		
+		Dynamic_Connect_List();
+		document.getElementById("connectclass").value = serviceList[modify_index].connclassname;
+		
+		xpos = serviceList[modify_index].start_point_x;
+		ypos = serviceList[modify_index].start_point_y;
+		
+		$(document).ready(function(){
+			$("#myModal").modal();
+		});
+	}else if(modify_dao){
+
+		check_package = "DAO";
+		
+		document.getElementById("classname").value = daoList[modify_index].classname;
+		// value와 method의 개수만큼 form을 늘려줌. 
+		for(var i=1;i<daoList[modify_index].valuename.length;i++){
+			AddValueForm();
+		}
+		for(var i=1;i<daoList[modify_index].methodname.length;i++){
+			AddMethodForm();
+		}
+		
+		// form의 값을 설정해줌
+		for(var i=0; i<val_count; i++){
+			document.getElementById("valuename"+i).value = daoList[modify_index].valuename[i];
+			document.getElementById("select_value"+i).value = daoList[modify_index].selectvalue[i];
+		}
+		for(var i=0; i<m_count; i++){
+			document.getElementById("methodname"+i).value = daoList[modify_index].methodname[i];
+			document.getElementById("select_method"+i).value = daoList[modify_index].selectmethod[i];
+		}
+		
+		Dynamic_Connect_List();  
+		document.getElementById("connectclass").value = daoList[modify_index].connclassname;
+		
+		xpos = daoList[modify_index].start_point_x;
+		ypos = daoList[modify_index].start_point_y;
+		
+		$(document).ready(function(){
+			$("#myModal").modal();
+		});
+	}
+}
+
+/**
+ * 수정을 위한 탐색 함수
+ */
+function Search_List_Modify(){
+	
+	// controllerList 탐색
+	for(var i=0;i<controllerList.length;i++){
+		if(modify_class == controllerList[i].classname){
+			modify_index = i;
+			modify_con = true;
+			break;
+		}else{
+			modify_con = false;
+		}
+	}
+	
+	// serviceList 탐색
+	for(var i=0;i<serviceList.length;i++){
+		if(modify_class == serviceList[i].classname){
+			modify_index = i;
+			modify_ser = true;
+			break;
+		}else{
+			modify_ser = false;
+		}
+	}
+	
+	// daoList 탐색
+	for(var i=0;i<daoList.length;i++){
+		if(modify_class == daoList[i].classname){
+			modify_index = i;
+			modify_dao = true;
+			break;
+		}else{
+			modify_dao = false;
+		}
+	}
+}
+
+/**
+ * 연결된 class들을 찾아서 이름을 바꾸어주는 함수.
+ */
+function Modify_Conn_List(){
+	
+	m_conn_list=[]; //연결된 class들의 리스트
+	m_conn_size=0;
+	//연결된 class 구조체
+	function m_conn_class(){
+		var m_conn_gb=0; //어떤것(controller or service or..etc...)에 연결된클래스이름을 수정하는지
+		var m_conn_cl=''; //연결된 클래스 이름을 수정해야하는 클래스 이름 
+		var m_conn_idx=0; //연결된 클래스 이름을 수정해야하는 클래스 인덱스 
+	}
+	var m_conn_c; //연결된 클래스 구조체 변수
+	// controllerList의 connectclass를 탐색
+	for(var i=0;i<controllerList.length;i++){
+		if(modify_class == controllerList[i].connclassname){
+			if(check_package == "Service"){
+				//controllerList[i].connclassname = serviceList[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=1;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=controllerList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}else if(check_package == "DAO"){
+				//controllerList[i].connclassname = dao[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=1;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=controllerList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}
+		}
+	}
+	
+	// serviceList의 connectclass를 탐색
+	for(var i=0;i<serviceList.length;i++){
+		if(modify_class == serviceList[i].connclassname){
+			if(check_package == "Controller"){
+				//serviceList[i].connclassname = controllerList[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=2;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=serviceList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}else if(check_package == "DAO"){
+				//serviceList[i].connclassname = daoList[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=2;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=serviceList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}
+		}
+	}
+	
+	// daoList의 connectclass를 탐색
+	for(var i=0;i<daoList.length;i++){
+		if(modify_class == daoList[i].connclassname){
+			if(check_package == "Controller"){
+				//daoList[i].connclassname = controllerList[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=3;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=daoList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}else if(check_package == "Service"){
+				//daoList[i].connclassname = serviceList[modify_index].classname;
+				m_conn_c=new m_conn_class();
+				m_conn_c.m_conn_gb=3;
+				m_conn_c.m_conn_idx=i;
+				m_conn_c.m_conn_cl=daoList[i].classname;
+				m_conn_list[m_conn_size]=m_conn_c;
+				m_conn_size++;
+			}
+		}
+	}
+}
+
+/**
+ * 수정할 때 classname이 중복되지 않게 check하기 위한 함수.
+ */
+function Duplication_Check_Modify(){
+	if(check_package == "Controller"){
+		for(var i=0;i<controllerList.length;i++){
+			if(controllerList[i].classname != document.getElementById("classname").value){
+				c_name = document.getElementById("classname").value;
+				check_name = true;
+			}else{
+				if(modify_index == i){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("Controller의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
+			}
+		}
+	}else if(check_package == "Service"){
+		for(var i=0;i<serviceList.length;i++){
+			if(serviceList[i].classname != document.getElementById("classname").value){
+				c_name = document.getElementById("classname").value;
+				check_name = true;
+			}else{
+				if(modify_index == i){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("Service의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
+			}
+		}
+	}else if(check_package == "DAO"){
+		for(var i=0;i<daoList.length;i++){
+			if(daoList[i].classname != document.getElementById("classname").value){
+				c_name = document.getElementById("classname").value;
+				check_name = true;
+			}else{
+				if(modify_index == i){
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				}else{
+					alert("DAO의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
+			}
+		}
+	}
+}
+
+/**
+ * 수정된 값을 list에 저장하는 함수.
+ */
+function Modify_Value_List_Save(){
+	// 각각 들어오는 check_package의 값에 따라서 classname을 따로 저장
+	if(check_package == "Controller"){
+		// class name이 중복되지 않고 null이 아니면 값을 list에 저장. 
+		if(check_name == true && c_name != ""){
 			
 			
-			//DrawConnect();
-			//DrawClass();
-			EmitCanvas(3);
+			gubun=1;
+			controller = new element();
+			controller.classname = draw_className;
+			controller.valuename = draw_valueName;
+			controller.methodname = draw_methodName;
+			controller.selectvalue = draw_select_val;
+			controller.selectmethod = draw_select_func;
+			controller.connclassname = connectclass;
+			controller.start_point_x = controllerList[modify_index].start_point_x;
+			controller.start_point_y = controllerList[modify_index].start_point_y;
+			controller.end_point_x = end_xpos;
+			controller.end_point_y = end_ypos;
 			
+			//controllerList[modify_index] = controller;
+			Modify_Conn_List();
+			EmitModifyCanvas(gubun);
 			
 		}
+	}else if(check_package == "Service"){
+		if(check_name == true && c_name != ""){
+			
+			
+			gubun=2;	
+			service = new element();
+			service.classname = draw_className;
+			service.valuename = draw_valueName;
+			service.methodname = draw_methodName;
+			service.selectvalue = draw_select_val;
+			service.selectmethod = draw_select_func;
+			service.connclassname = connectclass;
+			service.start_point_x = serviceList[modify_index].start_point_x;
+			service.start_point_y = serviceList[modify_index].start_point_y;
+			service.end_point_x = end_xpos;
+			service.end_point_y = end_ypos;
+			
+			//serviceList[modify_index] = service;
+			Modify_Conn_List();
+			EmitModifyCanvas(gubun);
+		}
+	}else if(check_package == "DAO"){
+		if(check_name == true && c_name != ""){
+			
+			
+			gubun=3;
+			dao = new element();
+			dao.classname = draw_className;
+			dao.valuename = draw_valueName;
+			dao.methodname = draw_methodName;
+			dao.selectvalue = draw_select_val;
+			dao.selectmethod = draw_select_func;
+			dao.connclassname = connectclass;
+			dao.start_point_x = daoList[modify_index].start_point_x;
+			dao.start_point_y = daoList[modify_index].start_point_y;
+			dao.end_point_x = end_xpos;
+			dao.end_point_y = end_ypos;
+			
+			//daoList[modify_index] = dao;
+			Modify_Conn_List();
+			EmitModifyCanvas(gubun);
+		}
+	}
+}
+
+function ModifyInit(){
+	modify_class = "";
+	modify_choice = false;
+	modify_con = false;
+	modify_ser = false;
+	modify_dao = false;
+	modify_index = -1;
+}
+
+
+
+
+
+			//mvc_modal_delete.js
+
+/**
+ * 삭제 button을 눌렀을 때 호출되는 함수.
+ */
+function List_Delete(a){
+	
+	delete_class = a;
+	Search_List_Delete();
+	
+	if(delete_con){
+		check_package = "Controller";
+		gubun=1;
+		Delete_Conn_List();
+		EmitDeleteCanvas();
+		//Delete_Value_List_Save();
+		/*if(con_cnt > 0){
+			con_cnt--;
+		}*/
+	}else if(delete_ser){
+		check_package = "Service";
+		gubun=2;
+		Delete_Conn_List();
+		EmitDeleteCanvas();
+		//Delete_Value_List_Save();
+		/*if(ser_cnt > 0){
+			ser_cnt--;
+		}*/
+	}else if(delete_dao){
+		check_package = "DAO";
+		gubun=3;
+		Delete_Conn_List();
+		EmitDeleteCanvas();
+		//Delete_Value_List_Save();
+		/*if(dao_cnt > 0){
+			dao_cnt--;
+		}*/
+	}
+	
+	//Erase_Canvas();
+	//Draw_AllList();
+	
+	//MVC_List_View();
+	
+	ValuesInit();
+	ModifyInit();
+	DeleteInit();
+	DrawInit();
+	FormInit();
+}
+
+/**
+ * 삭제할 index를 찾는 함수.
+ */
+function Search_List_Delete(){
+	// controllerList 탐색
+	for(var i=0;i<controllerList.length;i++){
+		if(delete_class == controllerList[i].classname){
+			delete_index = i;
+			delete_con = true;
+			break;
+		}else{
+			delete_con = false;
+		}
+	}
+	
+	// serviceList 탐색
+	for(var i=0;i<serviceList.length;i++){
+		if(delete_class == serviceList[i].classname){
+			delete_index = i;
+			delete_ser = true;
+			break;
+		}else{
+			delete_ser = false;
+		}
+	}
+	
+	// daoList 탐색
+	for(var i=0;i<daoList.length;i++){
+		if(delete_class == daoList[i].classname){
+			delete_index = i;
+			delete_dao = true;
+			break;
+		}else{
+			delete_dao = false;
+		}
+	}
+}
+
+/**
+ * 찾은 index를 삭제하고 index를 당기는 함수.
+ */
+/*
+function Delete_Value_List_Save(){
+	if(check_package == "Controller"){
+		controllerList.splice(delete_index,1);
+	}else if(check_package == "Service"){
+		serviceList.splice(delete_index,1);
+	}else if(check_package == "DAO"){
+		daoList.splice(delete_index,1);
+	}
+}*/
+
+function Delete_Conn_List(){
+	
+	d_conn_list=[]; //연결된 class들의 리스트
+	d_conn_size=0;
+	//연결된 class 구조체
+	function d_conn_class(){
+		var d_conn_gb=0; //어떤것(controller or service or..etc...)에 연결된클래스이름을 삭제하는지
+		var d_conn_cl=''; //연결된 클래스 이름을 삭제해야하는 클래스 이름 
+		var d_conn_idx=0; //연결된 클래스 이름을 삭제해야하는 클래스 인덱스 
+	}
+	var d_conn_c; //연결된 클래스 구조체 변수
+
+	// controllerList의 connectclass를 탐색
+	for(var i=0;i<controllerList.length;i++){
+		if(delete_class == controllerList[i].connclassname){
+			if(check_package == "Service"){
+				//controllerList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=1;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=controllerList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}else if(check_package == "DAO"){
+				//controllerList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=1;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=controllerList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}
+		}
+	}
+	
+	// serviceList의 connectclass를 탐색
+	for(var i=0;i<serviceList.length;i++){
+		if(delete_class == serviceList[i].connclassname){
+			if(check_package == "Controller"){
+				//serviceList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=2;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=serviceList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}else if(check_package == "DAO"){
+				//serviceList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=2;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=serviceList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}
+		}
+	}
+	
+	// daoList의 connectclass를 탐색
+	for(var i=0;i<daoList.length;i++){
+		if(delete_class == daoList[i].connclassname){
+			if(check_package == "Controller"){
+				//daoList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=3;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=daoList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}else if(check_package == "Service"){
+				//daoList[i].connclassname = "init";
+				d_conn_c=new d_conn_class();
+				d_conn_c.d_conn_gb=3;
+				d_conn_c.d_conn_idx=i;
+				d_conn_c.d_conn_cl=daoList[i].classname;
+				d_conn_list[d_conn_size]=d_conn_c;
+				d_conn_size++;
+			}
+		}
+	}
+}
+
+/**
+ * 사용한 값들을 초기화하는 함수.
+ */
+function DeleteInit(){
+	delete_class = "";
+	delete_con = false;
+	delete_ser = false;
+	delete_dao = false;
+	delete_index = -1;
+}
+
+
+
+
+
+
+
+			//mvc_modal.js
+// 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.
+function OnOK() {
+	
+	if(!modify_choice){
+		
+		Connect_SavePoint(val_count, m_count);
+
+		Duplication_Check();
+		Call_Value();
+		
+		Value_List_Save();
+		
+		//Draw_AllList();
+		//MVC_List_View();
+		
+		ValuesInit();
+		ModifyInit();
+		DeleteInit();
+		DrawInit();
+		FormInit();
+		
 	}else{
-			gubun=0;
-			basic_class = new element();
-			basic_class.classname = str_className + "_basic";
-			basic_class.valuename = str_valuename;
-			basic_class.methodname = str_methodname;
-			basic_class.point_X = coordinate_X;
-			basic_class.point_Y = coordinate_Y;
-			
-			classList[bc_cnt] = basic_class;
-			
-			bc_cnt++;
+		
+		Connect_SavePoint(val_count, m_count);
+
+		Duplication_Check_Modify();
+		Call_Value();
+		
+		Modify_Value_List_Save();
+		
+		//Draw_AllList();
+		//MVC_List_View();
+		
+		ValuesInit();
+		ModifyInit();
+		DeleteInit();
+		DrawInit();
+		FormInit();
 	}
-	
-	
-	// 중복이 되지 않을 경우에만 canvas를 그려줌. (전체 그려주는 button을 누르지 않았을 경우)
-	if(check_package != "mvc"){
-		alert('mvc아닐때'+gubun);
-		if(check_name == true && connectclass != "init"){
-			if(c_name != ""){
-				Connect_PointSave();
-				//DrawConnect();
-				//DrawClass();
-				isConn=true;
-				EmitCanvas(gubun);
-			}
-			else{
-				alert("Class Name을 입력해주세요.");
-				FormInit();
-			}
-		}else if(check_name == true && connectclass == "init"){
-			if(c_name != ""){
-				Connect_PointSave();
-				isConn=false;
-				EmitCanvas(gubun);
-			}
-			else{
-				alert("Class Name을 입력해주세요.");
-				FormInit();
-			}
-		}
-	}
-	
-	
-	
-	FormInit();
 }
 
-function OnCancel() {
+function OnCancel(){
+	ValuesInit();
+	ModifyInit();
+	DeleteInit();
+	DrawInit();
 	FormInit();
 }
 
@@ -1234,102 +1747,215 @@ function OnCancel() {
 
 
 
+			//draw.js
 
-	//그려주는 함수들
-
+/**
+ * class를 그리기 위한 함수.
+ */
+function DrawClass() {
+	var i=0;
+	var j=0;
 	
- 	// DrawLine을 하기 위해서는 길이가 저장 되어있어야 함.
-	var i = 0;
-	var j = 0;
-
-function DrawClass(x, y, cl, w, vc, mc){
-	
-	context.strokeRect(x, y, base_xpos, base_ypos + 20*(con_num + vc) +15*mc);
+	// class의 크기에 맞추어서 사각형을 그려줌.
+	context.strokeRect(xpos, ypos, base_xpos, base_ypos + 20*(cname_num + val_num) + 15*m_num);
 	
 	// classname 배열에 마지막에 저장된 class name을 출력
-	context.fillText(cl.classname, x + 10, y + 15 * con_num);
+	context.fillText(draw_className, xpos + 10, ypos + 15 * cname_num);
 	
-	for (i = 0; i < vc; i++) {
-		context.fillText(cl.valuename[i], x+10, y+20 * con_num + 15*(i+1));
-	}
-
-	for (j = 0; j < mc; j++) {
-		context.fillText(cl.methodname[j], x+10, y+20 * con_num + 15*(i+1)+ 15*(j+1));
+	// 변수를 그려줌.
+	for (i = 0; i < val_num; i++) {
+		if(draw_select_val[i] == "init"){
+			context.fillText(draw_valueName[i], xpos+10, ypos+20 * cname_num + 15*(i+1));
+		}else{
+			context.fillText(draw_select_val[i] + " " + draw_valueName[i], xpos+10, ypos+20 * cname_num + 15*(i+1));
+		}
 	}
 	
-	DrawLine(x,y,w,vc);
-
+	// 메소드를 그려줌.
+	for (j = 0; j < m_num; j++) {
+		if(draw_select_func[j] == "init"){
+			context.fillText(draw_methodName[j], xpos+10, ypos+20 * cname_num + 15*(i+1) + 15*(j+1));
+		}else{
+			context.fillText(draw_select_func[j] + " " + draw_methodName[j], xpos+10, ypos+20 * cname_num + 15*(i+1) + 15*(j+1));
+		}
+	}
+	
+	DrawLine();
 }
 
-// class의 좌표를 이어주기 위한 함수. ( list에 저장하기 전에 DrawClass()를 사용하기 전에 사용.)
-function Connect_PointSave(){
-	
+/**
+ * class의 이름, 변수, 메서드 영역을 구별하기 위한 선을 그려주는 함수.
+ */
+function DrawLine() {
+	context.beginPath();
+	context.moveTo(xpos, ypos + 20 * cname_num);
+	context.lineTo(xpos + base_xpos, ypos + 20 * cname_num);
+
+	if (val_num != 0) {
+		context.moveTo(xpos, 15 + ypos + 15*(val_num+1));
+		context.lineTo(xpos + base_xpos, 15 + ypos + 15*(val_num+1));
+	}
+	context.stroke();
+}
+
+/**
+ * class의 좌표를 이어주기 위한 함수. ( list에 저장하기 전에 DrawClass()를 사용하기 전에 사용.)
+ */
+
+function Connect_SavePoint(valNum, mNum){
 	width = xpos + base_xpos;
 	height = ypos + base_ypos;
 	
-	coordinate_X = width;
-	coordinate_Y = height + 20*(con_num + val_count) + 15*m_count;
+	end_xpos = width;
+	end_ypos = height + 20*(1 + valNum) + 15*mNum;
 }
-
-// 각 구간을 나누어 주는 선 그리기 ( class 이름과 value, method 구간을 나누어줌)
-function DrawLine(x,y,w,vc) {
+/**
+ * class와 class를 연결해주는 선을 그리는 함수
+ */
+function DrawConnect(){
+	
 	context.beginPath();
-	context.moveTo(x, y + 20 * con_num);
-	context.lineTo(w, y + 20 * con_num);
-
-	if (vc != 0) {
-		context.moveTo(x, 15 + y + 15*(i+1));
-		context.lineTo(w, 15 + y + 15*(i+1));
-	}
+	context.moveTo(xpos, ypos);
+	context.lineTo(conn_point_X, conn_point_Y);
 	context.stroke();
 }
 
-// 선을 그리는 함수
-function DrawConnect(x,y,con_px,con_py){
-	context.beginPath();
-	context.moveTo(con_px, con_py);
-	context.lineTo(x, y);
-	context.stroke();
+/**
+ * canvas의 내용을 전부 지움.
+ */
+function Erase_Canvas(){
+	context.clearRect(0,0,1600,900);	
 }
 
-
-/*
-// 각 class 간의 연결관계를 이어줌
-function Conn_Class() {
+/**
+ * list의 모든 클래스들을 그려주는 함수.
+ */
+function Draw_AllList(){
+	Erase_Canvas();
 	
-	if(check_package == "Controller"){
-		con_pointx = controllerList[index].point_X;
-		con_pointy = controllerList[index].point_Y;
+	context.beginPath();
+	
+	for(var i=0;i<controllerList.length;i++){
 		
-		DrawConnect();
-	}else if(check_package == "Service"){
-		con_pointx = serviceList[index].point_X;
-		con_pointy = serviceList[index].point_Y;
+		draw_className = controllerList[i].classname;
 		
-		DrawConnect();
-	}else if(check_package == "DAO"){
-		con_pointx = daoList[index].point_X;
-		con_pointy = daoList[index].point_Y;
+		val_num = controllerList[i].valuename.length;
+		m_num = controllerList[i].methodname.length;
 		
-		DrawConnect();
+		draw_valueName = controllerList[i].valuename;
+		draw_methodName = controllerList[i].methodname;
+		draw_select_val = controllerList[i].selectvalue;
+		draw_select_func = controllerList[i].selectmethod;
+		
+		connectclass = controllerList[i].connclassname;
+		
+		xpos = controllerList[i].start_point_x;
+		ypos = controllerList[i].start_point_y;
+		
+
+		//Connect_SavePoint(val_num, m_num);
+		
+		
+
+		if(controllerList[i].connclassname != "init"){
+		
+			All_Draw_Connect_Line();
+			DrawConnect();
+			DrawClass();
+		}else{
+			DrawClass();
+		}
+		
 	}
 	
+	for(var i=0;i<serviceList.length;i++){
+		
+		draw_className = serviceList[i].classname;
+		
+		val_num = serviceList[i].valuename.length;
+		m_num = serviceList[i].methodname.length;
+		draw_valueName = serviceList[i].valuename;
+		draw_methodName = serviceList[i].methodname;
+		draw_select_val = serviceList[i].selectvalue;
+		draw_select_func = serviceList[i].selectmethod;
+		
+		connectclass = serviceList[i].connclassname;
+		
+		xpos = serviceList[i].start_point_x;
+		ypos = serviceList[i].start_point_y;
+		
+		Connect_SavePoint(val_num, m_num);
 
+		if(serviceList[i].connclassname != "init"){
+		
+			All_Draw_Connect_Line();
+			DrawConnect();
+			DrawClass();
+		}else{
+			DrawClass();
+		}
+	}
+	
+	for(var i=0;i<daoList.length;i++){
+
+		draw_className = daoList[i].classname;
+		
+		val_num = daoList[i].valuename.length;
+		m_num = daoList[i].methodname.length;
+		
+		draw_valueName = daoList[i].valuename;
+		draw_methodName = daoList[i].methodname;
+		draw_select_val = daoList[i].selectvalue;
+		draw_select_func = daoList[i].selectmethod;
+		
+		connectclass = daoList[i].connclassname;
+		
+		xpos = daoList[i].start_point_x;
+		ypos = daoList[i].start_point_y;
+	
+		Connect_SavePoint(val_num, m_num);
+
+		if(daoList[i].connclassname != "init"){
+		
+			All_Draw_Connect_Line();
+			DrawConnect();
+			DrawClass();
+		}else{
+			DrawClass();
+		}
+	}
+
+	context.rect(0, 0, 1600, 900);
+	context.stroke();
+	context.closePath();
+	
 }
-*/
 
-// 상관없는 class를 그릴 때...
-function onedraw(x,y,cl,w,vc,mc) {
-	DrawClass(x,y,cl,w,vc,mc);
+
+/**
+ * 변수들을 초기화 해주는 함수.
+ */
+function DrawInit(){
+	xpos = 0;
+	ypos = 0;
+	cname_num = 1;
+	val_num = 1;
+	m_num = 1;
+	width = 0;
+	height = 0;
+	end_xpos = 0;
+	end_ypos = 0;
+	conn_point_X = 0;
+	conn_point_Y = 0;
+	
+	draw_className = "";
+	draw_valueName = [];
+	draw_methodName = [];
+	draw_select_val = [];
+	draw_select_func = [];
 }
-
-// class끼리 연결 시켜줄 때...
-function connectdraw(x,y,cl,w,vc,mc,conn_c,con_px,con_py) {
-	DrawConnect(x,y,con_px,con_py);
-	DrawClass(x,y,cl,w,vc,mc);
-}
-
      
+
 
 
 
@@ -1410,107 +2036,136 @@ if(canvaslist.length==0){%>   //방생성자면
 	var creator=true;
 	context.beginPath();
 	
+			//mvc.js
+	// controller의 값들을 변수에 저장.
+	gubun=1;
 	xpos = 50;
 	ypos = 50;
-	str_className = "ExamController";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
-	gubun=1;
-	Connect_PointSave();
+	draw_className = "ExamController";
+	draw_valueName[0] = "value1";
+	draw_valueName[1] = "value2";
+	draw_select_val[0] = "int";
+	draw_select_val[1] = "String";
+	val_num  = draw_valueName.length;
+	draw_methodName[0] = "method1";
+	draw_methodName[1] = "method2";
+	draw_select_func[0] = "void";
+	draw_select_func[1] = "int";
+	m_num  = draw_methodName.length;
+	connectclass = "init";
 	
+	Connect_SavePoint(val_num, m_num);
+	
+	
+	// element에 초기값을 저장함.
 	controller = new element();
-	controller.classname = str_className;
-	controller.valuename = str_valuename;
-	controller.methodname = str_methodname;
-	controller.point_X = coordinate_X;
-	controller.point_Y = coordinate_Y;
-	con_pointx=coordinate_X;
-	con_pointy=coordinate_Y;
+	controller.classname = draw_className;
+	controller.valuename = draw_valueName;
+	controller.methodname = draw_methodName;
+	controller.selectvalue = draw_select_val;
+	controller.selectmethod = draw_select_func;
+	controller.connclassname = connectclass;
+	controller.start_point_x = xpos;
+	controller.start_point_y = ypos;
+	controller.end_point_x = end_xpos;
+	controller.end_point_y = end_ypos;
 	
+	//controllerList[con_cnt] = controller;
+	//con_cnt++;
+	EmitCanvas(gubun);
 	
-	//DrawClass();
-	EmitCanvas(1);	
-
-	
-
+	gubun=2;
 	xpos = 250;
 	ypos = 250;
-	str_className = "ExamService";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
-	gubun=2;
-	Connect_PointSave();
+	draw_className = "ExamService";
+	draw_valueName[0] = "value1";
+	draw_valueName[1] = "value2";
+	draw_select_val[0] = "int";
+	draw_select_val[1] = "String";
+	val_num  = draw_valueName.length;
+	draw_methodName[0] = "method1";
+	draw_methodName[1] = "method2";
+	draw_select_func[0] = "void";
+	draw_select_func[1] = "int";
+	m_num  = draw_methodName.length;
+	connectclass = "ExamController";
 	
-	service = new element();
-	service.classname = str_className;
-	service.valuename = str_valuename;
-	service.methodname = str_methodname;
-	service.point_X = coordinate_X;
-	service.point_Y = coordinate_Y;
-	
-	
-	check_package = "Controller";
-	index = 0;
-	//DrawConnect();
-	//DrawClass();
-	isConn=true;
-	EmitCanvas(2);
+	Connect_SavePoint(val_num, m_num);
 
-	con_pointx=coordinate_X;
-	con_pointy=coordinate_Y;
+	service = new element();
+	service.classname = draw_className;
+	service.valuename = draw_valueName;
+	service.methodname = draw_methodName;
+	service.selectvalue = draw_select_val;
+	service.selectmethod = draw_select_func;
+	service.connclassname = connectclass;
+	service.start_point_x = xpos;
+	service.start_point_y = ypos;
+	service.end_point_x = end_xpos;
+	service.end_point_y = end_ypos;
 	
+	//serviceList[0] = service;
+	check_package = "Controller";
+	EmitCanvas(gubun);
+	index = 0;
+
+	//ser_cnt++;
 	
+	gubun=3;
 	xpos = 450;
 	ypos = 450;
-	str_className = "ExamDAO";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
+	draw_className = "ExamDAO";
+	draw_valueName[0] = "value1";
+	draw_valueName[1] = "value2";
+	draw_select_val[0] = "int";
+	draw_select_val[1] = "String";
+	val_num  = draw_valueName.length;
+	draw_methodName[0] = "method1";
+	draw_methodName[1] = "method2";
+	draw_select_func [0] = "void";
+	draw_select_func [1] = "int";
+	m_num  = draw_methodName.length;
+	connectclass = "ExamService";
 	
-	Connect_PointSave();
-	
+	Connect_SavePoint(val_num, m_num);
+
 	dao = new element();
-	dao.classname = str_className;
-	dao.valuename = str_valuename;
-	dao.methodname = str_methodname;
-	dao.point_X = coordinate_X;
-	dao.point_Y = coordinate_Y;
-	gubun=3;
+	dao.classname = draw_className;
+	dao.valuename = draw_valueName;
+	dao.methodname = draw_methodName;
+	dao.selectvalue = draw_select_val;
+	dao.selectmethod = draw_select_func;
+	dao.connclassname = connectclass;
+	dao.start_point_x = xpos;
+	dao.start_point_y = ypos;
+	dao.end_point_x = end_xpos;
+	dao.end_point_y = end_ypos;
 	
-	
+	//daoList[0] = dao;
+	EmitCanvas(gubun);
 	check_package = "Service";
 	index = 0;
-	//DrawConnect();
-	//DrawClass();
-	isConn=true;
-	EmitCanvas(3);
-	
-	
-	
-	// 초기에 index의 값을 초기화해줌.
-	con_pointx = 0;
-	con_pointy = 0;
-	val_count = 1;
-	m_count = 1;
-	index = -1;
-	check_package = "";
-	
-	
 
+	//dao_cnt++;
+	
+	context.beginPath();
+	
+	// 캔버스 안에 그려줄 화면 크기
+	context.rect(0, 0, 1200, 1200);
+	
+	//Draw_AllList();
+	
 	context.stroke();
 
 	context.closePath();
+	
+	MVC_List_View();
+	
+	DeleteInit();
+	ModifyInit();
+	ValuesInit();
+	DrawInit();
+	FormInit();
 	
 	
 
@@ -1526,25 +2181,13 @@ if(canvaslist.length==0){%>   //방생성자면
 		<%}else if(canvaslist[k].gb==3){%>
 			daoList[dao_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
 			dao_cnt++;
-		<%}else if(canvaslist[k].gb==0){%>
-			classList[bc_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
-			bc_cnt++;
 		<%}%>	
 	
        	 
 		context.beginPath();
             
 	
-		<%if(canvaslist[k].isconn){%>
-			alert('연결그려주기');
-			connectdraw(<%=canvaslist[k].x%>,<%=canvaslist[k].y%>,<%- JSON.stringify(canvaslist[k].class)%>,<%=canvaslist[k].width%>,<%=canvaslist[k].vc%>,<%=canvaslist[k].mc%>,'<%=canvaslist[k].conn_c%>',<%=canvaslist[k].con_px%>,<%=canvaslist[k].con_py%>);
-	
-	
-		<%}else if(!canvaslist[k].isconn){%>
-			alert('그냥그려주기');
-			onedraw(<%=canvaslist[k].x%>,<%=canvaslist[k].y%>,<%- JSON.stringify(canvaslist[k].class)%>,<%=canvaslist[k].width%>,<%=canvaslist[k].vc%>,<%=canvaslist[k].mc%>);
-		
-		<%}%>
+		Draw_AllList();
 	
 		context.stroke();
 
@@ -1575,34 +2218,134 @@ if(canvaslist.length==0){%>   //방생성자면
 	}else if(data.gb==3){
 		daoList[dao_cnt] = data.class;			
 		dao_cnt++;
-	}else if(data.gb==0){
-		classList[bc_cnt] = data.class;			
-		bc_cnt++;
 	}
 	
         //context.strokeStyle = data.color;
 	context.beginPath();
             
+	Draw_AllList();
 	
-	if(data.isconn){
-		alert('연결그려주기');
-		connectdraw(data.x,data.y,data.class,data.width,data.vc,data.mc,data.conn_c,data.con_px,data.con_py);
-	
-	
-	}else if(!data.isconn){
-		alert('그냥그려주기');
-		onedraw(data.x,data.y,data.class,data.width,data.vc,data.mc);
-		
-	}
 	
 	context.stroke();
 
 	MVC_List_View();
 	
+	DeleteInit();
+	ModifyInit();
+	ValuesInit();
+	DrawInit();
+	FormInit();
 
         });
 
 
+//수정된 캔버스 그려주기
+     socket.on('mod_line', function(data){
+
+	// 연결된 class 이름을 바꾸어주는 함수.
+	function mod_conn(conn_c){
+		if(conn_c.m_conn_gb==1){
+			controllerList[conn_c.m_conn_idx].connclassname=data.class.classname;
+			alert('연결바꿀클래스'+controllerList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+		}else if(conn_c.m_conn_gb==2){
+			serviceList[conn_c.m_conn_idx].connclassname=data.class.classname;
+			alert('연결바꿀클래스'+serviceList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+		}else if(conn_c.m_conn_gb==3){
+			daoList[conn_c.m_conn_idx].connclassname=data.class.classname;
+			alert('연결바꿀클래스'+daoList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+		}
+
+	}
+	if(data.gb==1){
+		controllerList[data.m_idx] = data.class;
+					
+		
+	}else if(data.gb==2){
+		serviceList[data.m_idx] = data.class;		
+		
+	}else if(data.gb==3){
+		daoList[data.m_idx] = data.class;			
+		
+	}
+
+	for(var i=0;i<data.m_conn_list.length; i++){
+		mod_conn(data.m_conn_list[i]);
+	}
+	
+        //context.strokeStyle = data.color;
+	context.beginPath();
+            
+	Draw_AllList();
+	
+	
+	context.stroke();
+
+	MVC_List_View();
+	
+	DeleteInit();
+	ModifyInit();
+	ValuesInit();
+	DrawInit();
+	FormInit();
+
+        });
+        
+
+
+//삭제후 캔버스 그려주기
+     socket.on('del_line', function(data){
+
+	// 연결된 class 이름을 "init"으로 바꾸어주는 함수.
+	function del_conn(conn_c){
+		if(conn_c.d_conn_gb==1){
+			controllerList[conn_c.d_conn_idx].connclassname="init";
+		}else if(conn_c.d_conn_gb==2){
+			serviceList[conn_c.d_conn_idx].connclassname="init";
+		}else if(conn_c.d_conn_gb==3){
+			daoList[conn_c.d_conn_idx].connclassname="init";
+		}
+
+	}
+	if(data.gb==1){
+		controllerList.splice(data.d_idx,1);
+		if(con_cnt > 0){
+			con_cnt--;
+		}
+					
+		
+	}else if(data.gb==2){
+		serviceList.splice(data.d_idx,1);	
+		
+	}else if(data.gb==3){
+		daoList.splice(data.d_idx,1);
+		if(ser_cnt > 0){
+			ser_cnt--;
+		}			
+		
+	}
+
+	for(var i=0;i<data.d_conn_list.length; i++){
+		del_conn(data.d_conn_list[i]);
+	}
+	
+        //context.strokeStyle = data.color;
+	context.beginPath();
+        
+	Erase_Canvas();    
+	Draw_AllList();
+	
+	
+	context.stroke();
+
+	MVC_List_View();
+	
+	DeleteInit();
+	ModifyInit();
+	ValuesInit();
+	DrawInit();
+	FormInit();
+
+        });
         
 
 
@@ -1610,8 +2353,21 @@ if(canvaslist.length==0){%>   //방생성자면
 
 
 
-
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 			<br/>
