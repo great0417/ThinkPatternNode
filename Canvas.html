@@ -3,16 +3,64 @@
 <head>
 <!-- Canvas.html -->
 <title>Canvas</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="/resources/res/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+
+<!-- Font Awesome Icons -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- Ionicons -->
+<link
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+	rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<link href="/resources/res/css/site.css" rel="stylesheet" media="screen">
+<link href="/resources/res/css/a.css" rel="stylesheet" media="screen">
 
-
- 
 <style>
-.container {
+.scrollbar {
+	float: left;
+	height: 100%;
+	width: 100%;
+	/* height: 300px;
+	width: 65px; */
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+.force-overflow {
+	min-height: 450px;
+	555555
+}
+
+#style-3::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #D62929;
+}
+
+.container_css {
 	width: 1250px;
 	height: 500px;
 }
@@ -23,1643 +71,1725 @@
 }
 
 .chat_css {
-	width: 380px;
-	height: 430px;
-	float: left;
+	padding: 10px 0 0 0;
+	float: right;
+	width: 360px;
+	/* height: 930px; */
+	margin: 10px 10px 20px 0px;
 }
 
 .chatContent {
-	    height: 400px;
-	padding: 1px 40px 0px 0px;
-	background: #3596c5;
+	height: 620px;
+	padding: 8px 0px 0px 0px;
+	background: #94c2e9;
+	border-right: 1px solid #94c2e9;
 }
 
 .insert_css {
-	width: 370px;
 	border: 1px black;
-	background-color: #00BCD4;
-	padding: 1px 1px 5px 10px;
+	background-color: #337ab7;
+	padding: 15px 15px 15px 15px;
+}
+
+.canvas_css {
+	width: 1150px;
+	margin: 20px 0px 10px 10px;
+	height: 760px;
+	float: left;
+	background: white;
+	padding: 0px;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.select_canvas {
+	margin: 20px 10px 0px 20px;
+	border: 1px solid #559edd;
+	background: white;
+	border-radius: 5px;
+}
+
+.insertnick_input {
+	width: 100px;
+	margin: 0px 10px 10px 0px;
+	border-radius: 5px;
+}
+
+.insert_css>span {
+	color: white;
+	margin: 5px;
+	font-weight: 700;
+}
+
+.insertchat_css {
+	border-radius: 5px;
+	margin: 10px 0px 0px 0px;
+}
+
+div.mvc_css {
+	border: solid 1px #eee;
+	/* padding: 50 650 50 650; */
+	background: #f8f8f8;
+}
+
+.chat_btn {
+	margin: 10px 0px 0px 160px;
+}
+
+.add_person {
+	margin: 10px 0px 0px 0px;
+}
+
+.create_file {
+	margin: 8px 0px 20px 1065px;
+}
+/* mvc select */
+.mvc_select_main {
+	background: #337ab7;
+	color: white;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+.mvc_select1 {
+    margin: 20px 0px 20px 0px;
+    width: 200px;
+    border: 1px solid #bcd9f1;
+}
+
+.C_select {
+	font-size: 12px;
+}
+
+.select_canvas2 {
+	margin: 10px 30px 150px 30px;
+}
+.mvc_all
+{
+     width: 314px;
+    text-align: center;
+    border-bottom: 1px solid #94c2e9;
 }
 </style>
-<script>
-	$(document).ready(function() {
-
-		//참여자 목록을 보여주는 리스트 숨김
-		$('#p_list').hide();
-		//보이기 버튼을 클릭 했을 시에 참여자 목록을 보여주거나 숨겨준다.
-		$('#divView').click(function() {
-			var state = $('#p_list').css('display');
-			//숨겨진 상태
-			if(state == 'none')
-			{
-				//0.5초 의 지연으로 보여짐.
-				$('#p_list').show(500);
-				
-			}
-			//보여지는 상태
-			else
-			{
-				//0.5초의 지연으로 사라짐
-				$('#p_list').hide(500);
-			}
-			
-		});
-		
-		
-		
-		
-		// /temp?id=""&room="" 정보를 받아와서 ejs특수태그를 이용해 받아옴.
-		var id = '<%= userid %>';
-		//채팅자 이름에 집어넣음
-        document.getElementById("chatName").value = id;
-        
-		//룸 이름에 집어넣음
-        var roomname = '<%= room %>';
-        document.getElementById("room").value = roomname;
-		
-
-		var socket = io.connect(); // 소켓 이벤트를 연결
-
-		
-		
-		
-		/**
-			참여자 목록 영역
-		*/
-		var participant = [];
-		
-		var check;
-		
-		//참여자 목록을 서버에 요청함
-		socket.emit('participant');
-		
-		
-		//참여자 목록을 받아옴
- 	 	socket.on('participant', function(data) {
-			//참여자 목록을 저장시킨 후
- 	 		participant = data;
-			//참여자목록 div에 뿌려줌
-			$('#participant').text(participant.toString());
-		});    
-		
-		//참여자가 룸을 나갈 시
- 	 	socket.on('exitclient', function(data) {			
- 	 		//참여자 목록 배열을 새로 받아서 넣어줌
- 	 		participant = data;
-			$('#participant').text(participant.toString());
-		});
-		
-
-		/**
-			채팅 영역
-		*/
-		socket.on('chatMessage', function(data) {
-			
-			//자신의 이름 체크
-			var me = $('#chatName').val();
-			if(me === data.name)
-			{
-				//이름이 같을 때는 오른쪽에 메세지가 뜨게 한다.
-				var output = '';
-				output += '<div align="right"><p align="left" style="background:yellow; width:200px">' + data.name + '님의 말:';
-				output += '		' + data.message + '</p></div>';
-			}
-			else
-			{
-				//이름이 다를 경우 메세지가 오른쪽에 뜨게 한다.
-				var output = '';
-				output += '<div align="left" style="padding-left:10px"><p align="left" style="background:white; width:200px">' + data.name + '님의 말:';
-				output += '		' + data.message + '</p></div>';
-			}
-			//내용 추가
-			$(output).appendTo('#chatContent');	
-			//스크롤이 내려가도 가장 마지막 값이 뷰에 보이게 해준다.
-			$('.chatContent').scrollTop($('.chatContent')[0].scrollHeight);
-		});
-
-		 
-		 //엔터키 입력 시
-		$('#chatMessage').keydown(function(event) {
-			if(event.which === 13)
-			{
-				var checkEmpty = $('#chatMessage').val();
-				//아무것도 입력하지 않았을 경우에는 메세지가 입력되지 않는다.
-				if(checkEmpty!= "")
-				{	
-					//이름이랑 메시지 보냄
-					socket.emit('chatMessage', {
-					name : $('#chatName').val(),
-					message : $('#chatMessage').val()
-					});
-					//채팅창에 입력한 내용 없앰.
-					$('#chatMessage').val("");
-				}				
-			}
-				
-		});
-			
-		
 
 
-	//메일 삭제 영역 입력하기
-	$(document).on("click", ".del", function() {
-		
-		
-		$(this).parent().remove();
-		mailListValue--;
 
-	});
-		
-	
-	
-	//메일 추가 영역
-	$('#addmail').click(function() {
-		var mailListDiv = $('#maillist').val();
+<div class="w3-top">
+	<ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
+		<li><a href="../" class="w3-teal  w3-middle-home"><i
+				class="fa fa-spinner">THINKPATTERN</i></a></li>
+		<li class="w3-hide-medium w3-hide-large w3-mright"><a
+			class="w3-hover-white w3-large w3-theme-d2 w3-middle"
+			href="javascript:void(0);" onclick="openNav()"><i
+				class="fa fa-bars"></i></a></li>
 
-		var output ='';
-		output += '<div>';
-		//name을 모두 mail로 지정시킨다.
-		output += '<input type="text" name="mail"/>';
-		output += '<input type="button" value="삭제" class="del" name="del"/>';
-		output += '<br/>';
-		output += '</div>';
-		
-		
-		$(output).appendTo('#maillist');
-		mailListValue++;
-		
-	});
-		
+		<div class="middle">
+			<li class="w3-hide-small w3-middle"><a href="../">MANUAL</a></li>
+			<li class="w3-hide-small w3-middle"><a href="/pattern/list">DESIGN
+					PATTERN</a></li>
+			<li class="w3-hide-small w3-middle"><a href="/notice/list">SERVICE
+					CENTER</a></li>
+		</div>
 
-		 //메일 보내기 영역
-		$('#sendmail').click(function() {
-			
-			var sendList = [];
-		 	for(var i = 0; i < mailListValue; i++)
-			{
-		 		//추가시킨 메일 의 name을 모두 mail로 만들어서 추가된 메일칸의  모든 요소를 저장시킨다.
-		 		var mail = $("#maillist input[name='mail']").eq(i).val();
-		 		
-		 		//저장된 메일을 배열에 추가시킨다.
-		 		sendList[i] = mail;
-			} 
-		 	//서버에 룸 정보와 보낼 메일 리스트를 보낸다.
-		 	socket.emit('sendEmail', {
-				room: roomname,
-				mail: sendList});
-		});
-	
-		
-		//메일 추가를 위한 변수 지정
-		var mailListValue = 0;
+		<div class="log_in">
+			<li class="w3-hide-small w3-right"><span id="sessionid"></span><a
+				href="/user/modifyConfirm" class="button small"><i
+					class="fa fa-user" aria-hidden="true"></i> modify</a></li>
+			<li class="w3-hide-small w3-right"><a href="/user/logout"
+				class="button small"><i class="fa fa-sign-out"
+					aria-hidden="true"></i> logout</a></li>
+		</div>
 
 
-		//버튼 클릭 시
-		$('#chatButton').click(function() {
-			var checkEmpty = $('#chatMessage').val();
-			if(checkEmpty!= "")
-			{	
-			
-			socket.emit('chatMessage', {
-				name : $('#chatName').val(),
-				message : $('#chatMessage').val()
-			});
-			$('#chatMessage').val("");
-			}
-		});
+	</ul>
+</div>
 
-	
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
+	style="margin-top: 43px;">
+	<ul class="w3-navbar w3-left-align w3-large w3-theme">
+		<li class="w3-middle"><a href="../">MANUAL</a></li>
+		<li class="w3-middle"><a href="http://localhost:8210/?id=aaa">DESIGN
+				PATTERN</a></li>
+		<li class="w3-middle"><a href="/notice/list">SERVICE CENTER</a></li>
 
-	});
-</script>
+		<div class="log_in">
+			<li><span id="sessionid"></span> <a href="/user/modifyConfirm"
+				class="button small smenu"><i class="fa fa-user"
+					aria-hidden="true"></i> modify</a> <a href="/user/logout "
+				class="button small smenu"><i class="fa fa-sign-out"
+					aria-hidden="true"></i> logout</a></li>
+		</div>
 
+	</ul>
+</div>
 
 
 </head>
 <body>
-	
-	<div class="row">
-	<div class="col-md-2">
-		<br/>
-		<br/>
-		<button type ="button" class="btn btn-primary" id="crea_mvc"> MVC 구조 그리기 </button>
-		<br/>
-		<br/>
-		Controller
-		<button type ="button" class="btn btn-success" id="crea_controller"> + </button>
-		<br/>
-		<div id = "conlist">
-		
-		</div>
-		<br/>
-		Service
-		<button type ="button" class="btn btn-warning" id="crea_service"> + </button>
-		<br/>
-		<div id = "serlist">
-		
-		</div>
-		<br/>
-		DAO
-		<button type ="button" class="btn btn-danger" id="crea_dao"> + </button>
-		<br/>
-		<div id = "daolist">
-		
-		</div>
-	</div>
-	<div class="col-md-7">
-		<canvas id="canvas1" height="900" width="1600">This browser doesn't support canvas</canvas>
-		
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+
+
+	<div id="main" class="wrapper style1">
+		<div class="container">
+			<div class="mvc_css">
+				<div class="row">
+					<div class="col-md-2 select_canvas">
+						<div class="mvc_select_main">Select Pattern</div>
+						<div class="mvc_all">
+							<button type="button" class="btn btn-primary mvc_select1"
+								id="crea_mvc">MVC 구조 그리기</button>
+						</div>
+						<div class="select_canvas2">
+
+							Controller
+							<button type="button" class="btn btn-danger C_select"
+								id="crea_controller">+</button>
+							<br />
+							<div id="conlist"></div>
+							Service
+							<button type="button" class="btn btn-warning S_select"
+								id="crea_service">+</button>
+							<br />
+							<div id="serlist"></div>
+							<br /> DAO
+							<button type="button" class="btn btn-success D_select"
+								id="crea_dao">+</button>
+							<br />
+							<div id="daolist"></div>
+						</div>
 					</div>
-					<div class="modal-body">
-					<!-- modal의 body 여기안에 input box들을 넣음. -->
-					
-					Class Name : <input type="text" id="classname" />
-					<div id="valueDiv">
-						<br />
-						<input type="Button" value="Value추가" onclick="AddValueForm()"> 
-						<input type="Button" value="Value삭제" onclick="DelValueForm()"> <br />
-						Value0 : <input type="text" id="valuename0" />
-						<select id="select_value0">
-							<option value = "init">선택하세요</option>
-							<option value="int">int</option>
-							<option value="String">String</option>
-						</select> <br />
+					<div class="col-md-7 canvas_css">
+						<canvas id="canvas1" height="760" width="1150"></canvas>
+						<button class="btn btn-info create_file">파일 생성</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h3 class="modal-title" id="myModalLabel">Class Add</h3>
+									</div>
+									<div class="modal-body">
+										<!-- modal의 body 여기안에 input box들을 넣음. -->
+
+										Class Name : <input type="text" id="classname" />
+										<div id="valueDiv">
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddValueForm()"> <input type="Button"
+												value="Value삭제" onclick="DelValueForm()"> <br />
+											Value0 : <input type="text" id="valuename0" /> <select
+												id="select_value0">
+												<option value="init">선택하세요</option>
+												<option value="int">int</option>
+												<option value="String">String</option>
+											</select> <br />
+										</div>
+										<br />
+										<div id="methodDiv">
+											<input type="Button" value="Method추가"
+												onclick="AddMethodForm()"> <input type="Button"
+												value="Method삭제" onclick="DelMethodForm()"> <br />
+											Method0 : <input type="text" id="methodname0" /> <select
+												id="select_method0">
+												<option value="init">선택하세요</option>
+												<option value="void">void</option>
+												<option value="int">int</option>
+												<option value="String">String</option>
+											</select> <br />
+										</div>
+										<br /> Connet Class : <select id="connectclass">
+											<option value="init">--선택하세요--</option>
+										</select><br />
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="OnOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<br />
-					<div id="methodDiv">
-						<input type="Button" value="Method추가" onclick="AddMethodForm()">
-						<input type="Button" value="Method삭제" onclick="DelMethodForm()">
-						<br /> Method0 : <input type="text" id="methodname0" />
-						<select id="select_method0">
-							<option value ="init">선택하세요</option>
-							<option value="void">void</option>
-							<option value="int">int</option>
-							<option value="String">String</option>
-						</select> <br />
+
+
+					<div class="col-md-3 chat_css ">
+						<table border="1px">
+							<div class="chatContent scrollbar" id="style-3">
+								<div id="chatContent" class="force-overflow"></div>
+							</div>
+
+
+
+							<div class="insert_css">
+								<span>아이디 : </span> <input id="chatName" value=""
+									readonly="readonly" class="insertnick_input" /> <span>방
+									:</span> <input id="room" value="" readonly="readonly"
+									class="insertnick_input" /> <span>메시지 입력 :</span><input
+									id="chatMessage" type="text" class="insertchat_css" /> <input
+									type="button" value="보이기" id="divView" class="add_person" />
+								<div id="p_list">
+									참여자 목록
+									<div id="participant"></div>
+
+									<input type="button" id="addmail" value="추가" /> <br />
+									<form id="maillist" name="maillist"></form>
+
+
+									<input type="button" value="메일 보내기  " id="sendmail" />
+
+								</div>
+
+								<button id="chatButton" class="btn btn-primary chat_btn">입력</button>
+							</div>
+
+
+						</table>
 					</div>
-					<br /> 
-					Connet Class : 
-					<select id="connectclass"> 
-						<option value ="init">--선택하세요--</option>
-					</select><br />
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" onclick="OnOK()" data-dismiss="modal">Save</button>
-						<button type="button" class="btn btn-default" onclick="OnCancel()" data-dismiss="modal">Close</button>
-					</div>
-				</div>				
+
+				</div>
+
+
+
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
-</div>
-<button>파일 생성</button>
 
- <script>
-        var canvas = document.getElementById('canvas1');     // Canvas 객체 추출
+</body>
+<footer id="footer" style="margin: 0 auto; padding: 23px 0 22px 0">
 
-        var context = canvas.getContext('2d');
+	<a href="http://www.skhu.ac.kr"></a>
 
-    function Point(event, target) {     // Point 생성자 함수 선언
+	<div class="skhu">152-716 서울시 구로구 연동로 320 / 지하철 1,7호선
+		온수역(성공회대입구역) T.02-2610-4114 F.02-2683-8858</div>
 
-         this.x = event.pageX - $(target).position().left- document.body.scrollWidth/6;
-    
-// 파폭은 offsetX 속성을 지원하지 않으므로 이런 방식의 코드를 사용함
-// list를 위한 div를 만들면 그만큼 x좌표가 밀려서 출력되기 때문에 div의 크기만큼 뺴줌.
+	<ul class="copyright">COPYRIGHTⓒ SUNGKONGHOE UNIVERSITY. ALL
+		RIGHTS RESERVED.
+	</ul>
 
-        this.y = event.pageY - $(target).position().top;
-
-    }
-
-    </script>
-
-	    <script>
-   // 변수 선언
-
-        var width = 5;
-
-        var color = '#000000';
-
-        var isDown = false;     // 마우스 버튼을 눌렀나 안 눌렀나
-
-        var point;
-//
-
-	
-// 가변적으로 사용하기 위한 변수들 선언
-var xpos = 0; // x좌표
-var ypos = 0; // y좌표
-var con_num = 1; // list의 아이템 개수(controller의 개수)
-//var val_num = 2; // 변수의 개수
-//var m_num = 2; // 메소드의 개수
-var base_xpos = 150; // 기본 가로 길이
-var base_ypos = 30; // 기본 세로 길이
-
-var str_className = "";		// class의 이름을 저장하기 위한 변수
-var str_valuename = []; // class의 변수이름을 저장하기 위한 변수
-var str_methodname = []; // class의 함수이름을 저장하기 위한 변수
-
-var coordinate_X;
-var coordinate_Y;
-
-var con_pointx;
-var con_pointy;
-
-//변수들 간소화 및 대입을 위한 변수
-var width = 0;
-var height = 0;
-var index = 0;
+</footer>
+</html>
 
 
-	
-		
-//
-	var list_click=false;
+<script>
+	var canvas = document.getElementById('canvas1'); // Canvas 객체 추출
+
+	var context = canvas.getContext('2d');
+
+	function Point(event, target) { // Point 생성자 함수 선언
+
+		this.x = event.pageX - $(target).position().left
+				- document.body.scrollWidth / 6;
+
+		// 파폭은 offsetX 속성을 지원하지 않으므로 이런 방식의 코드를 사용함
+		// list를 위한 div를 만들면 그만큼 x좌표가 밀려서 출력되기 때문에 div의 크기만큼 뺴줌.
+
+		this.y = event.pageY - $(target).position().top;
+
+	}
+</script>
+
+<script>
+	// 변수 선언
+
+	var width = 5;
+
+	var color = '#000000';
+
+	var isDown = false; // 마우스 버튼을 눌렀나 안 눌렀나
+
+	var point;
+	//
+
+	// 가변적으로 사용하기 위한 변수들 선언
+	var xpos = 0; // x좌표
+	var ypos = 0; // y좌표
+	var con_num = 1; // list의 아이템 개수(controller의 개수)
+	//var val_num = 2; // 변수의 개수
+	//var m_num = 2; // 메소드의 개수
+	var base_xpos = 150; // 기본 가로 길이
+	var base_ypos = 30; // 기본 세로 길이
+
+	var str_className = ""; // class의 이름을 저장하기 위한 변수
+	var str_valuename = []; // class의 변수이름을 저장하기 위한 변수
+	var str_methodname = []; // class의 함수이름을 저장하기 위한 변수
+
+	var coordinate_X;
+	var coordinate_Y;
+
+	var con_pointx;
+	var con_pointy;
+
+	//변수들 간소화 및 대입을 위한 변수
+	var width = 0;
+	var height = 0;
+	var index = 0;
+
+	//
+	var list_click = false;
 	var check_package;
 
+	// list마다(package에 따라서) class name을 구분하여 저장하기 위한 배열과 변수들...
+	// class의 name, value, method를 저장하기 위한 mvc의 list
+	var controllerList = [];
+	var serviceList = [];
+	var daoList = [];
+	var classList = []; // pattern이 아닌 기본 클래스를 만들 때 사용.
 
-// list마다(package에 따라서) class name을 구분하여 저장하기 위한 배열과 변수들...
-// class의 name, value, method를 저장하기 위한 mvc의 list
-var controllerList = [];
-var serviceList = [];
-var daoList = [];
-var classList = [];	// pattern이 아닌 기본 클래스를 만들 때 사용.
+	var gubun = -1; //controller이면 1, service면 2, dao면 3, 세개다(mvc)이면 4, 그 외에 0
 
+	//구조체를 선언해줄 이름(각 package 마다 다르게 저장하기 위해 사용.)
+	var controller;
+	var service;
+	var dao;
+	var basic_class;
 
-var gubun=-1; //controller이면 1, service면 2, dao면 3, 세개다(mvc)이면 4, 그 외에 0
+	//list에 값을 저장하기 위한 구조체
+	function element() {
+		var classname = "";
+		var valuename = new Array();
+		var methodname = new Array();
+		var point_X;
+		var point_Y;
+	}
 
-//구조체를 선언해줄 이름(각 package 마다 다르게 저장하기 위해 사용.)
-var controller;
-var service;
-var dao;
-var basic_class;
+	var check_name = true; // 중복체크를 위한 변수 (true면 같은 이름 x, false면 같은 이름의 class가 존재)
+	var connectclass; // 연결할 class의 name을 저장
+	var isConn = false; // 연결하는지 check
 
-//list에 값을 저장하기 위한 구조체
-function element(){
-	var classname = "";
-	var valuename = new Array();
-	var methodname = new Array();
-	var point_X;
-	var point_Y;
-}
+	// 각 List의 count를 세줄 변수(즉 list의 index값)
+	var con_cnt = 0;
+	var ser_cnt = 0;
+	var dao_cnt = 0;
+	var bc_cnt = 0;
 
-var check_name=true;			// 중복체크를 위한 변수 (true면 같은 이름 x, false면 같은 이름의 class가 존재)
-var connectclass;		// 연결할 class의 name을 저장
-var isConn=false;		// 연결하는지 check
+	// 각각의 list를 구별하기 위한 변수.
+	var conn_con = false;
+	var conn_ser = false;
+	var conn_dao = false;
+	var conn_basic = false;
 
-// 각 List의 count를 세줄 변수(즉 list의 index값)
-var con_cnt = 0;
-var ser_cnt = 0;
-var dao_cnt = 0;
-var bc_cnt = 0;
+	var socket = io.connect(); // 소켓 이벤트를 연결
 
-// 각각의 list를 구별하기 위한 변수.
-var conn_con = false;
-var conn_ser = false;
-var conn_dao = false;
-var conn_basic = false;
+	socket.emit('join', '<%= room %>'); // ejs 모듈 특수 태그 사용. http://localhost:8210/canvas/21 접속시 문자열 21 전송
 
-
-
-
-        var socket = io.connect();      // 소켓 이벤트를 연결
-
-        socket.emit('join', '<%= room %>');     // ejs 모듈 특수 태그 사용. http://localhost:8210/canvas/21 접속시 문자열 21 전송
-
-
-
-
-
-//리스트에서 클릭한 거 check_package에 넣어주기
-		$("#crea_controller").click(function(){
-			list_click = true;
-			check_package = "Controller";
-		});
-		$("#crea_service").click(function(){
-			list_click = true;
-			check_package = "Service";
-		});
-		$("#crea_dao").click(function(){
-			list_click = true;
-			check_package = "DAO";
-		});
-		$("#crea_mvc").click(function(){
-			list_click = true;
-			check_package = "mvc";
-		});
-
-        
-
+	//리스트에서 클릭한 거 check_package에 넣어주기
+	$("#crea_controller").click(function() {
+		list_click = true;
+		check_package = "Controller";
+	});
+	$("#crea_service").click(function() {
+		list_click = true;
+		check_package = "Service";
+	});
+	$("#crea_dao").click(function() {
+		list_click = true;
+		check_package = "DAO";
+	});
+	$("#crea_mvc").click(function() {
+		list_click = true;
+		check_package = "mvc";
+	});
 
 	// 동적으로 connectclass에 list를 받아와 option으로 만들어주는 code
-function Dynamic_Connect_List(){
-	if(check_package == "Controller"){
-		Connect_Select_Delete();
-		for(var i=0; i<serviceList.length; i++){
-			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<daoList.length; i++){
-			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
-		}
-	}else if(check_package == "Service"){
-		Connect_Select_Delete();
-		for(var i=0; i<controllerList.length; i++){
-			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<daoList.length; i++){
-			$('<option value="'+ daoList[i].classname +'">' + daoList[i].classname + '</option>').appendTo('#connectclass');
-		}
-	}else if(check_package == "DAO"){
-		Connect_Select_Delete();
-		for(var i=0; i<controllerList.length; i++){
-			$('<option value="'+ controllerList[i].classname +'">' + controllerList[i].classname + '</option>').appendTo('#connectclass');
-		}
-		for(var i=0; i<serviceList.length; i++){
-			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
+	function Dynamic_Connect_List() {
+		if (check_package == "Controller") {
+			Connect_Select_Delete();
+			for (var i = 0; i < serviceList.length; i++) {
+				$(
+						'<option value="'+ serviceList[i].classname +'">'
+								+ serviceList[i].classname + '</option>')
+						.appendTo('#connectclass');
+			}
+			for (var i = 0; i < daoList.length; i++) {
+				$(
+						'<option value="'+ daoList[i].classname +'">'
+								+ daoList[i].classname + '</option>').appendTo(
+						'#connectclass');
+			}
+		} else if (check_package == "Service") {
+			Connect_Select_Delete();
+			for (var i = 0; i < controllerList.length; i++) {
+				$(
+						'<option value="'+ controllerList[i].classname +'">'
+								+ controllerList[i].classname + '</option>')
+						.appendTo('#connectclass');
+			}
+			for (var i = 0; i < daoList.length; i++) {
+				$(
+						'<option value="'+ daoList[i].classname +'">'
+								+ daoList[i].classname + '</option>').appendTo(
+						'#connectclass');
+			}
+		} else if (check_package == "DAO") {
+			Connect_Select_Delete();
+			for (var i = 0; i < controllerList.length; i++) {
+				$(
+						'<option value="'+ controllerList[i].classname +'">'
+								+ controllerList[i].classname + '</option>')
+						.appendTo('#connectclass');
+			}
+			for (var i = 0; i < serviceList.length; i++) {
+				$(
+						'<option value="'+ serviceList[i].classname +'">'
+								+ serviceList[i].classname + '</option>')
+						.appendTo('#connectclass');
+			}
 		}
 	}
-}
 
-// select box를 초기화해주는 code
-function Connect_Select_Delete(){
-	$('#connectclass').empty();
-	$('<option value="init">--선택하세요--</option>').appendTo('#connectclass');
-}
-
-function MVC_List_View(){
-	
-	$('#conlist').empty();
-	$('#serlist').empty();
-	$('#daolist').empty();
-	
-	for(var i=0;i<controllerList.length;i++){
-		$('<label value="' + controllerList[i].classname + '">' + controllerList[i].classname + '</label>').appendTo('#conlist');
-		$('<button>수정</button>').appendTo('#conlist');
-		$('<button>삭제</button></br>').appendTo('#conlist');
+	// select box를 초기화해주는 code
+	function Connect_Select_Delete() {
+		$('#connectclass').empty();
+		$('<option value="init">--선택하세요--</option>').appendTo('#connectclass');
 	}
-	for(var i=0;i<serviceList.length;i++){
-		$('<label value="' + serviceList[i].classname + '">' + serviceList[i].classname + '</label>').appendTo('#serlist');
-		$('<button>수정</button>').appendTo('#serlist');
-		$('<button>삭제</button></br>').appendTo('#serlist');
-	}
-	for(var i=0;i<daoList.length;i++){
-		$('<label value="' + daoList[i].classname + '">' + daoList[i].classname + '</label>').appendTo('#daolist');
-		$('<button>수정</button>').appendTo('#daolist');
-		$('<button>삭제</button></br>').appendTo('#daolist');
-	}
-}
 
+	function MVC_List_View() {
 
-//draw한 canvas정보들 emit해주는 함수
-function EmitCanvas(gb){
-	if(gb==1){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:controller,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==2){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:service,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==3){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:dao,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
-	}else if(gb==4){
-	}else if(gb==0){
-		socket.emit('draw', {
-			gb:gb,
-			x:xpos,
-			y:ypos,
-			class:basic_class,
-			width:width,
-			vc:val_count,
-			mc:m_count,
-			isconn:isConn,
-			conn_c:connectclass,
-			con_px:con_pointx,
-			con_py:con_pointy
-			
-			
-		});
+		$('#conlist').empty();
+		$('#serlist').empty();
+		$('#daolist').empty();
+
+		for (var i = 0; i < controllerList.length; i++) {
+			$(
+					'<label value="' + controllerList[i].classname + '">'
+							+ controllerList[i].classname + '</label>')
+					.appendTo('#conlist');
+			$('<button>수정</button>').appendTo('#conlist');
+			$('<button>삭제</button></br>').appendTo('#conlist');
+		}
+		for (var i = 0; i < serviceList.length; i++) {
+			$(
+					'<label value="' + serviceList[i].classname + '">'
+							+ serviceList[i].classname + '</label>').appendTo(
+					'#serlist');
+			$('<button>수정</button>').appendTo('#serlist');
+			$('<button>삭제</button></br>').appendTo('#serlist');
+		}
+		for (var i = 0; i < daoList.length; i++) {
+			$(
+					'<label value="' + daoList[i].classname + '">'
+							+ daoList[i].classname + '</label>').appendTo(
+					'#daolist');
+			$('<button class="">수정</button>').appendTo('#daolist');
+			$('<button>삭제</button></br>').appendTo('#daolist');
+		}
 	}
-}
 
+	//draw한 canvas정보들 emit해주는 함수
+	function EmitCanvas(gb) {
+		if (gb == 1) {
+			socket.emit('draw', {
+				gb : gb,
+				x : xpos,
+				y : ypos,
+				class : controller,
+				width : width,
+				vc : val_count,
+				mc : m_count,
+				isconn : isConn,
+				conn_c : connectclass,
+				con_px : con_pointx,
+				con_py : con_pointy
+
+			});
+		} else if (gb == 2) {
+			socket.emit('draw', {
+				gb : gb,
+				x : xpos,
+				y : ypos,
+				class : service,
+				width : width,
+				vc : val_count,
+				mc : m_count,
+				isconn : isConn,
+				conn_c : connectclass,
+				con_px : con_pointx,
+				con_py : con_pointy
+
+			});
+		} else if (gb == 3) {
+			socket.emit('draw', {
+				gb : gb,
+				x : xpos,
+				y : ypos,
+				class : dao,
+				width : width,
+				vc : val_count,
+				mc : m_count,
+				isconn : isConn,
+				conn_c : connectclass,
+				con_px : con_pointx,
+				con_py : con_pointy
+
+			});
+		} else if (gb == 4) {
+		} else if (gb == 0) {
+			socket.emit('draw', {
+				gb : gb,
+				x : xpos,
+				y : ypos,
+				class : basic_class,
+				width : width,
+				vc : val_count,
+				mc : m_count,
+				isconn : isConn,
+				conn_c : connectclass,
+				con_px : con_pointx,
+				con_py : con_pointy
+
+			});
+		}
+	}
 
 	//모달창기능함수들
 
-var val_count = 1;
-var m_count = 1;
-var select_valcnt = 1;
-var select_mcnt = 1;
+	var val_count = 1;
+	var m_count = 1;
+	var select_valcnt = 1;
+	var select_mcnt = 1;
 
-function AddValueForm() {
-	var addedValFormDiv = document.getElementById("valueDiv");
-	var str = "Value";
-	str += val_count + ":" + "<input type='text' id='valuename" + val_count + "'><select id = 'select_value"+ select_valcnt +"'> <option value='init'>선택하세요</option>"
-						+ "<option value='int'>int</option> <option value='String'>String</option></select>";
-	
-	// 추가할 폼(에 들어갈 HTML)
-	var addedValDiv = document.createElement("div"); // 폼 생성
-	addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
-	addedValDiv.innerHTML = str; // 폼 Div안에 HTML삽입
-	addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
-	val_count++;
-	select_valcnt++;
-	// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
-	//document.baseForm.val_count.value = val_count;
-}
+	function AddValueForm() {
+		var addedValFormDiv = document.getElementById("valueDiv");
+		var str = "Value";
+		str += val_count
+				+ ":"
+				+ "<input type='text' id='valuename" + val_count + "'><select id = 'select_value"+ select_valcnt +"'> <option value='init'>선택하세요</option>"
+				+ "<option value='int'>int</option> <option value='String'>String</option></select>";
 
-function AddMethodForm() {
-	var addedMFormDiv = document.getElementById("methodDiv");
-	var str = "Method";
-	str += m_count + ":" + "<input type='text' id='methodname" + m_count + "'><select id = 'select_method"+ select_mcnt +"'> <option value='init'>선택하세요</option>"
-						+ "<option value='void'>void</option> <option value='int'>int</option> <option value='String'>String</option></select>";
-
-	// 추가할 폼(에 들어갈 HTML)
-	var addedMDiv = document.createElement("div"); // 폼 생성
-	addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
-	addedMDiv.innerHTML = str; // 폼 Div안에 HTML삽입
-	addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
-	m_count++;
-	select_mcnt++;
-	//document.baseForm.count.value = m_count;
-	// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
-}
-
-function DelValueForm() {
-	var addedValFormDiv = document.getElementById("valueDiv");
-	
-	if (val_count > 1) { // 현재 폼이 두개 이상이면
-		var addedValDiv = document.getElementById("added_value" + (--val_count));
-		
-		--select_valcnt;
-		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
-		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
-	} /*else { // 마지막 폼만 남아있다면
-		document.baseForm.reset(); // 폼 내용 삭제
-	}*/
-}
-
-function DelValueAllForm()
-{
-	var addedValFormDiv = document.getElementById("valueDiv");
-
-	while(val_count > 1)
-	{
-		if (val_count > 1) { // 현재 폼이 두개 이상이면
-		var addedValDiv = document.getElementById("added_value" + (--val_count));
-		
-		--select_valcnt;
-		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
-		addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
-		} 
+		// 추가할 폼(에 들어갈 HTML)
+		var addedValDiv = document.createElement("div"); // 폼 생성
+		addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
+		addedValDiv.innerHTML = str; // 폼 Div안에 HTML삽입
+		addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
+		val_count++;
+		select_valcnt++;
+		// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
+		//document.baseForm.val_count.value = val_count;
 	}
-	/*if(val_count == 1)
-	{
-		document.baseForm.reset();
-	}*/
-}
 
-function DelMethodForm() {
-	var addedMFormDiv = document.getElementById("methodDiv");
+	function AddMethodForm() {
+		var addedMFormDiv = document.getElementById("methodDiv");
+		var str = "Method";
+		str += m_count
+				+ ":"
+				+ "<input type='text' id='methodname" + m_count + "'><select id = 'select_method"+ select_mcnt +"'> <option value='init'>선택하세요</option>"
+				+ "<option value='void'>void</option> <option value='int'>int</option> <option value='String'>String</option></select>";
 
-	if (m_count > 1) { // 현재 폼이 두개 이상이면
-		var addedMDiv = document.getElementById("added_method" + (--m_count));
-		--select_mcnt;
-		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
-		addedMFormDiv.removeChild(addedMDiv); // 폼 삭제 
-	}/* else { // 마지막 폼만 남아있다면
-		document.baseForm.reset(); // 폼 내용 삭제
-	}*/
-}
+		// 추가할 폼(에 들어갈 HTML)
+		var addedMDiv = document.createElement("div"); // 폼 생성
+		addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
+		addedMDiv.innerHTML = str; // 폼 Div안에 HTML삽입
+		addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
+		m_count++;
+		select_mcnt++;
+		//document.baseForm.count.value = m_count;
+		// 다음 페이지에 몇개의 폼을 넘기는지 전달하기 위해 히든 폼에 카운트 저장
+	}
 
-function DelMethodAllForm()
-{
-	var addedMFormDiv = document.getElementById("methodDiv");
-	while(m_count > 1)
-	{
+	function DelValueForm() {
+		var addedValFormDiv = document.getElementById("valueDiv");
+
+		if (val_count > 1) { // 현재 폼이 두개 이상이면
+			var addedValDiv = document.getElementById("added_value"
+					+ (--val_count));
+
+			--select_valcnt;
+			// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+			addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
+		} /*else { // 마지막 폼만 남아있다면
+			document.baseForm.reset(); // 폼 내용 삭제
+		}*/
+	}
+
+	function DelValueAllForm() {
+		var addedValFormDiv = document.getElementById("valueDiv");
+
+		while (val_count > 1) {
+			if (val_count > 1) { // 현재 폼이 두개 이상이면
+				var addedValDiv = document.getElementById("added_value"
+						+ (--val_count));
+
+				--select_valcnt;
+				// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+				addedValFormDiv.removeChild(addedValDiv); // 폼 삭제 
+			}
+		}
+		/*if(val_count == 1)
+		{
+			document.baseForm.reset();
+		}*/
+	}
+
+	function DelMethodForm() {
+		var addedMFormDiv = document.getElementById("methodDiv");
+
 		if (m_count > 1) { // 현재 폼이 두개 이상이면
-			var addedMDiv = document.getElementById("added_method" + (--m_count));
+			var addedMDiv = document.getElementById("added_method"
+					+ (--m_count));
 			--select_mcnt;
 			// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
 			addedMFormDiv.removeChild(addedMDiv); // 폼 삭제 
-		} 
-		
+		}/* else { // 마지막 폼만 남아있다면
+				document.baseForm.reset(); // 폼 내용 삭제
+			}*/
 	}
-	/*if(m_count == 1)
-	{
-		document.baseForm.reset();
-	}*/
-}
 
-function FormInit(){
-	// input 태그의 값들을 초기화
-	document.getElementById("classname").value = "";
-	document.getElementById("connectclass").value = "";
-	for(var i=0; i<val_count; i++){
-		document.getElementById("valuename"+i).value = "";
-	}
-	for(var i=0; i<m_count; i++){
-		document.getElementById("methodname"+i).value = "";
-	}
-	
-	// 폼 초기화
-	DelValueAllForm();
-	DelMethodAllForm();
-	
-	// 배열 초기화 
-	v_name = [];
-	m_name = [];
-	select_val = [];
-	select_method = [];
-	
-	// index 초기화
-	index = -1;
+	function DelMethodAllForm() {
+		var addedMFormDiv = document.getElementById("methodDiv");
+		while (m_count > 1) {
+			if (m_count > 1) { // 현재 폼이 두개 이상이면
+				var addedMDiv = document.getElementById("added_method"
+						+ (--m_count));
+				--select_mcnt;
+				// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+				addedMFormDiv.removeChild(addedMDiv); // 폼 삭제 
+			}
 
-	gubun=-1;
-	isConn=false;
-	con_pointx = 0;
-	con_pointy = 0;
-	
-	check_name = false;
-
-	c_name = "";
-
-	check_name_con = false;
-	check_name_ser = false;
-	check_name_dao = false;
-	
-	conn_con = false;
-	conn_ser = false;
-	conn_dao = false;
-	conn_basic = false;
-	
-}
-
-//modal에서 받아온 값을 저장해주기 위한 변수들
-var c_name;				// document의 classname에 해당되는 input 태그의 id를 받아와 저장할 변수
-var v_name = new Array();	// document의 valuename에 해당되는 input 태그의 id를 받아와 저장할 배열
-							// 변수는 가변적이기 떄문에 배열로 선언
-var m_name = new Array();	// document의 methodname에 해당되는 input 태그의 id를 받아와 저장할 배열(위와 동일)
-var select_val = new Array();	// document의 select box(value)의 값을 저장하기 위한 배열
-var select_method = new Array();	// document의 select box(method)의 값을 저장하기 위한 배열
-
-
-// 중복체크 함수
-function Duplication_Check(){
-	alert('중복check');
-	if(check_package == "Controller"){
-		for(var i=0;i<controllerList.length;i++){
-			if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("Controller의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
-			}
 		}
-	}else if(check_package == "Service"){
-		for(var i=0;i<serviceList.length;i++){
-			if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("Service의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
-			}
-		}
-	}else if(check_package == "DAO"){
-		for(var i=0;i<daoList.length;i++){
-			if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
-				c_name = document.getElementById("classname").value;
-				check_name = true;
-			}else{
-				alert("DAO의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
-			}
-		}
-	}else if(check_package == "mvc"){
-		var check_name_con;
-		var check_name_ser;
-		var check_name_dao;
-		
-		for(var i=0;i<controllerList.length;i++){
-			if(controllerList[i].classname != document.getElementById("classname").value + "Controller"){
-				c_name = document.getElementById("classname").value;
-				check_name_con = true;
-			}else{
-				alert("Controller의 Name이 중복 됩니다.");
-				check_name_con = false;
-				break;
-			}
-		}
-		
-		for(var i=0;i<serviceList.length;i++){
-			if(serviceList[i].classname != document.getElementById("classname").value + "Service"){
-				c_name = document.getElementById("classname").value;
-				check_name_ser = true;
-			}else{
-				alert("Service의 Name이 중복 됩니다.");
-				check_name_ser = false;
-				break;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(daoList[i].classname != document.getElementById("classname").value + "DAO"){
-				c_name = document.getElementById("classname").value;
-				check_name_dao = true;
-			}else{
-				alert("DAO의 Name이 중복 됩니다.");
-				check_name_dao = false;
-				break;
-			}
-		}
-		
-		if(check_name_con == true && check_name_ser == true && check_name_dao == true){
-			check_name = true;
-		}else{
-			check_name = false;
-		}
-	}else{
-		for(var i=0;i<classList.length;i++){
-			if(classList[i].classname != document.getElementById("classname").value + "_basic"){
-				c_name = document.getElementById("classname").value + "_basic";
-				check_name = true;
-			}else{
-				alert("Class의 Name이 중복 됩니다.");
-				check_name = false;
-				break;
-			}
-		}
-	}
-}
-
-// 연결할 class를 탐색해줌.
-function Connect_Class_Check(){
-	if(check_package == "Controller"){
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-				break;
-			}else{
-				conn_ser = false;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-				break;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-	/*	for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
+		/*if(m_count == 1)
+		{
+			document.baseForm.reset();
 		}*/
-		
-	}else if(check_package == "Service"){
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-				break;
-			}else{
-				conn_con = false;
-			}
-		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-				break;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-		/*for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}*/
-		
-	}else if(check_package == "DAO"){
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-				break;
-			}else{
-				conn_con = false;
-			}
-		}
-		
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-				break;
-			}else{
-				conn_ser = false;
-			}
-		}
-		
-		/*for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
+	}
 
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}*/
-		
-		
-		
-		
-	}/*else{
-		for(var i=0;i<controllerList.length;i++){
-			if(connectclass == controllerList[i].classname){
-				index = i;
-				conn_con = true;
-			}else{
-				conn_con = false;
-			}
+	function FormInit() {
+		// input 태그의 값들을 초기화
+		document.getElementById("classname").value = "";
+		document.getElementById("connectclass").value = "";
+		for (var i = 0; i < val_count; i++) {
+			document.getElementById("valuename" + i).value = "";
 		}
-		
-		for(var i=0;i<serviceList.length;i++){
-			if(connectclass == serviceList[i].classname){
-				index = i;
-				conn_ser = true;
-			}else{
-				conn_ser = false;
-			}
+		for (var i = 0; i < m_count; i++) {
+			document.getElementById("methodname" + i).value = "";
 		}
-		
-		for(var i=0;i<daoList.length;i++){
-			if(connectclass == daoList[i].classname){
-				index = i;
-				conn_dao = true;
-			}else{
-				conn_dao = false;
-			}
-		}
-		
-		for(var i=0;i<classList.length;i++){
-			if(connectclass == classList[i].classname){
-				index = i;
-				conn_basic = true;
-			}else{
-				conn_basic = false;
-			}
-		}
-	}*/
-}
 
-function Connection_Class(){
-	
-	Connect_Class_Check();
+		// 폼 초기화
+		DelValueAllForm();
+		DelMethodAllForm();
 
-	if(conn_con == true){
-		con_pointx = controllerList[index].point_X;
-		con_pointy = controllerList[index].point_Y;
-		
-	}else if(conn_ser == true){
-		con_pointx = serviceList[index].point_X;
-		con_pointy = serviceList[index].point_Y;
-		
-	}else if(conn_dao == true){
-		con_pointx = daoList[index].point_X;
-		con_pointy = daoList[index].point_Y;
-		
-	}/*else if(conn_basic == true){ 
-		con_pointx = classList[index].point_X;
-		con_pointy = classList[index].point_Y;
-		
-	}*/
-	
-}
+		// 배열 초기화 
+		v_name = [];
+		m_name = [];
+		select_val = [];
+		select_method = [];
 
-// 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.
-function OnOK() {
-	alert('ok');
-	Connect_PointSave();
-	
-	
-	// 먼저 중복체크를 해서 이름이 같은 class가 있으면 class가 생성이 안되게 만듬.
-	Duplication_Check();
-	
+		// index 초기화
+		index = -1;
 
-	connectclass = document.getElementById("connectclass").value;
-	if(connectclass!=""||connectclass!="init"){
-		isConn=true;
-		Connection_Class();
-	}	
+		gubun = -1;
+		isConn = false;
+		con_pointx = 0;
+		con_pointy = 0;
 
+		check_name = false;
 
-	
-	
-	// 중복된 class의 이름이 없으면 document의 값을 받아와 배열에 저장
-	if(check_name == true){
-		for(var i=0; i<val_count; i++){
-			v_name[i] = document.getElementById("valuename"+i);
-			select_val[i] = document.getElementById("select_value"+i);
-		}
-		
-		for(var i=0; i<m_count; i++){
-			m_name[i] = document.getElementById("methodname"+i);
-			select_method[i] = document.getElementById("select_method"+i);
-		}
-		
-		// 각 document의 값들을 저장.
-		if(check_package != "mvc"){
-			str_className = c_name;
-		}
-		
-		// select box의 값이 선택되면 변수명 앞에 select box의 값을 붙여줌.
-		for(var j=0; j<val_count; j++){
-			if(select_val[j].value == "init"){
-				str_valuename[j] = v_name[j].value;
-			}else{
-				str_valuename[j] = select_val[j].value + " " +v_name[j].value;
+		c_name = "";
+
+		check_name_con = false;
+		check_name_ser = false;
+		check_name_dao = false;
+
+		conn_con = false;
+		conn_ser = false;
+		conn_dao = false;
+		conn_basic = false;
+
+	}
+
+	//modal에서 받아온 값을 저장해주기 위한 변수들
+	var c_name; // document의 classname에 해당되는 input 태그의 id를 받아와 저장할 변수
+	var v_name = new Array(); // document의 valuename에 해당되는 input 태그의 id를 받아와 저장할 배열
+	// 변수는 가변적이기 떄문에 배열로 선언
+	var m_name = new Array(); // document의 methodname에 해당되는 input 태그의 id를 받아와 저장할 배열(위와 동일)
+	var select_val = new Array(); // document의 select box(value)의 값을 저장하기 위한 배열
+	var select_method = new Array(); // document의 select box(method)의 값을 저장하기 위한 배열
+
+	// 중복체크 함수
+	function Duplication_Check() {
+		alert('중복check');
+		if (check_package == "Controller") {
+			for (var i = 0; i < controllerList.length; i++) {
+				if (controllerList[i].classname != document
+						.getElementById("classname").value
+						+ "Controller") {
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				} else {
+					alert("Controller의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
 			}
-		}
-		
-		// select box의 값이 선택되면 메소드명 앞에 select box의 값을 붙여줌.
-		for(var j=0; j<m_count; j++){
-			if(select_method[j].value == "init"){
-				str_methodname[j] = m_name[j].value;
-			}else{
-				str_methodname[j] = select_method[j].value + " " +m_name[j].value;
+		} else if (check_package == "Service") {
+			for (var i = 0; i < serviceList.length; i++) {
+				if (serviceList[i].classname != document
+						.getElementById("classname").value
+						+ "Service") {
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				} else {
+					alert("Service의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
+			}
+		} else if (check_package == "DAO") {
+			for (var i = 0; i < daoList.length; i++) {
+				if (daoList[i].classname != document
+						.getElementById("classname").value
+						+ "DAO") {
+					c_name = document.getElementById("classname").value;
+					check_name = true;
+				} else {
+					alert("DAO의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
+			}
+		} else if (check_package == "mvc") {
+			var check_name_con;
+			var check_name_ser;
+			var check_name_dao;
+
+			for (var i = 0; i < controllerList.length; i++) {
+				if (controllerList[i].classname != document
+						.getElementById("classname").value
+						+ "Controller") {
+					c_name = document.getElementById("classname").value;
+					check_name_con = true;
+				} else {
+					alert("Controller의 Name이 중복 됩니다.");
+					check_name_con = false;
+					break;
+				}
+			}
+
+			for (var i = 0; i < serviceList.length; i++) {
+				if (serviceList[i].classname != document
+						.getElementById("classname").value
+						+ "Service") {
+					c_name = document.getElementById("classname").value;
+					check_name_ser = true;
+				} else {
+					alert("Service의 Name이 중복 됩니다.");
+					check_name_ser = false;
+					break;
+				}
+			}
+
+			for (var i = 0; i < daoList.length; i++) {
+				if (daoList[i].classname != document
+						.getElementById("classname").value
+						+ "DAO") {
+					c_name = document.getElementById("classname").value;
+					check_name_dao = true;
+				} else {
+					alert("DAO의 Name이 중복 됩니다.");
+					check_name_dao = false;
+					break;
+				}
+			}
+
+			if (check_name_con == true && check_name_ser == true
+					&& check_name_dao == true) {
+				check_name = true;
+			} else {
+				check_name = false;
+			}
+		} else {
+			for (var i = 0; i < classList.length; i++) {
+				if (classList[i].classname != document
+						.getElementById("classname").value
+						+ "_basic") {
+					c_name = document.getElementById("classname").value
+							+ "_basic";
+					check_name = true;
+				} else {
+					alert("Class의 Name이 중복 됩니다.");
+					check_name = false;
+					break;
+				}
 			}
 		}
 	}
-		
-	// 각각 들어오는 check_package의 값에 따라서 classname을 따로 저장
-	if(check_package == "Controller"){
-		// class name이 중복되지 않고 null이 아니면 값을 list에 저장. 
-		alert("controller"+check_name);
-		if(check_name == true && c_name != ""){
-			gubun=1;
-			
 
-			Connect_PointSave();
-			str_className += "Controller";
-			
-			controller = new element();
-			controller.classname = str_className;
-			controller.valuename = str_valuename;
-			controller.methodname = str_methodname;
-			controller.point_X = coordinate_X;
-			controller.point_Y = coordinate_Y;
-			
-			
-			
-		}
-	}else if(check_package == "Service"){
-		if(check_name == true && c_name != ""){
-			gubun=2;
-			Connect_PointSave();
-			str_className += "Service"
+	// 연결할 class를 탐색해줌.
+	function Connect_Class_Check() {
+		if (check_package == "Controller") {
+			for (var i = 0; i < serviceList.length; i++) {
+				if (connectclass == serviceList[i].classname) {
+					index = i;
+					conn_ser = true;
+					break;
+				} else {
+					conn_ser = false;
+				}
+			}
+
+			for (var i = 0; i < daoList.length; i++) {
+				if (connectclass == daoList[i].classname) {
+					index = i;
+					conn_dao = true;
+					break;
+				} else {
+					conn_dao = false;
+				}
+			}
+
+			/*	for(var i=0;i<classList.length;i++){
+					if(connectclass == classList[i].classname){
+						index = i;
+
+						conn_basic = true;
+					}else{
+						conn_basic = false;
+					}
+				}*/
+
+		} else if (check_package == "Service") {
+			for (var i = 0; i < controllerList.length; i++) {
+				if (connectclass == controllerList[i].classname) {
+					index = i;
+					conn_con = true;
+					break;
+				} else {
+					conn_con = false;
+				}
+			}
+
+			for (var i = 0; i < daoList.length; i++) {
+				if (connectclass == daoList[i].classname) {
+					index = i;
+					conn_dao = true;
+					break;
+				} else {
+					conn_dao = false;
+				}
+			}
+
+			/*for(var i=0;i<classList.length;i++){
+				if(connectclass == classList[i].classname){
+					index = i;
+					conn_basic = true;
+				}else{
+					conn_basic = false;
+				}
+			}*/
+
+		} else if (check_package == "DAO") {
+			for (var i = 0; i < controllerList.length; i++) {
+				if (connectclass == controllerList[i].classname) {
+					index = i;
+					conn_con = true;
+					break;
+				} else {
+					conn_con = false;
+				}
+			}
+
+			for (var i = 0; i < serviceList.length; i++) {
+				if (connectclass == serviceList[i].classname) {
+					index = i;
+					conn_ser = true;
+					break;
+				} else {
+					conn_ser = false;
+				}
+			}
+
+			/*for(var i=0;i<classList.length;i++){
+				if(connectclass == classList[i].classname){
+					index = i;
+
+					conn_basic = true;
+				}else{
+					conn_basic = false;
+				}
+			}*/
+
+		}/*else{
+				for(var i=0;i<controllerList.length;i++){
+					if(connectclass == controllerList[i].classname){
+						index = i;
+						conn_con = true;
+					}else{
+						conn_con = false;
+					}
+				}
 				
-			service = new element();
-			service.classname = str_className;
-			service.valuename = str_valuename;
-			service.methodname = str_methodname;
-			service.point_X = coordinate_X;
-			service.point_Y = coordinate_Y;
-			
-		}
-	}else if(check_package == "DAO"){
-		if(check_name == true && c_name != ""){
-			gubun=3;
-			Connect_PointSave();
-			str_className += "DAO";
-			
-			dao = new element();
-			dao.classname = str_className;
-			dao.valuename = str_valuename;
-			dao.methodname = str_methodname;
-			dao.point_X = coordinate_X;
-			dao.point_Y = coordinate_Y;
-			
-			
-		}
-	}else if(check_package == "mvc"){
-		if(check_name == true && c_name != ""){
-			gubun=4;
-			controller = new element();
-			service = new element();
-			dao = new element();
-			
-			// controller 값을 list에 저장
-			Connect_PointSave();
-			str_className = c_name + "Controller";
-			controller.classname = str_className;
-			controller.valuename = str_valuename;
-			controller.methodname = str_methodname;
-			controller.point_X = coordinate_X;
-			controller.point_Y = coordinate_Y;
-			isConn=false;
-			
-			
-			//DrawClass();
-			EmitCanvas(1);
-			
-			con_pointx = coordinate_X;
-			con_pointy = coordinate_Y;
-			
-			// service 값을 list에 저장
-			xpos = xpos + 200;
-			ypos = ypos + 200;
-			Connect_PointSave();
-			
-			str_className = c_name + "Service";
-			service.classname = str_className;
-			service.valuename = str_valuename;
-			service.methodname = str_methodname;
-			service.point_X = coordinate_X;
-			service.point_Y = coordinate_Y;
-			isConn=true;
-			
-			
-			
-			//DrawConnect();
-			//DrawClass();
-			EmitCanvas(2);
+				for(var i=0;i<serviceList.length;i++){
+					if(connectclass == serviceList[i].classname){
+						index = i;
+						conn_ser = true;
+					}else{
+						conn_ser = false;
+					}
+				}
+				
+				for(var i=0;i<daoList.length;i++){
+					if(connectclass == daoList[i].classname){
+						index = i;
+						conn_dao = true;
+					}else{
+						conn_dao = false;
+					}
+				}
+				
+				for(var i=0;i<classList.length;i++){
+					if(connectclass == classList[i].classname){
+						index = i;
+						conn_basic = true;
+					}else{
+						conn_basic = false;
+					}
+				}
+			}*/
+	}
 
-			con_pointx = coordinate_X;
-			con_pointy = coordinate_Y;
-			
-			//dao 값을 list에 저장
-			xpos = xpos + 200;
-			ypos = ypos + 200;
-			Connect_PointSave();
-			
-			str_className = c_name + "DAO";
-			dao.classname = str_className;
-			dao.valuename = str_valuename;
-			dao.methodname = str_methodname;
-			dao.point_X = coordinate_X;
-			dao.point_Y = coordinate_Y;
-			isConn=true;
-			
-			
-			//DrawConnect();
-			//DrawClass();
-			EmitCanvas(3);
-			
-			
+	function Connection_Class() {
+
+		Connect_Class_Check();
+
+		if (conn_con == true) {
+			con_pointx = controllerList[index].point_X;
+			con_pointy = controllerList[index].point_Y;
+
+		} else if (conn_ser == true) {
+			con_pointx = serviceList[index].point_X;
+			con_pointy = serviceList[index].point_Y;
+
+		} else if (conn_dao == true) {
+			con_pointx = daoList[index].point_X;
+			con_pointy = daoList[index].point_Y;
+
+		}/*else if(conn_basic == true){ 
+				con_pointx = classList[index].point_X;
+				con_pointy = classList[index].point_Y;
+				
+			}*/
+
+	}
+
+	// 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.
+	function OnOK() {
+		alert('ok');
+		Connect_PointSave();
+
+		// 먼저 중복체크를 해서 이름이 같은 class가 있으면 class가 생성이 안되게 만듬.
+		Duplication_Check();
+
+		connectclass = document.getElementById("connectclass").value;
+		if (connectclass != "" || connectclass != "init") {
+			isConn = true;
+			Connection_Class();
 		}
-	}else{
-			gubun=0;
+
+		// 중복된 class의 이름이 없으면 document의 값을 받아와 배열에 저장
+		if (check_name == true) {
+			for (var i = 0; i < val_count; i++) {
+				v_name[i] = document.getElementById("valuename" + i);
+				select_val[i] = document.getElementById("select_value" + i);
+			}
+
+			for (var i = 0; i < m_count; i++) {
+				m_name[i] = document.getElementById("methodname" + i);
+				select_method[i] = document.getElementById("select_method" + i);
+			}
+
+			// 각 document의 값들을 저장.
+			if (check_package != "mvc") {
+				str_className = c_name;
+			}
+
+			// select box의 값이 선택되면 변수명 앞에 select box의 값을 붙여줌.
+			for (var j = 0; j < val_count; j++) {
+				if (select_val[j].value == "init") {
+					str_valuename[j] = v_name[j].value;
+				} else {
+					str_valuename[j] = select_val[j].value + " "
+							+ v_name[j].value;
+				}
+			}
+
+			// select box의 값이 선택되면 메소드명 앞에 select box의 값을 붙여줌.
+			for (var j = 0; j < m_count; j++) {
+				if (select_method[j].value == "init") {
+					str_methodname[j] = m_name[j].value;
+				} else {
+					str_methodname[j] = select_method[j].value + " "
+							+ m_name[j].value;
+				}
+			}
+		}
+
+		// 각각 들어오는 check_package의 값에 따라서 classname을 따로 저장
+		if (check_package == "Controller") {
+			// class name이 중복되지 않고 null이 아니면 값을 list에 저장. 
+			alert("controller" + check_name);
+			if (check_name == true && c_name != "") {
+				gubun = 1;
+
+				Connect_PointSave();
+				str_className += "Controller";
+
+				controller = new element();
+				controller.classname = str_className;
+				controller.valuename = str_valuename;
+				controller.methodname = str_methodname;
+				controller.point_X = coordinate_X;
+				controller.point_Y = coordinate_Y;
+
+			}
+		} else if (check_package == "Service") {
+			if (check_name == true && c_name != "") {
+				gubun = 2;
+				Connect_PointSave();
+				str_className += "Service"
+
+				service = new element();
+				service.classname = str_className;
+				service.valuename = str_valuename;
+				service.methodname = str_methodname;
+				service.point_X = coordinate_X;
+				service.point_Y = coordinate_Y;
+
+			}
+		} else if (check_package == "DAO") {
+			if (check_name == true && c_name != "") {
+				gubun = 3;
+				Connect_PointSave();
+				str_className += "DAO";
+
+				dao = new element();
+				dao.classname = str_className;
+				dao.valuename = str_valuename;
+				dao.methodname = str_methodname;
+				dao.point_X = coordinate_X;
+				dao.point_Y = coordinate_Y;
+
+			}
+		} else if (check_package == "mvc") {
+			if (check_name == true && c_name != "") {
+				gubun = 4;
+				controller = new element();
+				service = new element();
+				dao = new element();
+
+				// controller 값을 list에 저장
+				Connect_PointSave();
+				str_className = c_name + "Controller";
+				controller.classname = str_className;
+				controller.valuename = str_valuename;
+				controller.methodname = str_methodname;
+				controller.point_X = coordinate_X;
+				controller.point_Y = coordinate_Y;
+				isConn = false;
+
+				//DrawClass();
+				EmitCanvas(1);
+
+				con_pointx = coordinate_X;
+				con_pointy = coordinate_Y;
+
+				// service 값을 list에 저장
+				xpos = xpos + 200;
+				ypos = ypos + 200;
+				Connect_PointSave();
+
+				str_className = c_name + "Service";
+				service.classname = str_className;
+				service.valuename = str_valuename;
+				service.methodname = str_methodname;
+				service.point_X = coordinate_X;
+				service.point_Y = coordinate_Y;
+				isConn = true;
+
+				//DrawConnect();
+				//DrawClass();
+				EmitCanvas(2);
+
+				con_pointx = coordinate_X;
+				con_pointy = coordinate_Y;
+
+				//dao 값을 list에 저장
+				xpos = xpos + 200;
+				ypos = ypos + 200;
+				Connect_PointSave();
+
+				str_className = c_name + "DAO";
+				dao.classname = str_className;
+				dao.valuename = str_valuename;
+				dao.methodname = str_methodname;
+				dao.point_X = coordinate_X;
+				dao.point_Y = coordinate_Y;
+				isConn = true;
+
+				//DrawConnect();
+				//DrawClass();
+				EmitCanvas(3);
+
+			}
+		} else {
+			gubun = 0;
 			basic_class = new element();
 			basic_class.classname = str_className + "_basic";
 			basic_class.valuename = str_valuename;
 			basic_class.methodname = str_methodname;
 			basic_class.point_X = coordinate_X;
 			basic_class.point_Y = coordinate_Y;
-			
+
 			classList[bc_cnt] = basic_class;
-			
+
 			bc_cnt++;
-	}
-	
-	
-	// 중복이 되지 않을 경우에만 canvas를 그려줌. (전체 그려주는 button을 누르지 않았을 경우)
-	if(check_package != "mvc"){
-		alert('mvc아닐때'+gubun);
-		if(check_name == true && connectclass != "init"){
-			if(c_name != ""){
-				Connect_PointSave();
-				//DrawConnect();
-				//DrawClass();
-				isConn=true;
-				EmitCanvas(gubun);
-			}
-			else{
-				alert("Class Name을 입력해주세요.");
-				FormInit();
-			}
-		}else if(check_name == true && connectclass == "init"){
-			if(c_name != ""){
-				Connect_PointSave();
-				isConn=false;
-				EmitCanvas(gubun);
-			}
-			else{
-				alert("Class Name을 입력해주세요.");
-				FormInit();
+		}
+
+		// 중복이 되지 않을 경우에만 canvas를 그려줌. (전체 그려주는 button을 누르지 않았을 경우)
+		if (check_package != "mvc") {
+			alert('mvc아닐때' + gubun);
+			if (check_name == true && connectclass != "init") {
+				if (c_name != "") {
+					Connect_PointSave();
+					//DrawConnect();
+					//DrawClass();
+					isConn = true;
+					EmitCanvas(gubun);
+				} else {
+					alert("Class Name을 입력해주세요.");
+					FormInit();
+				}
+			} else if (check_name == true && connectclass == "init") {
+				if (c_name != "") {
+					Connect_PointSave();
+					isConn = false;
+					EmitCanvas(gubun);
+				} else {
+					alert("Class Name을 입력해주세요.");
+					FormInit();
+				}
 			}
 		}
+
+		FormInit();
 	}
-	
-	
-	
-	FormInit();
-}
 
-function OnCancel() {
-	FormInit();
-}
-
-
-
-
-
+	function OnCancel() {
+		FormInit();
+	}
 
 	//그려주는 함수들
 
-	
- 	// DrawLine을 하기 위해서는 길이가 저장 되어있어야 함.
+	// DrawLine을 하기 위해서는 길이가 저장 되어있어야 함.
 	var i = 0;
 	var j = 0;
 
-function DrawClass(x, y, cl, w, vc, mc){
-	
-	context.strokeRect(x, y, base_xpos, base_ypos + 20*(con_num + vc) +15*mc);
-	
-	// classname 배열에 마지막에 저장된 class name을 출력
-	context.fillText(cl.classname, x + 10, y + 15 * con_num);
-	
-	for (i = 0; i < vc; i++) {
-		context.fillText(cl.valuename[i], x+10, y+20 * con_num + 15*(i+1));
+	function DrawClass(x, y, cl, w, vc, mc) {
+
+		context.strokeRect(x, y, base_xpos, base_ypos + 20 * (con_num + vc)
+				+ 15 * mc);
+
+		// classname 배열에 마지막에 저장된 class name을 출력
+		context.fillText(cl.classname, x + 10, y + 15 * con_num);
+
+		for (i = 0; i < vc; i++) {
+			context.fillText(cl.valuename[i], x + 10, y + 20 * con_num + 15
+					* (i + 1));
+		}
+
+		for (j = 0; j < mc; j++) {
+			context.fillText(cl.methodname[j], x + 10, y + 20 * con_num + 15
+					* (i + 1) + 15 * (j + 1));
+		}
+
+		DrawLine(x, y, w, vc);
+
 	}
 
-	for (j = 0; j < mc; j++) {
-		context.fillText(cl.methodname[j], x+10, y+20 * con_num + 15*(i+1)+ 15*(j+1));
+	// class의 좌표를 이어주기 위한 함수. ( list에 저장하기 전에 DrawClass()를 사용하기 전에 사용.)
+	function Connect_PointSave() {
+
+		width = xpos + base_xpos;
+		height = ypos + base_ypos;
+
+		coordinate_X = width;
+		coordinate_Y = height + 20 * (con_num + val_count) + 15 * m_count;
 	}
-	
-	DrawLine(x,y,w,vc);
 
-}
+	// 각 구간을 나누어 주는 선 그리기 ( class 이름과 value, method 구간을 나누어줌)
+	function DrawLine(x, y, w, vc) {
+		context.beginPath();
+		context.moveTo(x, y + 20 * con_num);
+		context.lineTo(w, y + 20 * con_num);
 
-// class의 좌표를 이어주기 위한 함수. ( list에 저장하기 전에 DrawClass()를 사용하기 전에 사용.)
-function Connect_PointSave(){
-	
-	width = xpos + base_xpos;
-	height = ypos + base_ypos;
-	
-	coordinate_X = width;
-	coordinate_Y = height + 20*(con_num + val_count) + 15*m_count;
-}
-
-// 각 구간을 나누어 주는 선 그리기 ( class 이름과 value, method 구간을 나누어줌)
-function DrawLine(x,y,w,vc) {
-	context.beginPath();
-	context.moveTo(x, y + 20 * con_num);
-	context.lineTo(w, y + 20 * con_num);
-
-	if (vc != 0) {
-		context.moveTo(x, 15 + y + 15*(i+1));
-		context.lineTo(w, 15 + y + 15*(i+1));
+		if (vc != 0) {
+			context.moveTo(x, 15 + y + 15 * (i + 1));
+			context.lineTo(w, 15 + y + 15 * (i + 1));
+		}
+		context.stroke();
 	}
-	context.stroke();
-}
 
-// 선을 그리는 함수
-function DrawConnect(x,y,con_px,con_py){
-	context.beginPath();
-	context.moveTo(con_px, con_py);
-	context.lineTo(x, y);
-	context.stroke();
-}
-
-
-/*
-// 각 class 간의 연결관계를 이어줌
-function Conn_Class() {
-	
-	if(check_package == "Controller"){
-		con_pointx = controllerList[index].point_X;
-		con_pointy = controllerList[index].point_Y;
-		
-		DrawConnect();
-	}else if(check_package == "Service"){
-		con_pointx = serviceList[index].point_X;
-		con_pointy = serviceList[index].point_Y;
-		
-		DrawConnect();
-	}else if(check_package == "DAO"){
-		con_pointx = daoList[index].point_X;
-		con_pointy = daoList[index].point_Y;
-		
-		DrawConnect();
+	// 선을 그리는 함수
+	function DrawConnect(x, y, con_px, con_py) {
+		context.beginPath();
+		context.moveTo(con_px, con_py);
+		context.lineTo(x, y);
+		context.stroke();
 	}
+
+	/*
+	 // 각 class 간의 연결관계를 이어줌
+	 function Conn_Class() {
+	
+	 if(check_package == "Controller"){
+	 con_pointx = controllerList[index].point_X;
+	 con_pointy = controllerList[index].point_Y;
+	
+	 DrawConnect();
+	 }else if(check_package == "Service"){
+	 con_pointx = serviceList[index].point_X;
+	 con_pointy = serviceList[index].point_Y;
+	
+	 DrawConnect();
+	 }else if(check_package == "DAO"){
+	 con_pointx = daoList[index].point_X;
+	 con_pointy = daoList[index].point_Y;
+	
+	 DrawConnect();
+	 }
 	
 
-}
-*/
+	 }
+	 */
 
-// 상관없는 class를 그릴 때...
-function onedraw(x,y,cl,w,vc,mc) {
-	DrawClass(x,y,cl,w,vc,mc);
-}
+	// 상관없는 class를 그릴 때...
+	function onedraw(x, y, cl, w, vc, mc) {
+		DrawClass(x, y, cl, w, vc, mc);
+	}
 
-// class끼리 연결 시켜줄 때...
-function connectdraw(x,y,cl,w,vc,mc,conn_c,con_px,con_py) {
-	DrawConnect(x,y,con_px,con_py);
-	DrawClass(x,y,cl,w,vc,mc);
-}
+	// class끼리 연결 시켜줄 때...
+	function connectdraw(x, y, cl, w, vc, mc, conn_c, con_px, con_py) {
+		DrawConnect(x, y, con_px, con_py);
+		DrawClass(x, y, cl, w, vc, mc);
+	}
 
-     
+	$(document)
+			.ready(
+					function() {
 
+						//버튼누르면 프로젝트파일생성하라고 서버에 emit 
+						$('body > button').click(function() {
 
+							socket.emit('createpj'); // 소켓 이벤트 발생
 
+						});
 
+						// 이벤트 연결
 
+						canvas.onmousedown = function(event) {
+							context.beginPath();
+							isDown = true; // 눌렀다
 
-	
-    $(document).ready(function(){
+							point = new Point(event, this); // 현재 마우스 위치를 기록
+							xpos = point.x;
+							ypos = point.y;
 
+							if (isDown && list_click) {
 
+								Dynamic_Connect_List();
+								$("#myModal").modal();
+								list_click = false;
 
-	//버튼누르면 프로젝트파일생성하라고 서버에 emit 
-	$('body > button').click(function (){
-                  
-                socket.emit('createpj');       // 소켓 이벤트 발생
-              
-         });
+							}
+							context.stroke();
 
-	
+						};
 
+						canvas.onmouseup = function() {
+							isDown = false;
+						};
 
+						canvas.onmousemove = function(event) {
 
+							isDown = false;
 
+						};
 
+						// 캔버스 안에 그려줄 화면 크기
+						context.beginPath();
+						context.rect(0, 0, 1200, 1200);
+						context.stroke();
 
-	
-
-
-
-
-
-        // 이벤트 연결
-
-        canvas.onmousedown = function(event){
-	    context.beginPath();
-            isDown = true;      // 눌렀다
-	
-            point= new Point(event, this);      // 현재 마우스 위치를 기록
-	    xpos=point.x;
-	    ypos=point.y;
-		
-	    if(isDown&&list_click){
-
-			Dynamic_Connect_List();
-			$("#myModal").modal();
-			list_click = false;
-            
-       
-
-
-            }
-	context.stroke();
-
-        };
-
-        canvas.onmouseup = function(){ isDown = false; };
-
-        canvas.onmousemove = function(event) {
-
-           isDown =false;
-
-        };
-
-
-// 캔버스 안에 그려줄 화면 크기
-context.beginPath();
-context.rect(0, 0, 1200, 1200);
-context.stroke();
-     
-//서버에서 이미 그려진 캔버스데이터
-//나중에 함수로..
-var creator=false;
-<% var m=0;
+						//서버에서 이미 그려진 캔버스데이터
+						//나중에 함수로..
+						var creator = false;
+						<% var m=0;
   var n=0;
 
-if(canvaslist.length==0){%>   //방생성자면 
-//기본 mvc클래스 그려주기
-	var creator=true;
-	context.beginPath();
-	
-	xpos = 50;
-	ypos = 50;
-	str_className = "ExamController";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
-	gubun=1;
-	Connect_PointSave();
-	
-	controller = new element();
-	controller.classname = str_className;
-	controller.valuename = str_valuename;
-	controller.methodname = str_methodname;
-	controller.point_X = coordinate_X;
-	controller.point_Y = coordinate_Y;
-	con_pointx=coordinate_X;
-	con_pointy=coordinate_Y;
-	
-	
-	//DrawClass();
-	EmitCanvas(1);	
+if(canvaslist.length==0){%> //방생성자면 
+						//기본 mvc클래스 그려주기
+						var creator = true;
+						context.beginPath();
 
-	
+						xpos = 50;
+						ypos = 50;
+						str_className = "ExamController";
+						str_valuename[0] = "value1";
+						str_valuename[1] = "value2";
+						val_count = str_valuename.length;
+						str_methodname[0] = "method1";
+						str_methodname[1] = "method2";
+						m_count = str_methodname.length;
+						gubun = 1;
+						Connect_PointSave();
 
-	xpos = 250;
-	ypos = 250;
-	str_className = "ExamService";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
-	gubun=2;
-	Connect_PointSave();
-	
-	service = new element();
-	service.classname = str_className;
-	service.valuename = str_valuename;
-	service.methodname = str_methodname;
-	service.point_X = coordinate_X;
-	service.point_Y = coordinate_Y;
-	
-	
-	check_package = "Controller";
-	index = 0;
-	//DrawConnect();
-	//DrawClass();
-	isConn=true;
-	EmitCanvas(2);
+						controller = new element();
+						controller.classname = str_className;
+						controller.valuename = str_valuename;
+						controller.methodname = str_methodname;
+						controller.point_X = coordinate_X;
+						controller.point_Y = coordinate_Y;
+						con_pointx = coordinate_X;
+						con_pointy = coordinate_Y;
 
-	con_pointx=coordinate_X;
-	con_pointy=coordinate_Y;
-	
-	
-	xpos = 450;
-	ypos = 450;
-	str_className = "ExamDAO";
-	str_valuename[0] = "value1";
-	str_valuename[1] = "value2";
-	val_count = str_valuename.length;
-	str_methodname[0] = "method1";
-	str_methodname[1] = "method2";
-	m_count = str_methodname.length;
-	
-	Connect_PointSave();
-	
-	dao = new element();
-	dao.classname = str_className;
-	dao.valuename = str_valuename;
-	dao.methodname = str_methodname;
-	dao.point_X = coordinate_X;
-	dao.point_Y = coordinate_Y;
-	gubun=3;
-	
-	
-	check_package = "Service";
-	index = 0;
-	//DrawConnect();
-	//DrawClass();
-	isConn=true;
-	EmitCanvas(3);
-	
-	
-	
-	// 초기에 index의 값을 초기화해줌.
-	con_pointx = 0;
-	con_pointy = 0;
-	val_count = 1;
-	m_count = 1;
-	index = -1;
-	check_package = "";
-	
-	
+						//DrawClass();
+						EmitCanvas(1);
 
-	context.stroke();
+						xpos = 250;
+						ypos = 250;
+						str_className = "ExamService";
+						str_valuename[0] = "value1";
+						str_valuename[1] = "value2";
+						val_count = str_valuename.length;
+						str_methodname[0] = "method1";
+						str_methodname[1] = "method2";
+						m_count = str_methodname.length;
+						gubun = 2;
+						Connect_PointSave();
 
-	context.closePath();
-	
-	
+						service = new element();
+						service.classname = str_className;
+						service.valuename = str_valuename;
+						service.methodname = str_methodname;
+						service.point_X = coordinate_X;
+						service.point_Y = coordinate_Y;
 
+						check_package = "Controller";
+						index = 0;
+						//DrawConnect();
+						//DrawClass();
+						isConn = true;
+						EmitCanvas(2);
 
-<%}else{
+						con_pointx = coordinate_X;
+						con_pointy = coordinate_Y;
+
+						xpos = 450;
+						ypos = 450;
+						str_className = "ExamDAO";
+						str_valuename[0] = "value1";
+						str_valuename[1] = "value2";
+						val_count = str_valuename.length;
+						str_methodname[0] = "method1";
+						str_methodname[1] = "method2";
+						m_count = str_methodname.length;
+
+						Connect_PointSave();
+
+						dao = new element();
+						dao.classname = str_className;
+						dao.valuename = str_valuename;
+						dao.methodname = str_methodname;
+						dao.point_X = coordinate_X;
+						dao.point_Y = coordinate_Y;
+						gubun = 3;
+
+						check_package = "Service";
+						index = 0;
+						//DrawConnect();
+						//DrawClass();
+						isConn = true;
+						EmitCanvas(3);
+
+						// 초기에 index의 값을 초기화해줌.
+						con_pointx = 0;
+						con_pointy = 0;
+						val_count = 1;
+						m_count = 1;
+						index = -1;
+						check_package = "";
+
+						context.stroke();
+
+						context.closePath();
+
+						<%}else{
 	for(var k=0; k<canvaslist.length;k++){
 		if(canvaslist[k].gb==1){%>
-			controllerList[con_cnt] =  <%- JSON.stringify(canvaslist[k].class)%>;		
-			con_cnt++;
-		<%}else if(canvaslist[k].gb==2){%>
-			serviceList[ser_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;		
-			ser_cnt++;
-		<%}else if(canvaslist[k].gb==3){%>
-			daoList[dao_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
-			dao_cnt++;
-		<%}else if(canvaslist[k].gb==0){%>
-			classList[bc_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
-			bc_cnt++;
-		<%}%>	
-	
-       	 
-		context.beginPath();
-            
-	
-		<%if(canvaslist[k].isconn){%>
-			alert('연결그려주기');
-			connectdraw(<%=canvaslist[k].x%>,<%=canvaslist[k].y%>,<%- JSON.stringify(canvaslist[k].class)%>,<%=canvaslist[k].width%>,<%=canvaslist[k].vc%>,<%=canvaslist[k].mc%>,'<%=canvaslist[k].conn_c%>',<%=canvaslist[k].con_px%>,<%=canvaslist[k].con_py%>);
-	
-	
-		<%}else if(!canvaslist[k].isconn){%>
-			alert('그냥그려주기');
-			onedraw(<%=canvaslist[k].x%>,<%=canvaslist[k].y%>,<%- JSON.stringify(canvaslist[k].class)%>,<%=canvaslist[k].width%>,<%=canvaslist[k].vc%>,<%=canvaslist[k].mc%>);
-		
-		<%}%>
-	
-		context.stroke();
+						controllerList[con_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;
+						con_cnt++;
+						<%}else if(canvaslist[k].gb==2){%>
+						serviceList[ser_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;
+						ser_cnt++;
+						<%}else if(canvaslist[k].gb==3){%>
+						daoList[dao_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;
+						dao_cnt++;
+						<%}else if(canvaslist[k].gb==0){%>
+						classList[bc_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;
+						bc_cnt++;
+						<%}%>
 
-		MVC_List_View();
-	
-<%	}
+						context.beginPath();
+
+						<%if(canvaslist[k].isconn){%>
+						alert('연결그려주기');
+						connectdraw(<%=canvaslist[k].x%>, <%=canvaslist[k].y%>,
+								<%- JSON.stringify(canvaslist[k].class)%>,
+								<%=canvaslist[k].width%>,
+								<%=canvaslist[k].vc%>, <%=canvaslist[k].mc%>,
+								'<%=canvaslist[k].conn_c%>',
+								<%=canvaslist[k].con_px%>,
+								<%=canvaslist[k].con_py%>);
+
+						<%}else if(!canvaslist[k].isconn){%>
+						alert('그냥그려주기');
+						onedraw(<%=canvaslist[k].x%>, <%=canvaslist[k].y%>,
+								<%- JSON.stringify(canvaslist[k].class)%>,
+								<%=canvaslist[k].width%>,
+								<%=canvaslist[k].vc%>, <%=canvaslist[k].mc%>);
+
+						<%}%>
+
+						context.stroke();
+
+						MVC_List_View();
+
+						<%	}
 }%>
 
+						//여기까지 이미 작성된 캔버스 그려주기.
 
-//여기까지 이미 작성된 캔버스 그려주기.
-	
+						//캔버스 그려주기
+						socket.on('line', function(data) {
 
+							if (data.gb == 1) {
+								controllerList[con_cnt] = data.class;
+								con_cnt++;
+							} else if (data.gb == 2) {
+								serviceList[ser_cnt] = data.class;
+								ser_cnt++;
+							} else if (data.gb == 3) {
+								daoList[dao_cnt] = data.class;
+								dao_cnt++;
+							} else if (data.gb == 0) {
+								classList[bc_cnt] = data.class;
+								bc_cnt++;
+							}
 
+							//context.strokeStyle = data.color;
+							context.beginPath();
 
+							if (data.isconn) {
+								alert('연결그려주기');
+								connectdraw(data.x, data.y, data.class,
+										data.width, data.vc, data.mc,
+										data.conn_c, data.con_px, data.con_py);
 
+							} else if (!data.isconn) {
+								alert('그냥그려주기');
+								onedraw(data.x, data.y, data.class, data.width,
+										data.vc, data.mc);
 
-	
+							}
 
-//캔버스 그려주기
-     socket.on('line', function(data){
-	
-	if(data.gb==1){
-		controllerList[con_cnt] = data.class;			
-		con_cnt++;
-	}else if(data.gb==2){
-		serviceList[ser_cnt] = data.class;			
-		ser_cnt++;
-	}else if(data.gb==3){
-		daoList[dao_cnt] = data.class;			
-		dao_cnt++;
-	}else if(data.gb==0){
-		classList[bc_cnt] = data.class;			
-		bc_cnt++;
-	}
-	
-        //context.strokeStyle = data.color;
-	context.beginPath();
-            
-	
-	if(data.isconn){
-		alert('연결그려주기');
-		connectdraw(data.x,data.y,data.class,data.width,data.vc,data.mc,data.conn_c,data.con_px,data.con_py);
-	
-	
-	}else if(!data.isconn){
-		alert('그냥그려주기');
-		onedraw(data.x,data.y,data.class,data.width,data.vc,data.mc);
-		
-	}
-	
-	context.stroke();
+							context.stroke();
 
-	MVC_List_View();
-	
+							MVC_List_View();
 
-        });
+						});
 
+					});
+</script>
 
-        
+<script>
+	$(document)
+			.ready(
+					function() {
 
+						//참여자 목록을 보여주는 리스트 숨김
+						$('#p_list').hide();
+						//보이기 버튼을 클릭 했을 시에 참여자 목록을 보여주거나 숨겨준다.
+						$('#divView').click(function() {
+							var state = $('#p_list').css('display');
+							//숨겨진 상태
+							if (state == 'none') {
+								//0.5초 의 지연으로 보여짐.
+								$('#p_list').show(500);
 
-    });
+							}
+							//보여지는 상태
+							else {
+								//0.5초의 지연으로 사라짐
+								$('#p_list').hide(500);
+							}
 
+						});
 
+						// /temp?id=""&room="" 정보를 받아와서 ejs특수태그를 이용해 받아옴.
+						var id = '<%= userid %>';
+						//채팅자 이름에 집어넣음
+						document.getElementById("chatName").value = id;
 
+						//룸 이름에 집어넣음
+						var roomname = '<%= room %>';
+						document.getElementById("room").value = roomname;
 
-    </script>
+						var socket = io.connect(); // 소켓 이벤트를 연결
 
+						/**
+							참여자 목록 영역
+						 */
+						var participant = [];
 
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			
-	
-			<div class="chat_css col-md-3">
-			<table border="1px ">
-				<div class="chatContent" style = "overflow:scroll; overflow-x:hidden">
-					<div id="chatContent" >
+						var check;
 
-					</div>
-				</div>
-				<div class="insert_css">
-					<input id="chatName" value="" readonly="readonly"/>
-					방:<input id="room" value="" readonly="readonly"/>
-					 <input id="chatMessage" type="text"  />
-					메시지 입력:<button id="chatButton">Button</button>
-				</div>
+						//참여자 목록을 서버에 요청함
+						socket.emit('participant');
 
+						//참여자 목록을 받아옴
+						socket.on('participant', function(data) {
+							//참여자 목록을 저장시킨 후
+							participant = data;
+							//참여자목록 div에 뿌려줌
+							$('#participant').text(participant.toString());
+						});
 
-			</table>
-		</div>
-	
-	
-	
-	
-		<input type="button" value="보이기" id="divView"/>		
-	<div id = "p_list">
-		참여자 목록
-		<div id="participant">
-			
-		</div>
-		
-		<input type="button" id="addmail" value="추가"/>
-		
-		
-		<br/>
-		<form id="maillist" name="maillist">
-		
-		</form>
-		
-		
-		<input type="button" value="메일 보내기  "id="sendmail"/>
-																	
-	</div>	
-	
-</body>
-</html>
+						//참여자가 룸을 나갈 시
+						socket.on('exitclient', function(data) {
+							//참여자 목록 배열을 새로 받아서 넣어줌
+							participant = data;
+							$('#participant').text(participant.toString());
+						});
+
+						/**
+							채팅 영역
+						 */
+						socket
+								.on(
+										'chatMessage',
+										function(data) {
+
+											//자신의 이름 체크
+											var me = $('#chatName').val();
+											if (me === data.name) {
+												//이름이 같을 때는 오른쪽에 메세지가 뜨게 한다.
+												var output = '';
+												output += '<div align="right">'
+														+ '<div style="font-weight:900; margin-right: 5px;">'+data.name + '님의 말:'+'</div>';
+												output += '	<p align="left" style="background: yellow; width: 200px; color: black; border-radius:3px; padding: 8px; margin-right: 5px;box-shadow: 0px 2px gray">	' + data.message
+														+ '</p></div>';
+											} else {
+												//이름이 다를 경우 메세지가 오른쪽에 뜨게 한다.
+												var output = '';
+												output += '<div align="left" style="padding-left:10px">'
+														+  '<div style="font-weight:900;">'+data.name + '님의 말:'+'</div>';
+												output += '<p align="left" style="background:white; width:200px; color: black; border-radius:3px; padding: 8px; box-shadow: 0px 2px gray">		' + data.message
+														+ '</p></div>';
+											}
+											//내용 추가
+											$(output).appendTo('#chatContent');
+											//스크롤이 내려가도 가장 마지막 값이 뷰에 보이게 해준다.
+											$('.chatContent')
+													.scrollTop(
+															$('.chatContent')[0].scrollHeight);
+										});
+
+						//엔터키 입력 시
+						$('#chatMessage').keydown(function(event) {
+							if (event.which === 13) {
+								var checkEmpty = $('#chatMessage').val();
+								//아무것도 입력하지 않았을 경우에는 메세지가 입력되지 않는다.
+								if (checkEmpty != "") {
+									//이름이랑 메시지 보냄
+									socket.emit('chatMessage', {
+										name : $('#chatName').val(),
+										message : $('#chatMessage').val()
+									});
+									//채팅창에 입력한 내용 없앰.
+									$('#chatMessage').val("");
+								}
+							}
+
+						});
+
+						//메일 삭제 영역 입력하기
+						$(document).on("click", ".del", function() {
+
+							$(this).parent().remove();
+							mailListValue--;
+
+						});
+
+						//메일 추가 영역
+						$('#addmail')
+								.click(
+										function() {
+											var mailListDiv = $('#maillist')
+													.val();
+
+											var output = '';
+											output += '<div>';
+											//name을 모두 mail로 지정시킨다.
+											output += '<input type="text" name="mail"/>';
+											output += '<input type="button" value="삭제" class="del" name="del"/>';
+											output += '<br/>';
+											output += '</div>';
+
+											$(output).appendTo('#maillist');
+											mailListValue++;
+
+										});
+
+						//메일 보내기 영역
+						$('#sendmail').click(
+								function() {
+
+									var sendList = [];
+									for (var i = 0; i < mailListValue; i++) {
+										//추가시킨 메일 의 name을 모두 mail로 만들어서 추가된 메일칸의  모든 요소를 저장시킨다.
+										var mail = $(
+												"#maillist input[name='mail']")
+												.eq(i).val();
+
+										//저장된 메일을 배열에 추가시킨다.
+										sendList[i] = mail;
+									}
+									//서버에 룸 정보와 보낼 메일 리스트를 보낸다.
+									socket.emit('sendEmail', {
+										room : roomname,
+										mail : sendList
+									});
+								});
+
+						//메일 추가를 위한 변수 지정
+						var mailListValue = 0;
+
+						//버튼 클릭 시
+						$('#chatButton').click(function() {
+							var checkEmpty = $('#chatMessage').val();
+							if (checkEmpty != "") {
+
+								socket.emit('chatMessage', {
+									name : $('#chatName').val(),
+									message : $('#chatMessage').val()
+								});
+								$('#chatMessage').val("");
+							}
+						});
+
+					});
+</script>

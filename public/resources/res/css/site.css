@@ -30,7 +30,6 @@ h1 a {
 /* Form */
 form {
 	margin: 0 0 0 0;
-<<<<<<< HEAD
 }
 
 label {
@@ -43,8 +42,6 @@ label {
 
 input[type="text"], input[type="password"], input[type="email"], select,
 	textarea {
-	
-
 	-ms-appearance: none;
 	appearance: none;
 	-moz-transition: border-color 0.2s ease-in-out;
@@ -55,42 +52,10 @@ input[type="text"], input[type="password"], input[type="email"], select,
 	/* border-radius: 10px; */
 	border: solid 3px rgb(243, 238, 238);
 	color: #887e7e;
-	outline: 0;
-	padding: 0 1em;
-	text-decoration: none;
-	 width: 100%;
-
-=======
-}
-
-label {
-	color: #5a5858;
-	display: block;
-	font-size: 17px;
-	font-weight: 300;
-	margin: 0 0 1em 0;
-}
-
-input[type="text"], input[type="password"], input[type="email"], select,
-	textarea {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	-ms-appearance: none;
-	appearance: none;
-	-moz-transition: border-color 0.2s ease-in-out;
-	-webkit-transition: border-color 0.2s ease-in-out;
-	-ms-transition: border-color 0.2s ease-in-out;
-	transition: border-color 0.2s ease-in-out;
-	background: #fdfdfd;
-	/* border-radius: 10px; */
-	border: solid 3px rgb(243, 238, 238);
-	color: #887e7e;
-	display: block;
 	outline: 0;
 	padding: 0 1em;
 	text-decoration: none;
 	width: 100%;
->>>>>>> e39eb71ed89483a72c818cbd5f5346c31b6a96cb
 }
 
 input[type="text"]:invalid, input[type="password"]:invalid, input[type="email"]:invalid,
@@ -156,15 +121,12 @@ select:focus::-ms-value {
 
 input[type="checkbox"], input[type="radio"] {
 	-moz-appearance: none;
-	
 	-ms-appearance: none;
 	appearance: none;
 	display: block;
 	float: left;
 	margin-right: -2em;
-
 	width: 1em;
-	
 }
 
 input[type="checkbox"]+label, input[type="radio"]+label {
@@ -492,8 +454,8 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
 	display: none;
 }
 
-body{
-	 background-color: white;
+body {
+	background-color: white;
 }
 
 body.landing #page-wrapper {
@@ -508,7 +470,7 @@ body.landing #header {
 
 /* Footer */
 #footer {
-	background: #545458;
+	background: #222222;
 	padding: 1em 0;
 	text-align: center;
 }
@@ -664,47 +626,33 @@ body.landing #header {
 }
 /**************home**********************/
 div.home_css {
-	width: 1000px;
-	height: 697px;
-	padding: 40px 260px 0px 260px;
-	margin: 40px 0px 41px 80px;
-
+	border: solid 1px #eee;
+	/* padding: 50 650 50 650; */
+	height: 782px;
+	background: url(../images/join.jpg);
 }
 /************join*************************/
 div.join_css {
-	width: 1000px;
-	height: 697px;
-	padding: 40px 260px 0px 260px;
-	margin: 40px 0px 41px 80px;
 	border: solid 1px #eee;
+	padding: 50 650 50 650;
+	background: url(../images/join.jpg);
+	height: 782px;
 }
 
 .buttoncss {
-	padding: 40px 0px 52px 105px;
+	padding: 40px 0px 52px 0px;
+	text-align: center;
 }
 
 .join_logo {
 	padding: 20px 55px 30px 0px;
 	font-size: 20px;
 }
-.print{
-	height:40px;
-	    padding: 15px;
-}
-/************login*************************/
-div.login_css {
-	width: 350px;
-	height: 445px;
-	padding: 100px 20px 0px 20px;
-	margin: 70px 0px 10px 470px;
-	border: solid 1px #eee;
-}
 
-.login_buttoncss {
-	padding: 20px 55px 0px 55px;
+.print {
+	height: 40px;
+	padding: 15px;
 }
-
-
 
 #logo {
 	margin: 0px 0px 20px 0px;
@@ -720,93 +668,60 @@ div.login_css {
 	text-align: center;
 }
 
-.login_user li:first-child {
-	border-left: 0;
-	/* margin-left: 0; */
-	margin: 0px 0px 0px 145px;
-	/* padding-left: 0; */
-}
-
-.login_user li {
-	/* border-left: solid 1px #dddddb; */
-	display: inline-block;
-	/* list-style: inherit; */
-	/* margin-left: 1.5em; */
-	/* padding-left: 1.5em; */
-	font-size: 10px;
-}
-
-.login_user li a {
-	color: inherit;
-}
-<<<<<<< HEAD
-
 /************background****************/
 #particles {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    top: 0;                        
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: -2;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	z-index: -2;
 }
 /********************board************************/
 div.notice_css {
-
-	width: 1000px;
-	height: 697px;
-
-=======
-
-/************background****************/
-#particles {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    top: 0;                        
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: -2;
+	width: auto;
+	height: 782px;
+	padding: 40px 500px 41px 500px;
+	background: url(../images/join.jpg);
 }
-/********************board************************/
-div.notice_css {
 
-	width: 1000px;
-	height: 697px;
-
->>>>>>> e39eb71ed89483a72c818cbd5f5346c31b6a96cb
-	margin: 40px 0px 41px 80px;
-	
-}
 div.qna_css {
-<<<<<<< HEAD
+	width: auto;
+	height: 782px;
+	padding: 40px 500px 41px 500px;
+	background: url(../images/join.jpg);
+}
 
-	width: 1000px;
-	height: 697px;
-
-	margin: 40px 0px 41px 80px;
-
+.form-inline {
 
 }
-.form-inline
+
+div.search {
+	width: 1000px;
+	height: 697px;
+	margin: 40px 0px 41px 80px;
+}
+
+div.writer {
+	width: auto;
+	height: 782px;
+	padding: 40px 500px 41px 500px;
+	background: url(../images/join.jpg);
+	s
+}
+
+div.comment {
+	height:
+}
+
+div.log_in
 {
-	height:70px;
+    margin: 0px 150px 0px 0px;
+    float: right;
 }
-div.search{
-	
-	margin: 40px 0px 41px 80px;
-=======
-
-	width: 1000px;
-	height: 697px;
-
-	margin: 40px 0px 41px 80px;
-
-
->>>>>>> e39eb71ed89483a72c818cbd5f5346c31b6a96cb
+.join_t>label {
+    margin: 0px 20px 0px 0px;
 }
