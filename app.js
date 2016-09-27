@@ -40,9 +40,6 @@ function include(file_) {
 
 
 
-
-
-
 //post영역
 var getid;
 var getcanvas;
@@ -60,6 +57,19 @@ app.get('/', function (req, res) {
         res.send(data.toString());
     });
 });
+
+
+var roominfo;
+app.get('/download/', function(req, res) 
+{
+		var filepath =  './mvc' + "/" + roominfo + '.zip';
+		console.log(filepath);
+		res.download(filepath);
+		
+		
+});
+
+
 
 
 //post방식으로 룸이름과 아이디 정보를 받기 위해 /temp쪽으로 이동시킨다.
@@ -279,29 +289,105 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 	
-
 	
-
-	//방에 생성된 클래스리스트 보내주기
-	socket.on('sendClasslist',function(){
-		socket.get('room', function(err, room){
-		var clist=[]; //각 파일에 입력할 정보를 받기위한 변수
-		
-
-		//rc리스트에 현재 방이름이 존재하면 canvaslist들의 str_c를 clist에 넣는다
-		for(var i=0;i<rc.length;i++){
-			if(rc[i].roomname==room){	
-				var s=rc[i].cl_size-1;
-				clist=rc[i].canvaslist[s].str_c;
-				console.log('ddddddddddddddd  '+clist[0]);
-				io.sockets.in(room).emit('clist', clist);
-		
-			}	
+	
+	socket.on('deletefile', function() {
+		//삭제 영역
+		for(var i=0; i<flist.length;i++){
+			console.log('삭제영역으로 옴');
+			//filedata 함수에 사용 정보들 있는거 그..클래스네임..메소드... 그거그리고 변수 이름 등등 있는거.....
+			if(flist[i].gb==1) delfile(1, flist[i].class);
+			else if(flist[i].gb==2) delfile(2, flist[i].class);
+			else if(flist[i].gb==3) delfile(3, flist[i].class);
+			else if(flist[i].gb==0) delfile(0, flist[i].class);
 		}
-
-		});
+		
+		delfolder();
+		
+	
+	
+		
 	});
-
+	
+	function delfolder()
+	{
+		var folder='';//생성될파일경로파일이름
+		
+		
+		var mvc='';
+		for(var i = 0; i < 5; i++)
+		{
+			if(i==1) mvc='controller';
+			else if(i==2) mvc='service';
+			else if(i==3) mvc='dao';
+			else if(i==0) mvc='basic';
+			else if(i==4) mvc='good';
+			
+			if(i!=4)
+			{
+				console.log('mvc는!!!');
+				console.log(mvc);
+				folder='./mvc/' + roominfo + "/"  +mvc;	
+				console.log('삭제할 폴더는');
+				console.log(folder);
+				
+				fs.rmdir(folder, function(err) {
+					if(err) throw err;
+					console.log('successfully deleted folder');
+				});	
+			}
+			else
+			{
+				console.log('i는 4다!!!')
+				console.log(i);
+				console.log('삭제할 폴더는');
+				folder='./mvc/' + roominfo;
+				console.log(folder);
+				fs.rmdir(folder, function(err) {
+					if(err) throw err;
+					console.log('successfully deleted folder');
+				});	
+				
+				
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	
+	
+	function delfile(gb, fc) {
+		var file='';//생성될파일경로파일이름
+		
+		
+		var mvc='';
+		if(gb==1) mvc='controller';
+		else if(gb==2) mvc='service';
+		else if(gb==3) mvc='dao';
+		else if(gb==0) mvc='basic'
+			
+			
+		file='./mvc/' + roominfo + "/"  +mvc+'/'+fc.classname+'.java';	
+		console.log('삭제영역 삭제할 파일은');
+		console.log(file);
+		
+		
+		fs.unlink(file, function(err) {
+			if(err) throw err;
+			console.log('successfully deleted file');
+		});		
+		
+	
+	}
+	
+	
+	
+	
+	//gb = canvas.html에서 받아오는 컨트롤러 서비스 등등 구분
+	//
 	var fcrea=false;
 	function filedata(gb, fc){
 		fcrea=false;
@@ -327,7 +413,7 @@ io.sockets.on('connection', function(socket) {
 
 		data+='}';
 	 
-		file='./mvc/'+mvc+'/'+fc.classname+'.java';
+		file='./mvc/' + roominfo + "/"  +mvc+'/'+fc.classname+'.java';
 		
 		//file에 data쓰기
 		var writer = fs.createWriteStream(file);
@@ -339,58 +425,69 @@ io.sockets.on('connection', function(socket) {
 		});
 
 		fcrea=true;
-
-
 	}
+	
+	
 
+	
+	var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
 	//프로젝트 파일생성 
-	socket.on('createpj',function(){
-		socket.get('room', function(err, froom) {
-
-		var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
+	socket.on('createpj',function(data){
 		
+		
+		socket.get('room', function(err, froom) {
+		roominfo = froom;	
+		//console.log(data + '룸은 이거다!!!');
+		
+		console.log(roominfo);
 
 		//rc리스트에 현재 방이름이 존재하면 canvaslist를 flist에 넣는다
 		for(var i=0;i<rc.length;i++){
 			if(rc[i].roomname==froom){
-			
 				flist=rc[i].canvaslist;
-		
 			}	
 		}
 		
 		
-	var dir='';
+	var dir=''
 
 	//디렉토리생성
+	
+		
+	dir = './mvc';
+	if(!fs.existsSync(dir)){
+	    fs.mkdirSync(dir);
+	}
 
-	dir='./mvc';
+		
+		
+	dir= './mvc' + "/" + roominfo ;
 
 	if(!fs.existsSync(dir)){
 	    fs.mkdirSync(dir);
 	}
 
 
-	dir='./mvc/controller';
+	dir='./mvc' +  "/" + roominfo  + '/controller';
 
 	if(!fs.existsSync(dir)){
 	    fs.mkdirSync(dir);
 	}
 
-	dir='./mvc/service';
+	dir='./mvc' + "/" + roominfo  + '/service';
 
 	if(!fs.existsSync(dir)){
 	    fs.mkdirSync(dir);
 	}
 
-	dir='./mvc/dao';
+	dir='./mvc'+ "/" + roominfo + '/dao';
 
 	if(!fs.existsSync(dir)){
 	    fs.mkdirSync(dir);
 	}
 
 
-	dir='./mvc/basic';
+	dir='./mvc' + "/" + roominfo  + '/basic';
 
 	if(!fs.existsSync(dir)){
 	    fs.mkdirSync(dir);
@@ -401,43 +498,47 @@ io.sockets.on('connection', function(socket) {
 
 	//javalist돌면서 코드화
 	for(var i=0; i<flist.length;i++){
-	fcrea=false;
-	if(flist[i].gb==1) filedata(1, flist[i].class);
-	else if(flist[i].gb==2) filedata(2, flist[i].class);
-	else if(flist[i].gb==3) filedata(3, flist[i].class);
-	else if(flist[i].gb==0) filedata(0, flist[i].class);
-
-
-
-
+		fcrea=false;
+		//filedata 함수에 사용 정보들 있는거 그..클래스네임..메소드... 그거그리고 변수 이름 등등 있는거.....
+		if(flist[i].gb==1) filedata(1, flist[i].class);
+		else if(flist[i].gb==2) filedata(2, flist[i].class);
+		else if(flist[i].gb==3) filedata(3, flist[i].class);
+		else if(flist[i].gb==0) filedata(0, flist[i].class);
 	}
 
 
 
 	while(true){
 
-		if(fcrea){
-				//zip파일로 압축
-
-	var zipFolder = require('zip-folder');
+		if(fcrea)
+		{
+			//zip파일로 압축
+			var zipFolder = require('zip-folder');
 	 
-	zipFolder('./mvc', './mvc.zip', function(err) {
-	    if(err) {
-	        console.log('oh no!', err);
-	    } else {
-	        console.log('EXCELLENT');
-	    }
-	});
+			zipFolder('./mvc' + "/" + roominfo,'./mvc' + "/" + roominfo + '.zip', function(err) 
+			{
+				if(err) {
+					console.log('oh no!', err);
+				} else {
+					console.log('EXCELLENT');
+					
+					socket.emit('completepj');
+					
+					
+				}
+			});
 
-	break;
+			break;
 		}
 
 	}
+	
 
-
-
+	
 
 		});
+		
+	
 	});
 
 
@@ -467,7 +568,83 @@ io.sockets.on('connection', function(socket) {
         });
     });
     
+    
+  //추가.. canvas 수정emit한거 받아서 처리
+    socket.on('modifyCanvas', function(data) {
 
+    //사용자가 수정한클래스이름과 같은걸찾아서 canvaslist수정해준다.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var cl_size=rc[i].cl_size;
+    			for(var j=0;j<cl_size;j++){
+    							if(rc[i].canvaslist[j].class.classname==data.m_class){
+    					rc[i].canvaslist[j].class=data.class;
+    				}
+    			}
+    			for(var a=0;a<data.m_conn_list.length;a++){
+    				for(var j=0;j<cl_size;j++){
+    								if(rc[i].canvaslist[j].class.classname==data.m_conn_list[a].m_conn_cl){
+    						rc[i].canvaslist[j].class.connclassname=data.class.classname;
+    					}
+    				}
+    			}
+
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('mod_line', data);
+
+    	
+            });
+
+        });
+    
+    
+    
+  //추가.. canvas 삭제emit한거 받아서 처리
+    socket.on('deleteCanvas', function(data) {
+
+    //사용자가 수정한클래스이름과 같은걸찾아서 canvaslist수정해준다.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var cl_size=rc[i].cl_size;
+    			
+    			for(var a=0;a<data.d_conn_list.length;a++){
+    				for(var j=0;j<cl_size;j++){
+    								if(rc[i].canvaslist[j].class.classname==data.d_conn_list[a].d_conn_cl){
+    						rc[i].canvaslist[j].class.connclassname="init";
+    					}
+    				}
+    			}
+    			for(var j=0;j<cl_size;j++){
+    							if(rc[i].canvaslist[j].class.classname==data.d_class){
+    					rc[i].canvaslist.splice(j,1);
+    					if(rc[i].cl_size>0){
+    						rc[i].cl_size--;
+    					}
+    					break;
+    				}
+    			}
+
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('del_line', data);
+
+    	
+            });
+
+        });
+    
+    
 
     socket.on('create_room', function(data) {
     	

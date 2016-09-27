@@ -37,7 +37,7 @@ label {
 	display: block;
 	font-size: 17px;
 	font-weight: 300;
-	margin: 0 0 1em 0;
+	margin: 0 0 0.5em 0;
 }
 
 input[type="text"], input[type="password"], input[type="email"], select,
@@ -719,7 +719,7 @@ div.comment {
 
 div.log_in
 {
-    margin: 0px 150px 0px 0px;
+    margin: 0px 100px 0px 0px;
     float: right;
 }
 .join_t>label {
