@@ -1,4 +1,4 @@
-// app.js
+﻿// app.js
 
 // 모듈 추출
 
@@ -62,10 +62,10 @@ app.get('/', function (req, res) {
 var roominfo;
 app.get('/download/', function(req, res) 
 {
-		var filepath =  './mvc' + "/" + roominfo + '.zip';
+		var filepath = roominfo + '.zip';
+		
 		console.log(filepath);
 		res.download(filepath);
-		
 		
 });
 
@@ -101,11 +101,28 @@ function roomcanvas(){
 	var cl_size=0; //전체 class 리스트
 	var participant=[];
 	var p_size=0;
+	var db=new db_element(); //추가추가.. db정보
 }
+
+
+//추가추가..db구조체
+function db_element(){
+	var dbid='';
+	var dbpw='';
+	var dbport='';
+	var dbsid='';
+}
+
+
 var cl=[];
+
+var creator=false; //현재 접속한 방의 방생성자인지 아닌지  
+var db=db=new db_element(); //현재 접속한 방의 디비정보 **추가추가
 
 var rc=[]; //roomcanvas들의 배열 (방마다 canvaslist를 구분하기 위해
 rc_size=0; //rc배열의 사이즈.
+
+
 
 
 //requestMapping? web.xml? 같은 느낌. Lobby.html에서 받아주는 값을 지정해 주었다. 
@@ -118,6 +135,10 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 	console.log('roomname:'+roomname);
 	for(var i=0;i<rc.length;i++){
 		if(rc[i].roomname==roomname){
+			
+			
+			
+			
 			if(rc[i].p_size == 0)
 			{
 				rc[i].participant[rc[i].p_size]=getid;
@@ -140,6 +161,8 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 			
 			console.log('p_size = ' + rc[i].p_size);
 			cl=rc[i].canvaslist;
+			creator=false;
+			db=rc[i].db;
 			istrue=true;
 			console.log('p_size = ' + rc[i].p_size + 'participant[' + rc[i].p_size + '] = ' + rc[i].participant[rc[i].p_size]);
 		}
@@ -151,6 +174,17 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 			rc[rc_size].roomname=roomname;
 			rc[rc_size].canvaslist=[];
 			rc[rc_size].cl_size=0;
+			
+			rc[rc_size].db=new db_element();
+			rc[rc_size].db.dbid='';
+			rc[rc_size].db.dbpw='';
+			rc[rc_size].db.dbport='';
+			rc[rc_size].db.dbsid='';
+			db=rc[rc_size].db;
+			
+			creator=true;
+			
+			
 			rc[rc_size].participant=[];
 			rc[rc_size].p_size=0;
 			console.log('is ture가 true임');
@@ -183,7 +217,7 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 	
 	fs.readFile('canvas.html', 'utf8', function (err, data) {
 		
-    	 res.send(ejs.render(data, {room: getcanvas, userid: getid,canvaslist:cl }));
+    	 res.send(ejs.render(data, {room: getcanvas, userid: getid,canvaslist:cl,creator:creator,db:db }));
     });
 });
 
@@ -291,7 +325,7 @@ io.sockets.on('connection', function(socket) {
 	
 	
 	
-	socket.on('deletefile', function() {
+/*	socket.on('deletefile', function() {
 		//삭제 영역
 		for(var i=0; i<flist.length;i++){
 			console.log('삭제영역으로 옴');
@@ -303,13 +337,10 @@ io.sockets.on('connection', function(socket) {
 		}
 		
 		delfolder();
-		
+
+	});*/
 	
-	
-		
-	});
-	
-	function delfolder()
+	/*function delfolder()
 	{
 		var folder='';//생성될파일경로파일이름
 		
@@ -347,8 +378,6 @@ io.sockets.on('connection', function(socket) {
 					if(err) throw err;
 					console.log('successfully deleted folder');
 				});	
-				
-				
 			}
 			
 		}
@@ -356,10 +385,10 @@ io.sockets.on('connection', function(socket) {
 		
 		
 	}
+	*/
 	
 	
-	
-	function delfile(gb, fc) {
+/*	function delfile(gb, fc) {
 		var file='';//생성될파일경로파일이름
 		
 		
@@ -382,14 +411,19 @@ io.sockets.on('connection', function(socket) {
 		
 	
 	}
-	
+	*/
 	
 	
 	
 	//gb = canvas.html에서 받아오는 컨트롤러 서비스 등등 구분
-	//
+	var room='';//현재방이름 ***추가
 	var fcrea=false;
-	function filedata(gb, fc){
+	var isExam=false; //ExamController 존재여부
+	var conList=[]; //controller클래스네임 리스트
+	var conSize=0;
+	
+	//class file에 데이터 입력하는 작업
+	function filedata(gb, fc, conn){
 		fcrea=false;
 		var data='';//파일에 입력할 데이터
 		var file='';//생성될파일경로파일이름
@@ -400,24 +434,75 @@ io.sockets.on('connection', function(socket) {
 		else if(gb==3) mvc='dao';
 		else if(gb==0) mvc='basic'
 
-		data='package '+mvc+';\npublic class '+fc.classname+'{\n';
+			data='package '+mvc+';\n\n';
+		//연결된클래스들 import시키기
+		if(conn.length!=0){
+			for(var d=0;d<conn.length;d++){
+				data+='import ';
+				if(conn[d].gb==1) data+='controller.';
+				else if(conn[d].gb==2) data+='service.';
+				else if(conn[d].gb==3) data+='dao.';
+				
+				data+=conn[d].class.classname+';\n';
+			}
+		}
+
+		if(gb==1){ 
+		data+='import java.io.IOException;\nimport javax.servlet.RequestDispatcher;\nimport javax.servlet.ServletException;\nimport javax.servlet.http.HttpServlet;\nimport javax.servlet.http.HttpServletRequest;\nimport javax.servlet.http.HttpServletResponse;\n'
+		if(fc.classname=='ExamController'){ //***추가
+			data+='import vo.ExamVO;\nimport java.util.ArrayList;\n'
+			}
+		}
+		data+='\npublic class '+fc.classname;
+		if(gb==1){
+			data+=' extends HttpServlet';
+		}
+
+		data+='{\n';
+
+		//연결클래스 넣기
+		
+		//***추가
+		function makeReturnVal(val){
+			if(val=='String') return 'return "";';
+			else if(val=='int') return 'return 1;';
+			else return '';
+		}
+		if(conn.length!=0){
+			for(var d=0;d<conn.length;d++){
+				data+='\t'+conn[d].class.classname+' '+conn[d].class.classname.substring(0,1).toLowerCase() +conn[d].class.classname.substring(1)+'=new '+conn[d].class.classname+'();\n';
+			}
+		}
+
 		//변수리스트 돌면서 넣기
 		for(var j=0; j<fc.valuename.length;j++){
-			data+='\t'+fc.valuename[j]+';\n';
+			data+='\t'+fc.selectvalue[j]+" "+fc.valuename[j]+';\n';
 		}
 		data+='\n\n';
 		//메소드리스트 돌면서 넣기
 		for(var j=0; j<fc.methodname.length;j++){
-			data+='\tpublic '+fc.methodname[j]+'(){\n\n\t}\n\n';
+			data+='\tpublic '+fc.selectmethod[j]+" "+fc.methodname[j]+'(){\n\t\t'+makeReturnVal(fc.selectmethod[j])+'\n\t}\n\n';
+		}
+
+		//컨트롤러면 doGet,doPost메소드 넣기 ***추가
+		if(gb==1){
+			data+='\tprotected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n';
+			if(fc.classname=='ExamController'){
+				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\tArrayList<ExamVO> list = new ArrayList<ExamVO>();\n\t\tExamVO exam=new ExamVO();\n\t\texam.setName("유재용");\n\t\texam.setPhone("010-1111-1111");\n\t\texam.setEmail("aaa@naver.com");\n\t\tlist.add(exam);\n\n\t\tExamVO exam1=new ExamVO();\n\t\texam1.setName("송희엽");\n\t\texam1.setPhone("010-2222-2222");\n\t\texam1.setEmail("bbb@naver.com");\n\t\tlist.add(exam1);\n\n\t\tExamVO exam2=new ExamVO();\n\t\texam2.setName("방민섭");\n\t\texam2.setPhone("010-3333-3333");\n\t\texam2.setEmail("ccc@naver.com");\n\t\tlist.add(exam2);\n\n\t\tExamVO exam3=new ExamVO();\n\t\texam3.setName("김소희");\n\t\texam3.setPhone("010-4444-4444");\n\t\texam3.setEmail("ddd@naver.com");\n\t\tlist.add(exam3);\n\n\t\tExamVO exam4=new ExamVO();\n\t\texam4.setName("홍민재");\n\t\texam4.setPhone("010-5555-5555");\n\t\texam4.setEmail("eee@naver.com");\n\t\tlist.add(exam4);\n\n\t\tRequestDispatcher rd = request.getRequestDispatcher("exam.jsp"); \n\t\trequest.setAttribute("USERLIST", list);\n\t\trd.forward(request, response);';
+			}
+			data+='\n\t}\n\tprotected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n\t\tdoGet(request, response);\n\t}\n\n';
+
 		}
 
 		data+='}';
 	 
-		file='./mvc/' + roominfo + "/"  +mvc+'/'+fc.classname+'.java';
+		file='./mvc/'+room+'/src/'+mvc+'/'+fc.classname+'.java';
 		
 		//file에 data쓰기
 		var writer = fs.createWriteStream(file);
 		writer.write(data);
+
+		
 
 		writer.end('');
 		writer.on('finish', function() {
@@ -425,126 +510,322 @@ io.sockets.on('connection', function(socket) {
 		});
 
 		fcrea=true;
+
+
 	}
+	
+	
+	//vo class file에 데이터 입력하는 작업
+	function vofiledata(fc){
+		fcrea=false;
+		var data='';//파일에 입력할 데이터
+		var file='';//생성될파일경로파일이름
+
+		var mvc='vo';
+		
+		data='package '+mvc+';\n\n';
+		
+		data+='public class '+fc.classname;
+		
+		data+='{\n';
+
+
+		//변수리스트 돌면서 넣기
+		for(var j=0; j<fc.valuename.length;j++){
+			data+='\tprivate '+fc.selectvalue[j]+" "+fc.valuename[j]+';\n';
+		}
+		data+='\n\n';
+		//메소드리스트 돌면서 넣기
+		for(var j=0; j<fc.valuename.length;j++){
+			data+='\tpublic '+fc.selectvalue[j]+" get"+fc.valuename[j].substring(0,1).toUpperCase()+fc.valuename[j].substring(1)+'(){\n\t\treturn '+fc.valuename[j]+';\n\t}\n';
+			data+='\tpublic void set'+fc.valuename[j].substring(0,1).toUpperCase()+fc.valuename[j].substring(1)+'('+fc.selectvalue[j]+' '+fc.valuename[j]+'){\n\t\tthis.'+fc.valuename[j]+' = '+fc.valuename[j]+';\n\t}\n';
+
+		}
+
+		
+		data+='}';
+	 
+		file='./mvc/'+room+'/src/'+mvc+'/'+fc.classname+'.java';
+		
+		//file에 data쓰기
+		var writer = fs.createWriteStream(file);
+		writer.write(data);
+
+		
+
+		writer.end('');
+		writer.on('finish', function() {
+			console.log('file create..');
+		});
+
+		fcrea=true;
+
+
+	}
+	
+	
+	
+	
+	
 	
 	
 
 	
-	var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
+	//var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
 	//프로젝트 파일생성 
-	socket.on('createpj',function(data){
-		
-		
+	//프로젝트 파일생성 
+	socket.on('createpj',function(){
 		socket.get('room', function(err, froom) {
-		roominfo = froom;	
-		//console.log(data + '룸은 이거다!!!');
-		
-		console.log(roominfo);
+		room=froom; //***추가
+		var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
+		var isDB=false; //db정보 있는지
+		var dbInfor=new db_element();
 
 		//rc리스트에 현재 방이름이 존재하면 canvaslist를 flist에 넣는다
 		for(var i=0;i<rc.length;i++){
 			if(rc[i].roomname==froom){
+				roominfo = froom
 				flist=rc[i].canvaslist;
+				if(rc[i].db.dbid!=''&&rc[i].db.dbpw!=''&&rc[i].db.dbport!=''&&rc[i].db.dbsid!=''){
+					isDB=true;
+					dbInfor=rc[i].db;
+				}
+
+		
 			}	
 		}
 		
 		
-	var dir=''
+	var dir='';
 
 	//디렉토리생성
+
+	dir='./mvc';
+
+	if(!fs.existsSync(dir)){
+	    fs.mkdirSync(dir);
+	}
+
+	//추가- 프로젝트기본 폴더카피하기위해.(java project로생성할때)
+	var copydir = require('copy-dir');
+
+	fcrea=false;
+	dir='./mvc/'+froom;
+
+	if(!fs.existsSync(dir)){
+  	  fs.mkdirSync(dir);
+	}
+	fcrea=false;
+	dir=dir+'/src';
+
+	if(!fs.existsSync(dir)){
+  	  fs.mkdirSync(dir);
+	}
+
+	fcrea=false;
+	//copydir.sync('./pj/test/src', './mvc/src');
+	fcrea=true;
 	
-		
-	dir = './mvc';
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
+	dir1=dir+'/controller';
+
+	if(!fs.existsSync(dir1)){
+  	  fs.mkdirSync(dir1);
 	}
 
-		
-		
-	dir= './mvc' + "/" + roominfo ;
+	dir1=dir+'/service';
 
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
+	if(!fs.existsSync(dir1)){
+  	  fs.mkdirSync(dir1);
 	}
 
+	dir1=dir+'/dao';
 
-	dir='./mvc' +  "/" + roominfo  + '/controller';
-
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
-	}
-
-	dir='./mvc' + "/" + roominfo  + '/service';
-
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
-	}
-
-	dir='./mvc'+ "/" + roominfo + '/dao';
-
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
+	if(!fs.existsSync(dir1)){
+  	  fs.mkdirSync(dir1);
 	}
 
 
-	dir='./mvc' + "/" + roominfo  + '/basic';
+	dir1=dir+'/vo';
 
-	if(!fs.existsSync(dir)){
-	    fs.mkdirSync(dir);
+	if(!fs.existsSync(dir1)){
+  	  fs.mkdirSync(dir1);
+	}
+
+	if(isDB){
+		dir1=dir+'/commons';
+
+		if(!fs.existsSync(dir1)){
+  	  	fs.mkdirSync(dir1);
+		}
 	}
 
 
 
 
+	isExam=false;
 	//javalist돌면서 코드화
 	for(var i=0; i<flist.length;i++){
-		fcrea=false;
-		//filedata 함수에 사용 정보들 있는거 그..클래스네임..메소드... 그거그리고 변수 이름 등등 있는거.....
-		if(flist[i].gb==1) filedata(1, flist[i].class);
-		else if(flist[i].gb==2) filedata(2, flist[i].class);
-		else if(flist[i].gb==3) filedata(3, flist[i].class);
-		else if(flist[i].gb==0) filedata(0, flist[i].class);
+	fcrea=false;
+		//연결된클래스들 리스트만들기
+		var conn_list = []; //연결리스트
+		var conn_idx = 0; //연결인덱스
+
+		for(var c=0;c<flist.length;c++){
+			if(flist[i].class.classname == flist[c].class.connclassname){
+				conn_list[conn_idx] = flist[c];
+				conn_idx++;
+			}
+		}
+
+	if(flist[i].gb==1){ 
+		filedata(1, flist[i].class, conn_list);
+		var cn=flist[i].class.classname;
+		if(cn=='ExamController') isExam=true;
+		conList[conSize]=cn;
+		conSize++;
+	}else if(flist[i].gb==2) filedata(2, flist[i].class, conn_list);
+	else if(flist[i].gb==3) filedata(3, flist[i].class, conn_list);
+	else if(flist[i].gb==4) vofiledata(flist[i].class);
+
+
+
+
 	}
 
 
+
+	var dirname='./'+froom+'.zip';
 
 	while(true){
 
-		if(fcrea)
-		{
-			//zip파일로 압축
-			var zipFolder = require('zip-folder');
-	 
-			zipFolder('./mvc' + "/" + roominfo,'./mvc' + "/" + roominfo + '.zip', function(err) 
-			{
-				if(err) {
-					console.log('oh no!', err);
-				} else {
-					console.log('EXCELLENT');
-					
-					socket.emit('completepj');
-					
-					
-				}
-			});
+		if(fcrea){
+				//zip파일로 압축
 
-			break;
+	var EasyZip = require('easy-zip').EasyZip;
+
+	var zip1 = new EasyZip();
+
+
+	zip1.zipFolder('./pj/optestpj/.settings',function(){
+		  zip1.writeToFile(dirname);
+
+	});
+
+	zip1.zipFolder('./pj/optestpj/WebContent',function(){
+		  zip1.writeToFile(dirname);
+
+	});
+
+
+	zip1.zipFolder('./mvc/'+froom+'/src',function(){
+    		zip1.writeToFile(dirname);
+	});
+
+	var jsFolder = zip1.folder('build/classes');
+	zip1.writeToFile(dirname);
+
+
+	//.setting폴더에 org.eclipse.wst.common프로젝트이름 수정후 추가
+	var data1='<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">\n\t<wb-module deploy-name="'+froom+'">\n\t\t<wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>\n\t\t<wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>\n\t\t<property name="context-root" value="'+froom+'"/>\n\t\t<property name="java-output-path" value="/'+froom+'/build/classes"/>\n\t</wb-module>\n</project-modules>';
+	zip1.file('.settings/org.eclipse.wst.common.component',data1);	
+
+
+	//.classpath 파일추가
+	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<classpath>\n\t<classpathentry kind="src" path="src"/>\n\t<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_73">\n\t\t<attributes>\n\t\t\t<attribute name="owner.project.facets" value="java"/>\n\t\t</attributes>\n\t</classpathentry>\n\t<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">\n\t\t<attributes>\n\t\t\t<attribute name="owner.project.facets" value="jst.web"/>\n\t\t</attributes>\n\t</classpathentry>\n\t<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>\n\t<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>\n\t<classpathentry kind="output" path="build/classes"/>\n</classpath>\n';
+	zip1.file('.classpath',data1);
+
+
+
+
+	//.project 파일 프로젝트이름 수정후 추가
+	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<projectDescription>\n\t<name>'+froom+'</name>\n\t<comment></comment>\n\t<projects>\n\t</projects>\n\t<buildSpec>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.jdt.core.javabuilder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.wst.common.project.facet.core.builder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.wst.validation.validationbuilder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t</buildSpec>\n\t<natures>\n\t\t<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>\n\t\t<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>\n\t\t<nature>org.eclipse.wst.common.project.facet.core.nature</nature>\n\t\t<nature>org.eclipse.jdt.core.javanature</nature>\n\t\t<nature>org.eclipse.wst.jsdt.core.jsNature</nature>\n\t</natures>\n</projectDescription>\n';
+	zip1.file('.project',data1);
+	zip1.writeToFile(dirname);//write zip data to disk
+
+	//isExam이 true이면 exam.jsp추가해주기
+	if(isExam){
+		zip1.addFile('WebContent/exam.jsp','./pj/exam.jsp',function(){
+	    		zip1.writeToFile(dirname);
+		});
+		zip1.addFile('src/vo/ExamVO.java','./pj/ExamVO.java',function(){
+    			zip1.writeToFile(dirname);
+		});
+	 	
+	}
+
+	//db정보있으면 db연결클래스추가
+	if(isDB){
+		zip1.addFile('src/commons/DBUtil.java','./pj/optestpj/src/commons/DBUtil.java',function(){
+	    		zip1.writeToFile(dirname);
+		});
+		zip1.addFile('src/commons/IDBConnection.java','./pj/optestpj/src/commons/IDBConnection.java',function(){
+	    		zip1.writeToFile(dirname);
+		});
+		var dbdata='package commons;\n\nimport java.sql.Connection;\nimport java.sql.DriverManager;\nimport java.sql.SQLException;\n\npublic class OracleDBConnection implements IDBConnection{\n\n\tprivate static final String CONNECT = "jdbc:oracle:thin:@localhost:'+dbInfor.dbport+':'+dbInfor.dbsid+'";\n\tprivate static final String USER = "'+dbInfor.dbid+'";\n\tprivate static final String PASSWD = "'+dbInfor.dbpw+'";\n\tprivate Connection conn;\n\n\t@Override\n\tpublic Connection getDBConnection() {\n\n\t\ttry {\n\t\t\tClass.forName("oracle.jdbc.driver.OracleDriver");\n\t\t\tconn = DriverManager.getConnection(CONNECT, USER, PASSWD);\n\t\t} catch (SQLException e) {\n\t\t\te.printStackTrace();\n\t\t\tSystem.out.println("DB Connect Error!!!");\n\t\t} catch (ClassNotFoundException e) {\n\t\t\tSystem.out.println("Library Load Fail");\n\t\t}\n\n\t\treturn conn;\n\t}\n\n}\n';
+		zip1.file('src/commons/OracleDBConnection.java',dbdata);	
+		zip1.writeToFile(dirname);
+
+		
+
+		
+
+		
+
+
+	}
+
+	//controller잘라주고 첫글자 소문자로 바꿔주는 메소드
+	function urlmaker(string){
+	  	var sp = string.split('Controller');
+	      	var sp2=sp[0].substring(0,1).toLowerCase()+sp[0].substring(1,sp[0].length);
+	         return  sp2;
+	   
+	}
+
+	//web.xml에 각 컨트롤러마다 servlet mapping해주기 
+	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">\n\t<display-name>'+froom+'</display-name>\n\t<welcome-file-list>\n\t\t<welcome-file>index.html</welcome-file>\n\t\t<welcome-file>index.htm</welcome-file>\n\t\t<welcome-file>index.jsp</welcome-file>\n\t\t<welcome-file>default.html</welcome-file>\n\t\t<welcome-file>default.htm</welcome-file>\n\t\t<welcome-file>default.jsp</welcome-file>\n\t</welcome-file-list>\n';
+	for(var i=0; i<conSize; i++){
+		data1+='\t<servlet>\n\t\t<servlet-name>'+conList[i]+'</servlet-name>\n\t\t<servlet-class>controller.'+conList[i]+'</servlet-class>\n\t</servlet>\n\t<servlet-mapping>\n\t\t<servlet-name>'+conList[i]+'</servlet-name>\n\t\t<url-pattern>/'+urlmaker(conList[i])+'</url-pattern>\n\t</servlet-mapping>\n';
+	}
+	data1+='</web-app>';
+	zip1.file('WebContent/WEB-INF/web.xml',data1);	
+	zip1.writeToFile(dirname);
+
+	break;
 		}
 
 	}
-	
 
 	
+
 
 		});
 		
-	
+		socket.emit('completepj');
+		
 	});
 
 
 
+	//추가추가..db정보 받기
+	socket.on('db_infor', function(data) {
+
+	//rc리스트를 돌면서 roomname에 현재접속한 룸이 있으면 canvaslist 다음 인덱스에 //디비 정보들을 받아서 저장한다.	
+	socket.get('room', function(err, room) {
+		for(var i=0;i<rc.length;i++){
+			if(rc[i].roomname==room){
+				rc[i].db=data.db;
+				
+			}
+		}
 
 
+	            io.sockets.in(room).emit('db', data);
+
+		
+	        });
+
+	    });
 
 
 	
@@ -582,10 +863,12 @@ io.sockets.on('connection', function(socket) {
     					rc[i].canvaslist[j].class=data.class;
     				}
     			}
-    			for(var a=0;a<data.m_conn_list.length;a++){
-    				for(var j=0;j<cl_size;j++){
-    								if(rc[i].canvaslist[j].class.classname==data.m_conn_list[a].m_conn_cl){
-    						rc[i].canvaslist[j].class.connclassname=data.class.classname;
+    			if(data.gb!=4){
+    				for(var a=0;a<data.m_conn_list.length;a++){
+    					for(var j=0;j<cl_size;j++){
+    									if(rc[i].canvaslist[j].class.classname==data.m_conn_list[a].m_conn_cl){
+    							rc[i].canvaslist[j].class.connclassname=data.class.classname;
+    						}
     					}
     				}
     			}
@@ -604,7 +887,6 @@ io.sockets.on('connection', function(socket) {
         });
     
     
-    
   //추가.. canvas 삭제emit한거 받아서 처리
     socket.on('deleteCanvas', function(data) {
 
@@ -614,10 +896,12 @@ io.sockets.on('connection', function(socket) {
     		if(rc[i].roomname==room){
     			var cl_size=rc[i].cl_size;
     			
-    			for(var a=0;a<data.d_conn_list.length;a++){
-    				for(var j=0;j<cl_size;j++){
-    								if(rc[i].canvaslist[j].class.classname==data.d_conn_list[a].d_conn_cl){
-    						rc[i].canvaslist[j].class.connclassname="init";
+    			if(data.gb!=4){
+    				for(var a=0;a<data.d_conn_list.length;a++){
+    					for(var j=0;j<cl_size;j++){
+    									if(rc[i].canvaslist[j].class.classname==data.d_conn_list[a].d_conn_cl){
+    							rc[i].canvaslist[j].class.connclassname="init";
+    						}
     					}
     				}
     			}
@@ -643,6 +927,40 @@ io.sockets.on('connection', function(socket) {
             });
 
         });
+    
+    
+  //추가.. canvas move emit한거 받아서 처리
+    socket.on('moveCanvas', function(data) {
+
+    //사용자가 수정한클래스이름과 같은걸찾아서 canvaslist수정해준다.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var cl_size=rc[i].cl_size;
+    			for(var j=0;j<cl_size;j++){
+    							if(rc[i].canvaslist[j].class.classname==data.mv_class.classname){
+    					var r=rc[i].canvaslist[j].class;
+    					r.start_point_x += (data.ex - data.sx);
+    					r.start_point_y += (data.ey - data.sy);
+    					r.end_point_x = r.start_point_x + data.gx;
+    					r.end_point_y = r.start_point_y + data.gy;
+    				}
+    			}
+    		
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('move_line', data);
+
+    	
+            });
+
+        });
+
+    
     
     
 

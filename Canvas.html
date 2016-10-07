@@ -3,358 +3,832 @@
 <head>
 <!-- Canvas.html -->
 <title>Canvas</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="/resources/res/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css" />
+
+<!-- Font Awesome Icons -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- Ionicons -->
+<link
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+	rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<link href="/resources/res/css/site.css" rel="stylesheet" media="screen">
+<link href="/resources/res/css/a.css" rel="stylesheet" media="screen">
+
+
 <script type='text/javascript' src='/js/all_values.js'></script>
 
- 
+
 <style>
-.container {
+.scrollbar {
+	float: left;
+	height: 100%;
+	width: 100%;
+	/* height: 300px;
+	width: 65px; */
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+.force-overflow {
+	min-height: 40px;
+	max-height: 250px;
+	min-width: 320px;
+}
+
+#style-3::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #D62929;
+}
+
+.container_css {
 	width: 1250px;
 	height: 500px;
 }
 
-.canvas_css {
-	width: 850px;
-	float: left;
-}
-
 .chat_css {
-	width: 380px;
-	height: 430px;
-	float: left;
+	padding: 10px 0 0 0;
+	float: right;
+	width: 360px;
+	/* height: 930px; */
+	margin: 10px 10px 20px 0px;
 }
 
 .chatContent {
-	    height: 400px;
-	padding: 1px 40px 0px 0px;
-	background: #3596c5;
+	height: 655px;
+	background: #94c2e9;
+	border-right: 1px solid #94c2e9;
 }
 
 .insert_css {
-	width: 370px;
 	border: 1px black;
-	background-color: #00BCD4;
-	padding: 1px 1px 5px 10px;
+	background-color: #337ab7;
+	padding: 15px 15px 25px 15px;
 }
+
+.canvas_css {
+	width: 1150px;
+	margin: 20px 0px 10px 10px;
+	height: 760px;
+	float: left;
+	background: white;
+	padding: 0px;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.select_canvas {
+	margin: 20px 10px 20px 20px;
+	border: 1px solid #559edd;
+	background: white;
+	border-radius: 5px;
+	float: left;
+}
+
+.insertnick_input {
+	width: 100px;
+	margin: 0px 10px 10px 0px;
+	border-radius: 5px;
+}
+
+.insert_css>span {
+	color: white;
+	margin: 5px;
+	font-weight: 700;
+}
+
+.insertchat_css {
+	border-radius: 5px;
+	margin: 10px 0px 0px 0px;
+}
+
+div.mvc_css {
+	border: solid 1px #eee;
+	/* padding: 50 650 50 650; */
+	background: #f8f8f8;
+}
+
+.chat_btn {
+    margin: 7px 0px 0px 0px;
+    height: 48px;
+    float: right;
+    border-radius: 5px;
+    background-color: #19558a;
+}
+
+.add_person {
+	margin: 10px 0px 0px 0px;
+}
+
+.create_file {
+	float: right;
+	margin-top: 8px;
+}
+
+button#connect_oralce {
+	margin: 8px 0px 20px 992px;
+}
+/* mvc select */
+.mvc_select_main {
+	background: #337ab7;
+	color: white;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+.mvc_select1 {
+	margin: 20px 0px 20px 0px;
+	width: 200px;
+	border: 1px solid #bcd9f1;
+}
+
+.C_select {
+	float: right;
+	margin: 5px 61px 0px 0px;
+}
+
+.S_select {
+	float: right;
+	margin: 5px 61px 0px 0px;
+}
+
+.select_canvas2 {
+	margin: 0px 0px 150px 0px;
+}
+
+.mvc_all {
+	width: 314px;
+	text-align: center;
+	border-bottom: 1px solid #94c2e9;
+}
+
+.controller_add {
+	width: 314px;
+	text-align: center;
+	border-bottom: 1px solid #94c2e9;
+	padding: 5px 0px 5px 0px;
+}
+
+.dao_add {
+	width: 314px;
+	text-align: center;
+	 	border-bottom: 1px solid #94c2e9; 
+	padding: 5px 0px 5px 0px;
+}
+.vo_add {
+	width: 314px;
+	text-align: center;
+	/*  	border-bottom: 1px solid #94c2e9;  */
+	padding: 5px 0px 5px 0px;
+}
+.service_add {
+	width: 314px;
+	text-align: center;
+	border-bottom: 1px solid #94c2e9;
+	padding: 5px 0px 5px 0px;
+}
+
+.select_main_add {
+	margin: 0px 0px 10px 0px;
+	/* padding-bottom: 10px; */
+	height: 40px;
+	border-bottom: 1px solid blue;
+}
+
+.select_main_add>span {
+	font-size: 18px;
+	float: left;
+	margin: 5px 0px 0px 30px;
+}
+
+#conlist>label {
+	padding: 0px 0px 0px 30px;
+	float: left;
+}
+
+div#conlist {
+	width: 320px;
+}
+
+.fa-plus-square {
+	cursor: pointer;
+}
+/* 친구 추가  */
+button#divView {
+	margin-top: -10px;
+}
+
+div#p_list {
+	padding: 10px;
+}
+
+input.del {
+	margin: 10px 0px 10px 10px;
+}
+input.mail_input {
+    width: 200px;
+}
+
+
+/*채팅 입력  */
+input#chatMessage {
+    width: 270px;
+    border-radius: 0px;
+    margin-left: 5px;
+}
+.plus {
+	width: 347px;
+	height: 40px;
+	/* border: none; */
+}
+
+div.p_list {
+	height: 30px;
+}
+
+.D_select {
+	float: right;
+}
+
+.P_select {
+	float: right;
+	margin-right: 190px;
+}
+
+.P_list_add {
+	width: 90px;
+	float: left;
+	font-size: 16px;
+	margin: 2px 0px 0px 10px;
+}
+
+form#maillist {
+	margin: 0px 10px 10px 10px;
+}
+
+input#sendmail {
+	margin: -5px 0px 5px 10px;
+}
+
 </style>
+
 <script>
-	$(document).ready(function() {
+	$(document)
+			.ready(
+					function() {
 
-		//참여자 목록을 보여주는 리스트 숨김
-		$('#p_list').hide();
-		//보이기 버튼을 클릭 했을 시에 참여자 목록을 보여주거나 숨겨준다.
-		$('#divView').click(function() {
-			var state = $('#p_list').css('display');
-			//숨겨진 상태
-			if(state == 'none')
-			{
-				//0.5초 의 지연으로 보여짐.
-				$('#p_list').show(500);
-				
-			}
-			//보여지는 상태
-			else
-			{
-				//0.5초의 지연으로 사라짐
-				$('#p_list').hide(500);
-			}
-			
-		});
-		
-		
-		
-		
-		// /temp?id=""&room="" 정보를 받아와서 ejs특수태그를 이용해 받아옴.
-		var id = '<%= userid %>';
-		//채팅자 이름에 집어넣음
-        document.getElementById("chatName").value = id;
-        
-		//룸 이름에 집어넣음
-        var roomname = '<%= room %>';
-        document.getElementById("room").value = roomname;
-		
+						//참여자 목록을 보여주는 리스트 숨김
+						$('#p_list').hide();
+						//보이기 버튼을 클릭 했을 시에 참여자 목록을 보여주거나 숨겨준다.
+						$('#divView').click(function() {
+							var state = $('#p_list').css('display');
+							//숨겨진 상태
+							if (state == 'none') {
+								//0.5초 의 지연으로 보여짐.
+								$('#p_list').show(500);
 
-		var socket = io.connect(); // 소켓 이벤트를 연결
+							}
+							//보여지는 상태
+							else {
+								//0.5초의 지연으로 사라짐
+								$('#p_list').hide(500);
+							}
 
-		
-		
-		
-		/**
-			참여자 목록 영역
-		*/
-		var participant = [];
-		
-		var check;
-		
-		//참여자 목록을 서버에 요청함
-		socket.emit('participant');
-		
-		
-		socket.on('completepj', function() {
-			alert('압축완성');
-			
-			socket.emit('deletefile');
-			window.location = '/download/';
-			
-		});
-		
-		
-		//참여자 목록을 받아옴
- 	 	socket.on('participant', function(data) {
-			//참여자 목록을 저장시킨 후
- 	 		participant = data;
-			//참여자목록 div에 뿌려줌
-			$('#participant').text(participant.toString());
-		});    
-		
-		//참여자가 룸을 나갈 시
- 	 	socket.on('exitclient', function(data) {			
- 	 		//참여자 목록 배열을 새로 받아서 넣어줌
- 	 		participant = data;
-			$('#participant').text(participant.toString());
-		});
-		
+						});
 
-		/**
-			채팅 영역
-		*/
-		socket.on('chatMessage', function(data) {
-			
-			//자신의 이름 체크
-			var me = $('#chatName').val();
-			if(me === data.name)
-			{
-				//이름이 같을 때는 오른쪽에 메세지가 뜨게 한다.
-				var output = '';
-				output += '<div align="right"><p align="left" style="background:yellow; width:200px">' + data.name + '님의 말:';
-				output += '		' + data.message + '</p></div>';
-			}
-			else
-			{
-				//이름이 다를 경우 메세지가 오른쪽에 뜨게 한다.
-				var output = '';
-				output += '<div align="left" style="padding-left:10px"><p align="left" style="background:white; width:200px">' + data.name + '님의 말:';
-				output += '		' + data.message + '</p></div>';
-			}
-			//내용 추가
-			$(output).appendTo('#chatContent');	
-			//스크롤이 내려가도 가장 마지막 값이 뷰에 보이게 해준다.
-			$('.chatContent').scrollTop($('.chatContent')[0].scrollHeight);
-		});
+						// /temp?id=""&room="" 정보를 받아와서 ejs특수태그를 이용해 받아옴.
+						var id = '<%= userid %>';
+						//채팅자 이름에 집어넣음
 
-		 
-		 //엔터키 입력 시
-		$('#chatMessage').keydown(function(event) {
-			if(event.which === 13)
-			{
-				var checkEmpty = $('#chatMessage').val();
-				//아무것도 입력하지 않았을 경우에는 메세지가 입력되지 않는다.
-				if(checkEmpty!= "")
-				{	
-					//이름이랑 메시지 보냄
-					socket.emit('chatMessage', {
-					name : $('#chatName').val(),
-					message : $('#chatMessage').val()
+						document.getElementById("chatName").value = id;
+
+						//룸 이름에 집어넣음
+						var roomname = '<%= room %>';
+						document.getElementById("room").value = roomname;
+
+						var socket = io.connect(); // 소켓 이벤트를 연결
+
+						/**
+							참여자 목록 영역
+						 */
+						var participant = [];
+
+						var check;
+
+						//참여자 목록을 서버에 요청함
+						socket.emit('participant');
+
+						socket.on('completepj', function() {
+							alert('압축완성');
+
+							//socket.emit('deletefile');
+							window.location = '/download/';
+
+						});
+
+						//참여자 목록을 받아옴
+						socket.on('participant', function(data) {
+							//참여자 목록을 저장시킨 후
+							participant = data;
+							//참여자목록 div에 뿌려줌
+							$('#participant').text(participant.toString());
+						});
+
+						//참여자가 룸을 나갈 시
+						socket.on('exitclient', function(data) {
+							//참여자 목록 배열을 새로 받아서 넣어줌
+							participant = data;
+							$('#participant').text(participant.toString());
+						});
+
+						/**
+						채팅 영역
+					 */
+					socket
+							.on(
+									'chatMessage',
+									function(data) {
+
+										//자신의 이름 체크
+										var me = $('#chatName').val();
+										if (me === data.name) {
+											//이름이 같을 때는 오른쪽에 메세지가 뜨게 한다.
+											var output = '';
+											output += '<div align="right">'
+													+ '<div style="font-weight:900; margin-right: 5px;">'
+													+ data.name + '님의 말:'
+													+ '</div>';
+											output += '	<p align="left" style="background: yellow; width: 200px; color: black; border-radius:3px; padding: 8px; margin-right: 5px;box-shadow: 0px 2px gray">	'
+													+ data.message
+													+ '</p></div>';
+										} else {
+											//이름이 다를 경우 메세지가 오른쪽에 뜨게 한다.
+											var output = '';
+											output += '<div align="left" style="padding-left:10px">'
+													+ '<div style="font-weight:900;">'
+													+ data.name
+													+ '님의 말:'
+													+ '</div>';
+											output += '<p align="left" style="background:white; width:200px; color: black; border-radius:3px; padding: 8px; box-shadow: 0px 2px gray">		'
+													+ data.message
+													+ '</p></div>';
+										}
+										//내용 추가
+										$(output).appendTo('#chatContent');
+										//스크롤이 내려가도 가장 마지막 값이 뷰에 보이게 해준다.
+										$('.chatContent')
+												.scrollTop(
+														$('.chatContent')[0].scrollHeight);
+									});
+
+						 
+
+						 
+
+						//엔터키 입력 시
+						$('#chatMessage').keydown(function(event) {
+							if (event.which === 13) {
+								var checkEmpty = $('#chatMessage').val();
+								//아무것도 입력하지 않았을 경우에는 메세지가 입력되지 않는다.
+								if (checkEmpty != "") {
+									//이름이랑 메시지 보냄
+									socket.emit('chatMessage', {
+										name : $('#chatName').val(),
+										message : $('#chatMessage').val()
+									});
+									//채팅창에 입력한 내용 없앰.
+									$('#chatMessage').val("");
+								}
+							}
+
+						});
+
+						//메일 삭제 영역 입력하기
+						$(document).on("click", ".del", function() {
+							$(this).parent().remove();
+							mailListValue--;
+
+						});
+
+						//메일 추가 영역
+						$('#addmail')
+								.click(
+										function() {
+											var mailListDiv = $('#maillist')
+													.val();
+
+											var output = '';
+											output += '<div>';
+											//name을 모두 mail로 지정시킨다.
+											output += '<input type="text" name="mail" class="mail_input"/>';
+											output += '<input type="button" value="삭제" class="del" name="del"/>';
+											output += '<br/>';
+											output += '</div>';
+
+											$(output).appendTo('#maillist');
+											mailListValue++;
+
+										});
+
+						//메일 보내기 영역
+						$('#sendmail').click(
+								function() {
+
+									var sendList = [];
+									for (var i = 0; i < mailListValue; i++) {
+										//추가시킨 메일 의 name을 모두 mail로 만들어서 추가된 메일칸의  모든 요소를 저장시킨다.
+										var mail = $(
+												"#maillist input[name='mail']")
+												.eq(i).val();
+
+										//저장된 메일을 배열에 추가시킨다.
+										sendList[i] = mail;
+									}
+									//서버에 룸 정보와 보낼 메일 리스트를 보낸다.
+									socket.emit('sendEmail', {
+										room : roomname,
+										mail : sendList
+									});
+								});
+
+						//메일 추가를 위한 변수 지정
+						var mailListValue = 0;
+
+						//버튼 클릭 시
+						$('#chatButton').click(function() {
+							var checkEmpty = $('#chatMessage').val();
+							if (checkEmpty != "") {
+
+								socket.emit('chatMessage', {
+									name : $('#chatName').val(),
+									message : $('#chatMessage').val()
+								});
+								$('#chatMessage').val("");
+							}
+						});
+
 					});
-					//채팅창에 입력한 내용 없앰.
-					$('#chatMessage').val("");
-				}				
-			}
-				
-		});
-			
-		
-
-
-	//메일 삭제 영역 입력하기
-	$(document).on("click", ".del", function() {
-		$(this).parent().remove();
-		mailListValue--;
-
-	});
-		
-	
-	
-	//메일 추가 영역
-	$('#addmail').click(function() {
-		var mailListDiv = $('#maillist').val();
-
-		var output ='';
-		output += '<div>';
-		//name을 모두 mail로 지정시킨다.
-		output += '<input type="text" name="mail"/>';
-		output += '<input type="button" value="삭제" class="del" name="del"/>';
-		output += '<br/>';
-		output += '</div>';
-		
-		
-		$(output).appendTo('#maillist');
-		mailListValue++;
-		
-	});
-		
-
-		 //메일 보내기 영역
-		$('#sendmail').click(function() {
-			
-			var sendList = [];
-		 	for(var i = 0; i < mailListValue; i++)
-			{
-		 		//추가시킨 메일 의 name을 모두 mail로 만들어서 추가된 메일칸의  모든 요소를 저장시킨다.
-		 		var mail = $("#maillist input[name='mail']").eq(i).val();
-		 		
-		 		//저장된 메일을 배열에 추가시킨다.
-		 		sendList[i] = mail;
-			} 
-		 	//서버에 룸 정보와 보낼 메일 리스트를 보낸다.
-		 	socket.emit('sendEmail', {
-				room: roomname,
-				mail: sendList});
-		});
-	
-		
-		//메일 추가를 위한 변수 지정
-		var mailListValue = 0;
-
-
-		//버튼 클릭 시
-		$('#chatButton').click(function() {
-			var checkEmpty = $('#chatMessage').val();
-			if(checkEmpty!= "")
-			{	
-			
-			socket.emit('chatMessage', {
-				name : $('#chatName').val(),
-				message : $('#chatMessage').val()
-			});
-			$('#chatMessage').val("");
-			}
-		});
-
-	
-
-	});
 </script>
 
 
 
+
+
+<div class="w3-top">
+	<ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
+		<li><a href="http://192.168.43.65:8081" class="w3-teal  w3-middle-home"><img
+				src="/resources/res/images/i.png" width="40" height="40"
+				class="logo_think">THINKPATTERN</a></li>
+		<li class="w3-hide-medium w3-hide-large w3-mright"><a
+			class="w3-hover-white w3-large w3-theme-d2 w3-middle"
+			href="javascript:void(0);" onclick="openNav()"><i
+				class="fa fa-bars"></i></a></li>
+
+		<div class="middle">
+			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081">MANUAL</a></li>
+			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081/pattern/list">DESIGN
+					PATTERN</a></li>
+			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081/notice/list">SERVICE
+					CENTER</a></li>
+		</div>
+
+		<div class="log_m">
+		<span><%= userid %>님 환영합니다.</span>
+			<li class="w3-hide-small w3-right"><a
+				href="/user/modifyConfirm" class="button small"><i
+					class="fa fa-user" aria-hidden="true"></i> modify</a></li>
+			<li class="w3-hide-small w3-right"><a href="/user/logout"
+				class="button small"><i class="fa fa-sign-out"
+					aria-hidden="true"></i> logout</a></li>
+		</div>
+
+
+	</ul>
+</div>
+
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-hide w3-hide-large w3-hide-medium w3-top"
+	style="margin-top: 43px;">
+	<ul class="w3-navbar w3-left-align w3-large w3-theme">
+		<li class="w3-middle"><a href="../">MANUAL</a></li>
+		<li class="w3-middle"><a href="http://localhost:8210/?id=aaa">DESIGN
+				PATTERN</a></li>
+		<li class="w3-middle"><a href="http://localhost:8080/notice/list">SERVICE
+				CENTER</a></li>
+
+		<div class="log_in">
+			<li><span id="chatName2"></span> <a href="/user/modifyConfirm"
+				class="button small smenu"><i class="fa fa-user"
+					aria-hidden="true"></i> modify</a> <a href="/user/logout "
+				class="button small smenu"><i class="fa fa-sign-out"
+					aria-hidden="true"></i> logout</a></li>
+		</div>
+
+	</ul>
+</div>
+
+
 </head>
 <body>
-	
-	<div class="row">
-	<div class="col-md-2">
-		<br/>
-		<br/>
-		<button type ="button" class="btn btn-primary" id="crea_mvc"> MVC 구조 그리기 </button>
-		<br/>
-		<br/>
-		Controller
-		<button type ="button" class="btn btn-success" id="crea_controller"> + </button>
-		<br/>
-		<div id = "conlist">
-		
-		</div>
-		<br/>
-		Service
-		<button type ="button" class="btn btn-warning" id="crea_service"> + </button>
-		<br/>
-		<div id = "serlist">
-		
-		</div>
-		<br/>
-		DAO
-		<button type ="button" class="btn btn-danger" id="crea_dao"> + </button>
-		<br/>
-		<div id = "daolist">
-		
-		</div>
-	</div>
-	<div class="col-md-7">
-		<canvas id="canvas1" height="900" width="1600">This browser doesn't support canvas</canvas>
-		
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	<div id="main" class="wrapper style1">
+		<div class="container">
+			<div class="mvc_css">
+				<div class="row">
+					<div class="col-md-2 select_canvas">
+						<div class="mvc_select_main">Select Pattern</div>
+						<div class="mvc_all">
+							<button type="button" class="btn btn-primary mvc_select1"
+								id="crea_mvc">MVC 구조 그리기</button>
+						</div>
+						<div class="select_canvas2">
+
+
+							<div class="controller_add">
+								<div class="select_main_add">
+									<span>Controller</span> <i
+										class="fa fa-plus-square fa-2x C_select" id="crea_controller"
+										aria-hidden="true"></i>
+								</div>
+								<div id="conlist"></div>
+
+							</div>
+							<div class="service_add">
+								<div class="select_main_add">
+									<span>Service</span> <i
+										class="fa fa-plus-square fa-2x S_select" id="crea_service"
+										aria-hidden="true"></i>
+								</div>
+
+								<div id="serlist"></div>
+							</div>
+							<div class="dao_add">
+								<div class="select_main_add">
+									<span>DAO</span> <i class="fa fa-plus-square fa-2x C_select"
+										id="crea_dao" aria-hidden="true"></i>
+								</div>
+
+								<div id="daolist"></div>
+							</div>
+							<div class="vo_add">
+								<div class="select_main_add">
+									<span>VO</span> <i class="fa fa-plus-square fa-2x C_select"
+										id="crea_vo" aria-hidden="true"></i>
+								</div>
+
+								<div id="volist"></div>
+							</div>
+						</div>
 					</div>
-					<div class="modal-body">
-					<!-- modal의 body 여기안에 input box들을 넣음. -->
-					
-					Class Name : <input type="text" id="classname" />
-					<div id="valueDiv">
-						<br />
-						<input type="Button" value="Value추가" onclick="AddValueForm()"> 
-						<input type="Button" value="Value삭제" onclick="DelValueForm()"> <br />
-						Value0 : <input type="text" id="valuename0" />
-						<select id="select_value0">
-							<option value = "init">선택하세요</option>
-							<option value="int">int</option>
-							<option value="String">String</option>
-						</select> <br />
+					<div class="col-md-7 canvas_css">
+						<canvas id="canvas1" height="760" width="1150"></canvas>
+						<button type="button" class="btn btn-secondary"
+							id="connect_oralce">Oracle</button>
+						<button class="btn btn-info create_file">파일 생성</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h3 class="modal-title" id="myModalLabel">Class Add</h3>
+									</div>
+									<div class="modal-body">
+										<!-- modal의 body 여기안에 input box들을 넣음. -->
+
+										Class Name : <input type="text" id="classname" />
+										<div id="valueDiv">
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddValueForm()"> <input type="Button"
+												value="Value삭제" onclick="DelValueForm()"> <br />
+											Value0 : <input type="text" id="valuename0" /> <select
+												id="select_value0">
+												<option value="init">선택하세요</option>
+												<option value="int">int</option>
+												<option value="String">String</option>
+											</select> <br />
+										</div>
+										<br />
+										<div id="methodDiv">
+											<input type="Button" value="Method추가"
+												onclick="AddMethodForm()"> <input type="Button"
+												value="Method삭제" onclick="DelMethodForm()"> <br />
+											Method0 : <input type="text" id="methodname0" /> <select
+												id="select_method0">
+												<option value="init">선택하세요</option>
+												<option value="void">void</option>
+												<option value="int">int</option>
+												<option value="String">String</option>
+											</select> <br />
+										</div>
+										<br /> Connet Class : <select id="connectclass">
+											<option value="init">--선택하세요--</option>
+										</select><br />
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="OnOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- VO 전용 Modal -->
+						<div class="modal fade" id="voModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+									</div>
+									<div class="modal-body">
+										<!-- modal의 body 여기안에 input box들을 넣음. -->
+
+										Class Name : <input type="text" id="voname" />
+										<div id="voDiv">
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddVOForm()"> <input type="Button"
+												value="Value삭제" onclick="DelVOForm()"> <br />
+											Value0 : <input type="text" id="vo_valname0" /> <select
+												id="select_voval0">
+												<option value="init">선택하세요</option>
+												<option value="int">int</option>
+												<option value="String">String</option>
+											</select> <br />
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="VOOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- DB 전용 Modal -->
+						<div class="modal fade" id="dbModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+									</div>
+									<div class="modal-body">
+										<!-- modal의 body 여기안에 input box들을 넣음. -->
+
+										ID : <input type="text" id="dbid" /><br /> PW : <input
+											type="text" id="dbpw" /><br /> PORT : <input type="text"
+											id="dbport" /><br /> SID : <input type="text" id="dbsid" /><br />
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="DBOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
 					</div>
-					<br />
-					<div id="methodDiv">
-						<input type="Button" value="Method추가" onclick="AddMethodForm()">
-						<input type="Button" value="Method삭제" onclick="DelMethodForm()">
-						<br /> Method0 : <input type="text" id="methodname0" />
-						<select id="select_method0">
-							<option value ="init">선택하세요</option>
-							<option value="void">void</option>
-							<option value="int">int</option>
-							<option value="String">String</option>
-						</select> <br />
+
+
+					<div class="col-md-3 chat_css ">
+
+						<table border="1px">
+
+							<div class="chatContent scrollbar" id="style-3">
+								<div value="친구추가" id="divView" class="btn btn-primary plus">
+									<i class="fa fa-bars fa-2x D_select" aria-hidden="true"></i>
+								</div>
+
+
+								<div id="p_list" class="btn-primary">
+									<div class="p_list">
+										<div class="P_list_add">참여자 목록</div>
+										<i class="fa fa-plus-square fa-2x P_select" aria-hidden="true"
+											id="addmail"></i>
+                                        <div id="participant" style="margin-bottom:20px ; margin-left:20px">
+                                        </div>
+									</div><br/>
+
+
+									<form id="maillist" name="maillist" ></form>
+
+									<input type="button" value="메일 보내기  " id="sendmail" />
+
+								</div>
+								<div id="chatContent" class="force-overflow"></div>
+							</div>
+
+
+
+							<div class="insert_css">
+								<span>아이디 : </span> <input id="chatName" value=""
+									readonly="readonly" class="insertnick_input" /> <span>방
+									:</span> <input id="room" value="" readonly
+									class="insertnick_input" /> <span>메시지 입력 :</span><input
+									id="chatMessage" type="text" class="insertchat_css" />
+
+								<button id="chatButton" class="btn btn-primary chat_btn">입력</button>
+							</div>
+
+
+						</table>
 					</div>
-					<br /> 
-					Connet Class : 
-					<select id="connectclass"> 
-						<option value ="init">--선택하세요--</option>
-					</select><br />
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" onclick="OnOK()" data-dismiss="modal">Save</button>
-						<button type="button" class="btn btn-default" onclick="OnCancel()" data-dismiss="modal">Close</button>
-					</div>
-				</div>				
+
+				</div>
+
+
+
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
-</div>
-<button>파일 생성</button>
+</body>
+<footer id="footer" style="margin: 0 auto; padding: 23px 0 22px 0">
 
-  <script>
+	<a href="http://www.skhu.ac.kr"></a>
+
+	<div class="skhu">152-716 서울시 구로구 연동로 320 / 지하철 1,7호선
+		온수역(성공회대입구역) T.02-2610-4114 F.02-2683-8858</div>
+
+	<ul class="copyright">COPYRIGHTⓒ SUNGKONGHOE UNIVERSITY. ALL
+		RIGHTS RESERVED.
+	</ul>
+
+</footer>
+</html>
+
+
+<script>
         var canvas = document.getElementById('canvas1');     // Canvas 객체 추출
 
         var context = canvas.getContext('2d');
+        function canvasX(clientX) {
+            var bound = canvas.getBoundingClientRect();
+            return (clientX - bound.left) * (canvas.width / bound.width);
+        }
 
-    function Point(event, target) {     // Point 생성자 함수 선언
-
-         this.x = event.pageX - $(target).position().left- document.body.scrollWidth/6;
-    
+        function canvasY(clientY) {
+            var bound = canvas.getBoundingClientRect();
+            return (clientY - bound.top) * (canvas.height / bound.height);
+        }
+     // Point 생성자 함수 선언
+    function Point(event, target) { 
+         this.x = canvasX(event.clientX); //- $(target).position().left ;
+    	
+   
 // 파폭은 offsetX 속성을 지원하지 않으므로 이런 방식의 코드를 사용함
 // list를 위한 div를 만들면 그만큼 x좌표가 밀려서 출력되기 때문에 div의 크기만큼 뺴줌.
 
-        this.y = event.pageY - $(target).position().top;
+        this.y = canvasY(event.clientY);
 
     }
 
     </script>
 
 
-  <script>
+<script>
 
 
 
@@ -383,6 +857,16 @@
 			list_click = true;
 			check_package = "mvc";
 		});
+		$("#crea_vo").click(function(){
+			$("#voModal").modal();
+		});
+		$("#connect_oralce").click(function(){
+			document.getElementById("dbid").value=db.dbid; 
+			document.getElementById("dbpw").value=db.dbpw; 
+			document.getElementById("dbport").value=db.dbport; 
+			document.getElementById("dbsid").value=db.dbsid; 
+			$("#dbModal").modal();
+		});
 
         
 
@@ -405,8 +889,15 @@ function AddValueForm() {
 	addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
 	addedValDiv.innerHTML = str; // 폼 Div안에 HTML삽입
 	addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
+	
+	for(var i=0; i<voList.length; i++){
+		$('<option value="'+ voList[i].classname +'">' + voList[i].classname + '</option>').appendTo('#select_value' + select_valcnt);
+	}
+	
+
 	val_count++;
 	select_valcnt++;
+	Dynamic_Connect_List();
 }
 
 /**
@@ -453,8 +944,12 @@ function AddMethodForm() {
 	addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
 	addedMDiv.innerHTML = str; // 폼 Div안에 HTML삽입
 	addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
+	for(var i=0; i<voList.length; i++){
+		$('<option value="'+ voList[i].classname +'">' + voList[i].classname + '</option>').appendTo('#select_method' + select_mcnt);
+	}
 	m_count++;
 	select_mcnt++;
+	Dynamic_Connect_List();
 }
 
 /**
@@ -488,6 +983,54 @@ function DelMethodAllForm()
 }
 
 /**
+ * value form을 하나하나 증가시켜주는 함수(vo)
+ */
+function AddVOForm() {
+	var addedVOFormDiv = document.getElementById("voDiv");
+	var str = "Value";
+	str += vo_valcount + ":" + "<input type='text' id='vo_valname" + vo_valcount + "'><select id = 'select_voval"+ select_vocnt +"'> <option value='init'>선택하세요</option>"
+						+ "<option value='int'>int</option> <option value='String'>String</option></select>";
+	// 추가할 폼(에 들어갈 HTML)
+	var addedVODiv = document.createElement("div"); // 폼 생성
+	addedVODiv.id = "added_vo" + vo_valcount; // 폼 Div에 ID 부여 (삭제를 위해)
+	addedVODiv.innerHTML = str; // 폼 Div안에 HTML삽입
+	addedVOFormDiv.appendChild(addedVODiv); // 삽입할 DIV에 생성한 폼 삽입
+	vo_valcount++;
+	select_vocnt++;
+}
+
+/**
+ * value form을 하나 감소시켜주는 함수
+ */
+function DelVOForm() {
+	var addedVOFormDiv = document.getElementById("voDiv");
+	
+	if (vo_valcount > 1) { // 현재 폼이 두개 이상이면
+		var addedVODiv = document.getElementById("added_vo" + (--vo_valcount));
+		--select_vocnt;
+		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+		addedVOFormDiv.removeChild(addedVODiv); // 폼 삭제 
+	}
+}
+
+/**
+ * value form을 하나빼고 모두 제거 하는 함수
+ */
+function DelVOAllForm()
+{
+	var addedVOFormDiv = document.getElementById("voDiv");
+	while(vo_valcount > 1)
+	{
+		if (vo_valcount > 1) { // 현재 폼이 두개 이상이면
+		var addedVODiv = document.getElementById("added_vo" + (--vo_valcount));
+		--select_vocnt;
+		// 마지막으로 생성된 폼의 ID를 통해 Div객체를 가져옴
+		addedVOFormDiv.removeChild(addedVODiv); // 폼 삭제 
+		} 
+	}
+}
+
+/**
  * 동적으로 connectclass에 list를 받아와 option으로 만들어주는 code
  * modal창이 띄워지기 전에 호출해야함.
  */
@@ -496,7 +1039,24 @@ function Dynamic_Connect_List(){
 	// connectclass의 form을 초기화함.
 	$('#connectclass').empty();
 	$('<option value="init">--선택하세요--</option>').appendTo('#connectclass');
+	$('#select_value0').empty();
+	$('<option value="init">선택하세요</option>').appendTo('#select_value0');
+	$('<option value="int">int</option>').appendTo('#select_value0');
+	$('<option value="String">String</option>').appendTo('#select_value0');
+	$('#select_method0').empty();
+	$('<option value="init">선택하세요</option>').appendTo('#select_method0');
+	$('<option value="void">void</option>').appendTo('#select_method0');
+	$('<option value="int">int</option>').appendTo('#select_method0');
+	$('<option value="String">String</option>').appendTo('#select_method0');
 	
+	for(var i=0; i<voList.length; i++){
+		$('<option value="'+ voList[i].classname +'">' + voList[i].classname + '</option>').appendTo('#select_value0');
+	}
+	
+	for(var i=0; i<voList.length; i++){
+		$('<option value="'+ voList[i].classname +'">' + voList[i].classname + '</option>').appendTo('#select_method0');
+	}
+
 	if(check_package == "Controller"){
 		
 		for(var i=0; i<serviceList.length; i++){
@@ -526,6 +1086,81 @@ function Dynamic_Connect_List(){
 		for(var i=0; i<serviceList.length; i++){
 			$('<option value="'+ serviceList[i].classname +'">' + serviceList[i].classname + '</option>').appendTo('#connectclass');
 		}
+	}else if(check_package == "mvc"){ //***추가
+		if(check_name == true && c_name != ""){
+		
+			controller = new element();
+			service = new element();
+			dao = new element();
+			
+			 var temp = [];
+         		
+		
+			// controller 값을 list에 저장
+			Connect_SavePoint(temp.length, temp.length);
+			draw_className = c_name + "Controller";
+			gubun=1;
+			controller.classname = draw_className;
+			controller.valuename = temp;
+			controller.methodname = temp;
+			controller.selectvalue = temp;
+			controller.selectmethod = temp;
+			controller.connclassname = connectclass;
+			controller.start_point_x = xpos;
+			controller.start_point_y = ypos;
+			controller.end_point_x = end_xpos;
+			controller.end_point_y = end_ypos;
+			
+			//controllerList[con_cnt] = controller;
+			EmitCanvas(gubun);
+
+			// service 값을 list에 저장
+			xpos = xpos + 200;
+			ypos = ypos + 200;
+			Connect_SavePoint(temp.length, draw_methodName.length);
+			
+			connectclass = draw_className;
+			draw_className = c_name + "Service";
+			gubun=2;
+			service.classname = draw_className;
+			service.valuename = temp;
+			service.methodname = draw_methodName;
+			service.selectvalue = temp;
+			service.selectmethod = draw_select_func;
+			service.connclassname = connectclass;
+			service.start_point_x = xpos;
+			service.start_point_y = ypos;
+			service.end_point_x = end_xpos;
+			service.end_point_y = end_ypos;
+			
+			//serviceList[ser_cnt] = service;
+			EmitCanvas(gubun);
+
+			//dao 값을 list에 저장
+			xpos = xpos + 200;
+			ypos = ypos + 200;
+			Connect_SavePoint(draw_valueName.length, draw_methodName.length);
+			
+			connectclass = draw_className;
+			draw_className = c_name + "DAO";
+			gubun=3;
+			dao.classname = draw_className;
+			dao.valuename = draw_valueName;
+			dao.methodname = draw_methodName;
+			dao.selectvalue = draw_select_val;
+			dao.selectmethod = draw_select_func;
+			dao.connclassname = connectclass;
+			dao.start_point_x = xpos;
+			dao.start_point_y = ypos;
+			dao.end_point_x = end_xpos;
+			dao.end_point_y = end_ypos;
+			
+			//daoList[dao_cnt] = dao;
+			EmitCanvas(gubun);
+			//con_cnt++;
+			//ser_cnt++;
+			//dao_cnt++;
+		}
 	}
 }
 
@@ -537,21 +1172,39 @@ function MVC_List_View(){
 	$('#conlist').empty();
 	$('#serlist').empty();
 	$('#daolist').empty();
-	
+	$('#volist').empty();
+
 	for(var i=0;i<controllerList.length;i++){
-		$('<label value="' + controllerList[i].classname + '">' + controllerList[i].classname + '</label>').appendTo('#conlist');
-		$('<button onclick="List_Modify('+"\'" + controllerList[i].classname +"\'" +')">수정</button>').appendTo('#conlist');
-		$('<button onclick="List_Delete('+"\'" + controllerList[i].classname +"\'" +')">삭제</button></br>').appendTo('#conlist');
+		$('<div style=" width:120px;float:left; margin-left:20px; margin-top:5px">'
+				+'<label value="' + controllerList[i].classname + '">' + controllerList[i].classname + '</label>').appendTo('#conlist');
+		$('<div style="float:left; margin-bottom:10px;margin-left:40px">'
+				+ '<button class="btn btn-primary" onclick="List_Modify('+"\'" + controllerList[i].classname +"\'" +')">수정</button>').appendTo('#conlist');
+		$('<div style="margin-bottom:10px">'
+				+'<button class="btn btn-danger" onclick="List_Delete('+"\'" + controllerList[i].classname +"\'" +')">삭제</button></br>').appendTo('#conlist');
 	}
 	for(var i=0;i<serviceList.length;i++){
-		$('<label value="' + serviceList[i].classname + '">' + serviceList[i].classname + '</label>').appendTo('#serlist');
-		$('<button onclick="List_Modify('+"\'" + serviceList[i].classname +"\'" +')">수정</button>').appendTo('#serlist');
-		$('<button onclick="List_Delete('+"\'" + serviceList[i].classname +"\'" +')">삭제</button></br>').appendTo('#serlist');
+		$('<div style=" width:120px;float:left; margin-left:20px; margin-top:5px">'
+				+ '<label value="' + serviceList[i].classname + '">' + serviceList[i].classname + '</label>').appendTo('#serlist');
+		$('<div style="float:left; margin-bottom:10px;margin-left:40px">'
+				+ '<button  class="btn btn-primary" onclick="List_Modify('+"\'" + serviceList[i].classname +"\'" +')">수정</button>').appendTo('#serlist');
+		$('<div style="margin-bottom:10px">'
+				+ '<button  class="btn btn-danger" onclick="List_Delete('+"\'" + serviceList[i].classname +"\'" +')">삭제</button></br>').appendTo('#serlist');
 	}
 	for(var i=0;i<daoList.length;i++){
-		$('<label value="' + daoList[i].classname + '">' + daoList[i].classname + '</label>').appendTo('#daolist');
-		$('<button onclick="List_Modify('+"\'" + daoList[i].classname +"\'" +')">수정</button>').appendTo('#daolist');
-		$('<button onclick="List_Delete('+"\'" + daoList[i].classname +"\'" +')">삭제</button></br>').appendTo('#daolist');
+		$('<div style=" width:120px;float:left; margin-left:20px; margin-top:5px">'
+				+'<label value="' + daoList[i].classname + '">' + daoList[i].classname + '</label>').appendTo('#daolist');
+		$('<div style="float:left; margin-bottom:10px;margin-left:40px">'
+				+'<button class="btn btn-primary" onclick="List_Modify('+"\'" + daoList[i].classname +"\'" +')">수정</button>').appendTo('#daolist');
+		$('<div style="margin-bottom:10px">'
+				+ '<button class="btn btn-danger" onclick="List_Delete('+"\'" + daoList[i].classname +"\'" +')">삭제</button></br>').appendTo('#daolist');
+	}
+	for(var i=0;i<voList.length;i++){
+		$('<div style=" width:120px;float:left; margin-left:20px;margin-top:5px">'
+				+'<label value="' + voList[i].classname + '">' + voList[i].classname + '</label>').appendTo('#volist');
+		$('<div style="float:left; margin-bottom:10px;margin-left:40px">'
+				+'<button class="btn btn-primary" onclick="VOList_Modify('+"\'" + voList[i].classname +"\'" +')">수정</button>').appendTo('#volist');
+		$('<div style="margin-bottom:10px">'
+				+'<button class="btn btn-danger" onclick="VOList_Delete('+"\'" + voList[i].classname +"\'" +')">삭제</button></br>').appendTo('#volist');
 	}
 }
 
@@ -567,10 +1220,14 @@ function FormInit(){
 	document.getElementById("select_value0").value = "init";
 	document.getElementById("methodname0").value = "";
 	document.getElementById("select_method0").value = "init";
+	document.getElementById("voname").value = "";
+	document.getElementById("vo_valname0").value = "";
+	document.getElementById("select_voval0").value = "init";
 	
 	// 폼 초기화
 	DelValueAllForm();
 	DelMethodAllForm();
+	DelVOAllForm();	
 }
 
 
@@ -580,7 +1237,17 @@ function FormInit(){
 
 
 
-
+//db정보 emit해주는 함수
+//draw한 canvas정보들 emit해주는 함수
+function EmitDB(){
+	
+	socket.emit('db_infor', {
+		db:db			
+			
+	});
+	
+	
+}
 
 
 
@@ -605,7 +1272,14 @@ function EmitCanvas(gb){
 			class:dao			
 			
 		});
+	}else if(gb==4){
+		socket.emit('draw', {
+			gb:gb,
+			class:vo			
+			
+		});
 	}
+	
 }
 
 //수정한 canvas정보들 emit해주는 함수
@@ -637,6 +1311,14 @@ function EmitModifyCanvas(gb){
 			m_conn_list:m_conn_list				
 			
 		});
+	}else if(gb==4){
+		socket.emit('modifyCanvas', {
+			gb:gb,
+			m_class:modify_vo_class,
+			m_idx:modify_vo_index,
+			class:vo		
+			
+		});
 	}
 }
 
@@ -644,11 +1326,38 @@ function EmitModifyCanvas(gb){
 //삭제한 canvas정보들 emit해주는 함수
 function EmitDeleteCanvas(){
 	
-	socket.emit('deleteCanvas', {
+	if(gubun==4){
+		socket.emit('deleteCanvas', {
+			gb:gubun,
+			d_class:delete_vo_class,
+			d_idx:delete_vo_index		
+			
+		});
+	}
+	else{
+		socket.emit('deleteCanvas', {
 			gb:gubun,
 			d_class:delete_class,
 			d_idx:delete_index,
 			d_conn_list:d_conn_list			
+			
+		});
+	}
+}
+
+//추가..move한 canvas정보들 emit해주는 함수
+function EmitMoveCanvas(){
+	
+	socket.emit('moveCanvas', {
+			gb:gubun,
+			mv_class:r,
+			mv_idx:moving,
+			gx:gap_x,
+			gy:gap_y,
+			ex:ex,
+			ey:ey,
+			sx:sx,
+			sy:sy
 			
 	});
 	
@@ -1115,6 +1824,71 @@ function ValuesInit(){
 	
 }
 
+			//mvc_modal_vo_create.js
+/**
+ * List들을 순회하면서 class의 name들이 곂치는지 확인하기 위한 함수.(vo)
+ */
+function Duplication_VO_Check(){
+	if(voList.length != 0){
+		for(var i=0;i<voList.length;i++){
+			if(voList[i].classname != document.getElementById("voname").value + "VO"){
+				c_name = document.getElementById("voname").value;
+				check_name = true;
+			}else{
+				alert("VO의 Name이 중복 됩니다.");
+				check_name = false;
+				break;
+			}
+		}
+	}else{
+		c_name = document.getElementById("voname").value;
+		check_name = true;
+	}
+}
+
+/**
+ * document의 input tag에 저장되어 있는 값들을 불러오는 함수.(vo)
+ */
+function Call_VO_Value(){
+	// 중복된 class의 이름이 없으면 document의 값을 받아와 배열에 저장
+	if(check_name == true){
+		for(var i=0; i<vo_valcount; i++){
+			v_name[i] = document.getElementById("vo_valname"+i);
+			select_val[i] = document.getElementById("select_voval"+i);
+		}
+
+		// select box의 값이 선택되면 변수명 앞에 select box의 값을 붙여줌.
+		for(var j=0; j<vo_valcount; j++){
+			draw_valueName[j] = v_name[j].value;
+			draw_select_val[j] = select_val[j].value;
+		}
+	}
+}
+
+/**
+ * document에서 받아온 값들을 list에 저장하는 함수(vo)
+ */
+function Value_VOList_Save(){
+	if(check_name == true && c_name != ""){
+		
+		c_name += "VO";
+		
+		vo = new vo_element();
+		vo.classname = c_name;
+		vo.valuename = draw_valueName;
+		vo.selectvalue = draw_select_val;
+		
+		gubun=4;
+		EmitCanvas(gubun);
+		
+		//voList[vo_cnt] = vo;
+			
+		//vo_cnt++;
+	}
+}
+
+
+
 
 			//mvc_modal_modify.js
 /**
@@ -1478,6 +2252,52 @@ function Modify_Value_List_Save(){
 	}
 }
 
+
+//추가..
+function MoveRectangle(x,y){
+	// controllerList에서 움직일 class를 찾을 때...
+	for (var i = 0;i < controllerList.length;i++) {
+		var r = controllerList[i];
+		if (x > r.start_point_x && x < r.end_point_x && y > r.start_point_y && y < r.end_point_y) {
+			move_con = true;
+			moving = i;
+			break;
+		}else{
+			move_con = false;
+		}
+	}
+	
+	// serviceList에서 움직일 class를 찾을 때...
+	for (var i = 0;i < serviceList.length;i++) {
+		var r = serviceList[i];
+		if (x > r.start_point_x && x < r.end_point_x && y > r.start_point_y && y < r.end_point_y) {
+			move_ser = true;
+			moving = i;
+			break;
+		}else{
+			move_ser = false;
+		}
+	}
+	
+	// daoList에서 움직일 class를 찾을 때...
+	for (var i = 0;i < daoList.length;i++) {
+		var r = daoList[i];
+		if (x > r.start_point_x && x < r.end_point_x && y > r.start_point_y && y < r.end_point_y) {
+			move_dao = true;
+			moving = i;
+			break;
+		}else{
+			move_dao = false;
+		}
+	}
+	
+	if(move_con == false && move_ser == false && move_dao == false){
+		moving = -1;
+	}
+}
+
+
+
 function ModifyInit(){
 	modify_class = "";
 	modify_choice = false;
@@ -1488,6 +2308,111 @@ function ModifyInit(){
 }
 
 
+
+			//mvc_modal_vo_modify.js
+/**
+ * 수정 button을 눌렀을 떄 호출되는 함수.
+ */
+function VOList_Modify(a){
+	
+	modify_vo_class = a;
+	
+	modify_vo_choice = true;
+	Search_VOList_Modify();
+	
+	if(modify_vo){	
+		
+		document.getElementById("voname").value = voList[modify_vo_index].classname;
+		// value와 method의 개수만큼 form을 늘려줌. 
+		for(var i=1;i<voList[modify_vo_index].valuename.length;i++){
+			AddVOForm();
+		}
+
+		// form의 값을 설정해줌
+		for(var i=0; i<vo_valcount; i++){
+			document.getElementById("vo_valname"+i).value = voList[modify_vo_index].valuename[i];
+			document.getElementById("select_voval"+i).value = voList[modify_vo_index].selectvalue[i];
+		}
+		
+	/*	Dynamic_Connect_List();
+		document.getElementById("connectclass").value = controllerList[modify_index].connclassname;
+		
+		xpos = controllerList[modify_vo_index].start_point_x;
+		ypos = controllerList[modify_vo_index].start_point_y;*/
+		
+		// modal창을 불러옴
+		$(document).ready(function(){
+			$("#voModal").modal();
+		});
+		
+	}
+}
+
+/**
+ * 수정을 위한 탐색 함수
+ */
+function Search_VOList_Modify(){
+	
+	// voList 탐색
+	for(var i=0;i<voList.length;i++){
+		if(modify_vo_class == voList[i].classname){
+			modify_vo_index = i;
+			modify_vo = true;
+			break;
+		}else{
+			modify_vo = false;
+		}
+	}
+}
+
+/**
+ * 수정할 때 vo_name이 중복되지 않게 check하기 위한 함수.
+ */
+function Duplication_Check_VO_Modify(){
+	for(var i=0;i<voList.length;i++){
+		if(voList[i].classname != document.getElementById("voname").value){
+			c_name = document.getElementById("voname").value;
+			check_name = true;
+			break;
+		}else{
+			if(modify_vo_index == i){
+				c_name = document.getElementById("voname").value;
+				check_name = true;
+				break;
+			}else{
+				alert("VO의 Name이 중복 됩니다.");
+				check_name = false;
+				break;
+			}
+		}
+	}
+}
+
+/**
+ * 수정된 값을 volist에 저장하는 함수.
+ */
+function Modify_Value_VOList_Save(){
+	if(check_name == true && c_name != ""){
+		
+		
+		vo = new vo_element();
+		vo.classname = c_name;
+		vo.valuename = draw_valueName;
+		vo.selectvalue = draw_select_val;
+		
+		//voList[modify_vo_index] = vo;
+		gubun=4;
+		EmitModifyCanvas(gubun);
+	}
+}
+
+
+function ModifyVOInit(){
+	modify_vo_class = "";
+	modify_vo = false;
+	modify_vo_index = -1;
+	modify_vo_choice = false;
+}
 
 
 
@@ -1535,11 +2460,7 @@ function List_Delete(a){
 	
 	//MVC_List_View();
 	
-	ValuesInit();
-	ModifyInit();
-	DeleteInit();
-	DrawInit();
-	FormInit();
+	All_Init();
 }
 
 /**
@@ -1688,6 +2609,62 @@ function DeleteInit(){
 }
 
 
+			//mvc_modal_vo_delete.js
+/**
+ * 삭제 button을 눌렀을 때 호출되는 함수.
+ */
+function VOList_Delete(a){
+	
+	delete_vo_class = a;
+	Search_VOList_Delete();
+	
+	if(delete_vo){
+		gubun=4;
+		EmitDeleteCanvas();
+		/*Delete_Value_VOList_Save();
+		if(vo_cnt > 0){
+			vo_cnt--;
+		}*/
+	}
+	
+	//MVC_List_View();
+	
+	All_Init();
+}
+
+/**
+ * 삭제할 index를 찾는 함수.
+ */
+function Search_VOList_Delete(){
+	for(var i=0;i<voList.length;i++){
+		if(delete_vo_class == voList[i].classname){
+			delete_vo_index = i;
+			delete_vo = true;
+			break;
+		}else{
+			delete_vo = false;
+		}
+	}
+}
+
+/**
+ * 찾은 index를 삭제하고 index를 당기는 함수.
+*/
+/*
+function Delete_Value_VOList_Save(){
+	voList.splice(delete_vo_index,1);
+}
+*/
+
+/**
+ * 사용한 값들을 초기화하는 함수.
+ */
+function DeleteVOInit(){
+	delete_vo_class = "";
+	delete_vo = false;
+	delete_vo_index = -1;
+}
+
 
 
 
@@ -1709,11 +2686,7 @@ function OnOK() {
 		//Draw_AllList();
 		//MVC_List_View();
 		
-		ValuesInit();
-		ModifyInit();
-		DeleteInit();
-		DrawInit();
-		FormInit();
+		All_Init();
 		
 	}else{
 		
@@ -1727,20 +2700,45 @@ function OnOK() {
 		//Draw_AllList();
 		//MVC_List_View();
 		
-		ValuesInit();
-		ModifyInit();
-		DeleteInit();
-		DrawInit();
-		FormInit();
+		All_Init();
 	}
 }
 
+/**
+ * vo modal의 OK button이 눌렀을 때 발생하는 함수(vo)
+ */
+function VOOK(){
+	if(!modify_vo_choice){
+		Duplication_VO_Check();
+		Call_VO_Value();
+		Value_VOList_Save();
+		
+		//MVC_List_View();
+		
+		All_Init();
+	}else{
+		Duplication_Check_VO_Modify();
+		Call_VO_Value();
+		Modify_Value_VOList_Save();
+		
+		//MVC_List_View();
+		
+		All_Init();
+	}
+}
+
+function DBOK(){
+	db=new db_element();
+	db.dbid = document.getElementById("dbid").value;
+	db.dbpw = document.getElementById("dbpw").value;
+	db.dbport = document.getElementById("dbport").value;
+	db.dbsid = document.getElementById("dbsid").value;
+	EmitDB();
+}
+
+
 function OnCancel(){
-	ValuesInit();
-	ModifyInit();
-	DeleteInit();
-	DrawInit();
-	FormInit();
+	All_Init();
 }
 
 
@@ -1865,7 +2863,7 @@ function Draw_AllList(){
 		}else{
 			DrawClass();
 		}
-		
+		DrawInit();
 	}
 	
 	for(var i=0;i<serviceList.length;i++){
@@ -1894,6 +2892,7 @@ function Draw_AllList(){
 		}else{
 			DrawClass();
 		}
+		DrawInit();
 	}
 	
 	for(var i=0;i<daoList.length;i++){
@@ -1923,6 +2922,7 @@ function Draw_AllList(){
 		}else{
 			DrawClass();
 		}
+		DrawInit();
 	}
 
 	context.rect(0, 0, 1600, 900);
@@ -1968,7 +2968,7 @@ function DrawInit(){
 
 
 	//버튼누르면 프로젝트파일생성하라고 서버에 emit 
-	$('body > button').click(function (){
+	$('.create_file').click(function (){
                   
                 socket.emit('createpj');       // 소켓 이벤트 발생
               
@@ -1994,6 +2994,7 @@ function DrawInit(){
             isDown = true;      // 눌렀다
 	
             point= new Point(event, this);      // 현재 마우스 위치를 기록
+            
 	    xpos=point.x;
 	    ypos=point.y;
 		
@@ -2006,16 +3007,81 @@ function DrawInit(){
        
 
 
-            }
+            }else if(!list_click){
+
+			sx = xpos;
+			sy = ypos;
+			
+			MoveRectangle(sx, sy);
+			
+				
+			// 도형을 클릭한 것이 아니면 그리기 시작
+			if (moving == -1) {
+				drawing = true;
+			}
+		}
 	context.stroke();
 
         };
 
-        canvas.onmouseup = function(){ isDown = false; };
+        canvas.onmouseup = function(){ isDown = false; drawing = false;
+		moving = -1;};
 
         canvas.onmousemove = function(event) {
+		point= new Point(event, this);      // 현재 마우스 위치를 기록
+	    	xpos=point.x;
+	   	ypos=point.y;
+		
 
            isDown =false;
+		if(!list_click){
+			ex = xpos;
+			ey = ypos;
+			
+			if (moving != -1) {
+				if(move_con){
+					r = controllerList[moving];
+					gap_x = r.end_point_x - r.start_point_x;
+					gap_y = r.end_point_y - r.start_point_y;
+					gubun=1;
+					EmitMoveCanvas();
+					//r.start_point_x += (ex - sx);
+					//r.start_point_y += (ey - sy);
+					//r.end_point_x = r.start_point_x + gap_x;
+					//r.end_point_y = r.start_point_y + gap_y;
+					sx = ex;
+					sy = ey;
+					//Draw_AllList();
+				}else if(move_ser){
+					r = serviceList[moving];
+					gap_x = r.end_point_x - r.start_point_x;
+					gap_y = r.end_point_y - r.start_point_y;
+					gubun=2;
+					EmitMoveCanvas();
+					//r.start_point_x += (ex - sx);
+					//r.start_point_y += (ey - sy);
+					//r.end_point_x = r.start_point_x + gap_x;
+					//r.end_point_y = r.start_point_y + gap_y;
+					sx = ex;
+					sy = ey;
+					//Draw_AllList();
+				}else if(move_dao){
+					r = daoList[moving];
+					gap_x = r.end_point_x - r.start_point_x;
+					gap_y = r.end_point_y - r.start_point_y;
+					gubun=3;
+					EmitMoveCanvas();
+					//r.start_point_x += (ex - sx);
+					//r.start_point_y += (ey - sy);
+					//r.end_point_x = r.start_point_x + gap_x;
+					//r.end_point_y = r.start_point_y + gap_y;
+					sx = ex;
+					sy = ey;
+					//Draw_AllList();
+				}
+			}
+		}
+
 
         };
 
@@ -2027,43 +3093,40 @@ context.stroke();
      
 //서버에서 이미 그려진 캔버스데이터
 //나중에 함수로..
-var creator=false;
+
 <% var m=0;
   var n=0;
 
-if(canvaslist.length==0){%>   //방생성자면 
+if(canvaslist.length==0&& creator){%>   //방생성자면 
 //기본 mvc클래스 그려주기
-	var creator=true;
+
 	context.beginPath();
 	
-			//mvc.js
+			//mvc.js   //***추가
 	// controller의 값들을 변수에 저장.
 	gubun=1;
 	xpos = 50;
 	ypos = 50;
 	draw_className = "ExamController";
-	draw_valueName[0] = "value1";
-	draw_valueName[1] = "value2";
-	draw_select_val[0] = "int";
-	draw_select_val[1] = "String";
+	draw_valueName=[];
+	draw_select_val=[];
 	val_num  = draw_valueName.length;
-	draw_methodName[0] = "method1";
-	draw_methodName[1] = "method2";
-	draw_select_func[0] = "void";
-	draw_select_func[1] = "int";
+	draw_methodName=[];
+	
+	draw_select_func=[];
 	m_num  = draw_methodName.length;
 	connectclass = "init";
 	
-	Connect_SavePoint(val_num, m_num);
+	Connect_SavePoint(0, 0);
 	
 	
 	// element에 초기값을 저장함.
 	controller = new element();
 	controller.classname = draw_className;
-	controller.valuename = draw_valueName;
-	controller.methodname = draw_methodName;
-	controller.selectvalue = draw_select_val;
-	controller.selectmethod = draw_select_func;
+	controller.valuename = [];
+	controller.methodname = [];
+	controller.selectvalue = [];
+	controller.selectmethod = [];
 	controller.connclassname = connectclass;
 	controller.start_point_x = xpos;
 	controller.start_point_y = ypos;
@@ -2078,10 +3141,8 @@ if(canvaslist.length==0){%>   //방생성자면
 	xpos = 250;
 	ypos = 250;
 	draw_className = "ExamService";
-	draw_valueName[0] = "value1";
-	draw_valueName[1] = "value2";
-	draw_select_val[0] = "int";
-	draw_select_val[1] = "String";
+	draw_valueName=[];
+	draw_select_val=[];
 	val_num  = draw_valueName.length;
 	draw_methodName[0] = "method1";
 	draw_methodName[1] = "method2";
@@ -2094,9 +3155,9 @@ if(canvaslist.length==0){%>   //방생성자면
 
 	service = new element();
 	service.classname = draw_className;
-	service.valuename = draw_valueName;
+	service.valuename = [];
 	service.methodname = draw_methodName;
-	service.selectvalue = draw_select_val;
+	service.selectvalue = [];
 	service.selectmethod = draw_select_func;
 	service.connclassname = connectclass;
 	service.start_point_x = xpos;
@@ -2170,8 +3231,10 @@ if(canvaslist.length==0){%>   //방생성자면
 	
 
 
-<%}else{
-	for(var k=0; k<canvaslist.length;k++){
+<%}else{%>
+	
+	db=<%- JSON.stringify(db)%>;
+	<%for(var k=0; k<canvaslist.length;k++){
 		if(canvaslist[k].gb==1){%>
 			controllerList[con_cnt] =  <%- JSON.stringify(canvaslist[k].class)%>;		
 			con_cnt++;
@@ -2181,7 +3244,10 @@ if(canvaslist.length==0){%>   //방생성자면
 		<%}else if(canvaslist[k].gb==3){%>
 			daoList[dao_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
 			dao_cnt++;
-		<%}%>	
+		<%}else if(canvaslist[k].gb==4){%>
+			voList[vo_cnt] = <%- JSON.stringify(canvaslist[k].class)%>;			
+			vo_cnt++;
+		<%}%>
 	
        	 
 		context.beginPath();
@@ -2203,7 +3269,13 @@ if(canvaslist.length==0){%>   //방생성자면
 
 
 
+//db정보 저장
+     socket.on('db', function(data){
+	
+	
+		db=data.db;
 
+        });
 	
 
 //캔버스 그려주기
@@ -2218,6 +3290,9 @@ if(canvaslist.length==0){%>   //방생성자면
 	}else if(data.gb==3){
 		daoList[dao_cnt] = data.class;			
 		dao_cnt++;
+	}else if(data.gb==4){
+		voList[vo_cnt] = data.class;
+		vo_cnt++;
 	}
 	
         //context.strokeStyle = data.color;
@@ -2230,11 +3305,7 @@ if(canvaslist.length==0){%>   //방생성자면
 
 	MVC_List_View();
 	
-	DeleteInit();
-	ModifyInit();
-	ValuesInit();
-	DrawInit();
-	FormInit();
+	All_Init();
 
         });
 
@@ -2266,10 +3337,13 @@ if(canvaslist.length==0){%>   //방생성자면
 	}else if(data.gb==3){
 		daoList[data.m_idx] = data.class;			
 		
+	}else if(data.gb==4){
+		voList[data.m_idx]=data.class;
 	}
-
-	for(var i=0;i<data.m_conn_list.length; i++){
-		mod_conn(data.m_conn_list[i]);
+	if(data.gb!=4){
+		for(var i=0;i<data.m_conn_list.length; i++){
+			mod_conn(data.m_conn_list[i]);
+		}
 	}
 	
         //context.strokeStyle = data.color;
@@ -2282,11 +3356,7 @@ if(canvaslist.length==0){%>   //방생성자면
 
 	MVC_List_View();
 	
-	DeleteInit();
-	ModifyInit();
-	ValuesInit();
-	DrawInit();
-	FormInit();
+	All_Init();
 
         });
         
@@ -2315,17 +3385,27 @@ if(canvaslist.length==0){%>   //방생성자면
 		
 	}else if(data.gb==2){
 		serviceList.splice(data.d_idx,1);	
+		if(ser_cnt > 0){
+			ser_cnt--;
+		}	
 		
 	}else if(data.gb==3){
 		daoList.splice(data.d_idx,1);
-		if(ser_cnt > 0){
-			ser_cnt--;
+		if(dao_cnt > 0){
+			dao_cnt--;
 		}			
 		
+	}else if(data.gb==4){
+		voList.splice(data.d_idx,1);
+		if(vo_cnt > 0){
+			vo_cnt--;
+		}	
 	}
 
-	for(var i=0;i<data.d_conn_list.length; i++){
-		del_conn(data.d_conn_list[i]);
+	if(data.gb!=4){
+		for(var i=0;i<data.d_conn_list.length; i++){
+			del_conn(data.d_conn_list[i]);
+		}
 	}
 	
         //context.strokeStyle = data.color;
@@ -2339,13 +3419,53 @@ if(canvaslist.length==0){%>   //방생성자면
 
 	MVC_List_View();
 	
-	DeleteInit();
-	ModifyInit();
-	ValuesInit();
-	DrawInit();
-	FormInit();
+	
+	All_Init();
 
         });
+
+	//move한 캔버스 그려주기
+     socket.on('move_line', function(data){
+
+	
+	if(data.gb==1){
+		var r=controllerList[data.mv_idx] ;
+		r.start_point_x += (data.ex - data.sx);
+		r.start_point_y += (data.ey - data.sy);
+		r.end_point_x = r.start_point_x + data.gx;
+		r.end_point_y = r.start_point_y + data.gy;
+
+					
+		
+	}else if(data.gb==2){
+		var r=serviceList[data.mv_idx];	
+		r.start_point_x += (data.ex - data.sx);
+		r.start_point_y += (data.ey - data.sy);
+		r.end_point_x = r.start_point_x + data.gx;
+		r.end_point_y = r.start_point_y + data.gy;	
+		
+	}else if(data.gb==3){
+		var r=daoList[data.mv_idx];
+		r.start_point_x += (data.ex - data.sx);
+		r.start_point_y += (data.ey - data.sy);
+		r.end_point_x = r.start_point_x + data.gx;
+		r.end_point_y = r.start_point_y + data.gy;			
+		
+	}
+
+	
+        //context.strokeStyle = data.color;
+	context.beginPath();
+            
+	Draw_AllList();
+	
+	
+	context.stroke();
+
+	All_Init();
+
+        });
+        
         
 
 
@@ -2355,67 +3475,3 @@ if(canvaslist.length==0){%>   //방생성자면
 
     </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			
-	
-			<div class="chat_css col-md-3">
-			<table border="1px ">
-				<div class="chatContent" style = "overflow:scroll; overflow-x:hidden">
-					<div id="chatContent" >
-
-					</div>
-				</div>
-				<div class="insert_css">
-					<input id="chatName" value="" readonly="readonly"/>
-					방:<input id="room" value="" readonly="readonly"/>
-					 <input id="chatMessage" type="text"  />
-					메시지 입력:<button id="chatButton">Button</button>
-				</div>
-
-
-			</table>
-		</div>
-	
-	
-	
-	
-		<input type="button" value="보이기" id="divView"/>		
-	<div id = "p_list">
-		참여자 목록
-		<div id="participant">
-			
-		</div>
-		
-		<input type="button" id="addmail" value="추가"/>
-		
-		
-		<br/>
-		<form id="maillist" name="maillist">
-		
-		</form>
-		
-		
-		<input type="button" value="메일 보내기  "id="sendmail"/>
-																	
-	</div>	
-	
-</body>
-</html>

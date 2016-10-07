@@ -1,125 +1,187 @@
  var color = '#000000';
 
- var isDown = false;     // ¸¶¿ì½º ¹öÆ°À» ´­·¶³ª ¾È ´­·¶³ª
+ var isDown = false;     // ë§ˆìš°ìŠ¤ ë²„íŠ¼ì„ ëˆŒë €ë‚˜ ì•ˆ ëˆŒë €ë‚˜
 
  var point;
 
 var list_click=false;
 
 /**
- * modal¿¡¼­ formÀ» Áõ°¡ ½ÃÄÑÁÙ ¶§ form¿¡ id¿Í ÆûÀÇ °³¼ö¸¦ ¾Ë·ÁÁÖ±â À§ÇÑ º¯¼ö
+ * modalì—ì„œ formì„ ì¦ê°€ ì‹œì¼œì¤„ ë•Œ formì— idì™€ í¼ì˜ ê°œìˆ˜ë¥¼ ì•Œë ¤ì£¼ê¸° ìœ„í•œ ë³€ìˆ˜
  */
-var val_count = 1;		// value formÀÇ count
-var select_valcnt = 1;	// valueÀÇ select boxÀÇ count
-var m_count = 1;		// method formÀÇ count
-var select_mcnt = 1;	// methodÀÇ select boxÀÇ count
+var val_count = 1;		// value formì˜ count
+var select_valcnt = 1;	// valueì˜ select boxì˜ count
+var m_count = 1;		// method formì˜ count
+var select_mcnt = 1;	// methodì˜ select boxì˜ count
+var vo_valcount = 1;	// voì˜ count
+var select_vocnt = 1;	// voì˜ select boxì˜ count
 
 /**
- * modalÃ¢À» ¶ç¿ï ¶§ ÇÊ¿äÇÑ º¯¼ö
- * (Controller, Service, DAO, MVC·Î ±¸ºĞ...)
+ * modalì°½ì„ ë„ìš¸ ë•Œ í•„ìš”í•œ ë³€ìˆ˜
+ * (Controller, Service, DAO, MVCë¡œ êµ¬ë¶„...)
  */
-var check_package = "";			// mvc buttonÁß¿¡ ¾î¶² buttonÀ» ´­·¯ ÁÖ¾ú´ÂÁö ±¸ºĞÇÏ±â À§ÇÑ º¯¼ö
+var check_package = "";			// mvc buttonì¤‘ì— ì–´ë–¤ buttonì„ ëˆŒëŸ¬ ì£¼ì—ˆëŠ”ì§€ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
 /**
- * canvas¸¦ ±×¸®±â À§ÇØ ÇÊ¿äÇÑ º¯¼ö.
+ * canvasë¥¼ ê·¸ë¦¬ê¸° ìœ„í•´ í•„ìš”í•œ ë³€ìˆ˜.
  */
-var xpos = 0;				// Ã³À½ ±×¸± À§Ä¡ÀÇ xÁÂÇ¥
-var ypos = 0;				// Ã³À½ ±×¸± À§Ä¡ÀÇ yÁÂÇ¥
-var cname_num = 1;			// classÀÇ ÀÌ¸§ÀÇ °³¼ö.( classÀÇ ÀÌ¸§Àº 1°³ÀÌ±â ¶§¹®¿¡ º¯ÇÏÁö ¾Ê´Â´Ù.)
-var val_num = 1;			// º¯¼öÀÇ °³¼ö
-var m_num = 1;				// ¸Ş¼ÒµåÀÇ °³¼ö
-var base_xpos = 150;		// ±âº» °¡·Î ±æÀÌ
-var base_ypos = 30;			// ±âº» ¼¼·Î ±æÀÌ
-var width = 0;				// classÀÇ ³¡Á¡ÀÇ xÁÂÇ¥¸¦ ±¸ÇÏ±â À§ÇÑ º¯¼ö (xpos + base_xpos)
-var height = 0;				// classÀÇ ³¡Á¡ÀÇ yÁÂÇ¥¸¦ ±¸ÇÏ±â À§ÇÑ º¯¼ö (ypos + base_ypos)
-var draw_className = "";	// classÀÇ ÀÌ¸§À» ÀúÀåÇÏ´Â º¯¼ö
-var draw_valueName = [];	// classÀÇ valueµéÀ» ÀúÀåÇÏ´Â ¹è¿­
-var draw_methodName = [];	// classÀÇ methodµéÀ» ÀúÀåÇÏ´Â ¹è¿­
-var draw_select_val = [];	// valueÀÇ ÀÚ·áÇüÀ» ÀúÀåÇÏ´Â ¹è¿­
-var draw_select_func = [];	// methodÀÇ ¸®ÅÏÇüÀ» ÀúÀåÇÏ´Â ¹è¿­
-var end_xpos = 0;			// classÀÇ ³¡Á¡À» ÀúÀåÇÏ´Â xÁÂÇ¥
-var end_ypos = 0;			// classÀÇ ³¡Á¡À» ÀúÀåÇÏ´Â yÁÂÇ¥
-var conn_point_X = 0;		// ¿¬°áÇÏ°í ½ÍÀº classÀÇ ³¡Á¡ xÁÂÇ¥
-var conn_point_Y = 0;		// ¿¬°áÇÏ°í ½ÍÀº classÀÇ ³¡Á¡ yÁÂÇ¥
+var xpos = 0;				// ì²˜ìŒ ê·¸ë¦´ ìœ„ì¹˜ì˜ xì¢Œí‘œ
+var ypos = 0;				// ì²˜ìŒ ê·¸ë¦´ ìœ„ì¹˜ì˜ yì¢Œí‘œ
+var cname_num = 1;			// classì˜ ì´ë¦„ì˜ ê°œìˆ˜.( classì˜ ì´ë¦„ì€ 1ê°œì´ê¸° ë•Œë¬¸ì— ë³€í•˜ì§€ ì•ŠëŠ”ë‹¤.)
+var val_num = 1;			// ë³€ìˆ˜ì˜ ê°œìˆ˜
+var m_num = 1;				// ë©”ì†Œë“œì˜ ê°œìˆ˜
+var base_xpos = 150;		// ê¸°ë³¸ ê°€ë¡œ ê¸¸ì´
+var base_ypos = 30;			// ê¸°ë³¸ ì„¸ë¡œ ê¸¸ì´
+var width = 0;				// classì˜ ëì ì˜ xì¢Œí‘œë¥¼ êµ¬í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ (xpos + base_xpos)
+var height = 0;				// classì˜ ëì ì˜ yì¢Œí‘œë¥¼ êµ¬í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ (ypos + base_ypos)
+var draw_className = "";	// classì˜ ì´ë¦„ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
+var draw_valueName = [];	// classì˜ valueë“¤ì„ ì €ì¥í•˜ëŠ” ë°°ì—´
+var draw_methodName = [];	// classì˜ methodë“¤ì„ ì €ì¥í•˜ëŠ” ë°°ì—´
+var draw_select_val = [];	// valueì˜ ìë£Œí˜•ì„ ì €ì¥í•˜ëŠ” ë°°ì—´
+var draw_select_func = [];	// methodì˜ ë¦¬í„´í˜•ì„ ì €ì¥í•˜ëŠ” ë°°ì—´
+var end_xpos = 0;			// classì˜ ëì ì„ ì €ì¥í•˜ëŠ” xì¢Œí‘œ
+var end_ypos = 0;			// classì˜ ëì ì„ ì €ì¥í•˜ëŠ” yì¢Œí‘œ
+var conn_point_X = 0;		// ì—°ê²°í•˜ê³  ì‹¶ì€ classì˜ ëì  xì¢Œí‘œ
+var conn_point_Y = 0;		// ì—°ê²°í•˜ê³  ì‹¶ì€ classì˜ ëì  yì¢Œí‘œ
 
 
 /**
- * list¿¡ Á¤º¸¸¦ ÀúÀåÇÏ±â À§ÇÑ º¯¼öµé
+ * listì— ì •ë³´ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ë“¤
  */
-var controllerList = [];	// controllserµéÀ» ÀúÀåÇÏ´Â list
-var serviceList = [];		// serviceµéÀ» ÀúÀåÇÏ´Â list
-var daoList = [];			// daoµéÀ» ÀúÀåÇÏ´Â list
+var controllerList = [];	// controllserë“¤ì„ ì €ì¥í•˜ëŠ” list
+var serviceList = [];		// serviceë“¤ì„ ì €ì¥í•˜ëŠ” list
+var daoList = [];			// daoë“¤ì„ ì €ì¥í•˜ëŠ” list
+var voList = [];			// voë¥¼ ì €ì¥í•˜ëŠ” list
 
-var controller;		// controllerÀÇ elementµéÀ» ¸ğÀ¸±â À§ÇÑ º¯¼ö
-var service;		// serviceÀÇ elementµéÀ» ¸ğÀ¸±â À§ÇÑ º¯¼ö
-var dao;			// daoÀÇ elementµéÀ» ¸ğÀ¸±â À§ÇÑ º¯¼ö
-
-//list¿¡ °ªÀ» ÀúÀåÇÏ±â À§ÇÑ ±¸Á¶Ã¼
+//listì— ê°’ì„ ì €ì¥í•˜ê¸° ìœ„í•œ êµ¬ì¡°ì²´
 function element(){
-	var classname = "";					// classÀÇ ÀÌ¸§À» ÀúÀåÇÏ±â À§ÇÑ element
-	var valuename = new Array();		// claeeÀÇ valueµéÀ» ÀúÀåÇÏ±â À§ÇÑ element ¹è¿­
-	var selectvalue = new Array();		// valueÀÇ ÀÚ·áÇüÀ» ÀúÀåÇÏ±â À§ÇÑ element ¹è¿­
-	var methodname = new Array();		// claeeÀÇ methodµéÀ» ÀúÀåÇÏ±â À§ÇÑ element ¹è¿­
-	var selectmethod = new Array();		// methodÀÇ ¹İÈ¯ÇüÀ» ÀúÀåÇÏ±â À§ÇÑ element ¹è¿­
-	var connclassname = "";				// ÇØ´ç Å¬·¡½º°¡ ¿¬°áÇÏ°í ÀÖ´Â classÀÇ nameÀ» ÀúÀåÇÏ´Â element
-	var start_point_x;					// Å¬·¡½ºÀÇ ½ÃÀÛ xÁÂÇ¥
-	var start_point_y;					// Å¬·¡½ºÀÇ ½ÃÀÛ yÁÂÇ¥
-	var end_point_x;					// Å¬·¡½ºÀÇ ³¡ xÁÂÇ¥
-	var end_point_y;					// Å¬·¡½ºÀÇ ³¡ yÁÂÇ¥
+	var classname = "";					// classì˜ ì´ë¦„ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element
+	var valuename = new Array();		// claeeì˜ valueë“¤ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+	var selectvalue = new Array();		// valueì˜ ìë£Œí˜•ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+	var methodname = new Array();		// claeeì˜ methodë“¤ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+	var selectmethod = new Array();		// methodì˜ ë°˜í™˜í˜•ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+	var connclassname = "";				// í•´ë‹¹ í´ë˜ìŠ¤ê°€ ì—°ê²°í•˜ê³  ìˆëŠ” classì˜ nameì„ ì €ì¥í•˜ëŠ” element
+	var start_point_x;					// í´ë˜ìŠ¤ì˜ ì‹œì‘ xì¢Œí‘œ
+	var start_point_y;					// í´ë˜ìŠ¤ì˜ ì‹œì‘ yì¢Œí‘œ
+	var end_point_x;					// í´ë˜ìŠ¤ì˜ ë xì¢Œí‘œ
+	var end_point_y;					// í´ë˜ìŠ¤ì˜ ë yì¢Œí‘œ
 }
 
-// doucment(input ÅÂ±×µé)ÀÇ id¸¦ °¡Á®¿À±â À§ÇØ »ç¿ë µÇ´Â º¯¼ö
-var c_name;							// documentÀÇ classname¿¡ ÇØ´çµÇ´Â input ÅÂ±×ÀÇ id¸¦ ¹Ş¾Æ¿Í ÀúÀåÇÒ º¯¼ö
-var v_name = new Array();			// documentÀÇ valuename¿¡ ÇØ´çµÇ´Â input ÅÂ±×ÀÇ id¸¦ ¹Ş¾Æ¿Í ÀúÀåÇÒ ¹è¿­
-var m_name = new Array();			// documentÀÇ methodname¿¡ ÇØ´çµÇ´Â input ÅÂ±×ÀÇ id¸¦ ¹Ş¾Æ¿Í ÀúÀåÇÒ ¹è¿­
-var select_val = new Array();		// documentÀÇ select box(value)ÀÇ °ªÀ» ÀúÀåÇÏ±â À§ÇÑ ¹è¿­
-var	select_func = new Array();		// documentÀÇ select box(method)ÀÇ °ªÀ» ÀúÀåÇÏ±â À§ÇÑ ¹è¿­
-var connectclass;					// documentÀÇ connectclass¿¡ ÇØ´çµÇ´Â input ÅÂ±×ÀÇ id¸¦ ¹Ş¾Æ¿Í ÀúÀåÇÒ º¯¼ö
+function vo_element(){
+	var classname = "";					// classì˜ ì´ë¦„ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element
+	var valuename = new Array();			// claeeì˜ valueë“¤ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+	var selectvalue = new Array();		// valueì˜ ìë£Œí˜•ì„ ì €ì¥í•˜ê¸° ìœ„í•œ element ë°°ì—´
+}
 
-var isConn=false;		// ¿¬°áÇÏ´ÂÁö check
-var gubun=-1; //controllerÀÌ¸é 1, service¸é 2, dao¸é 3, ¼¼°³´Ù(mvc)ÀÌ¸é 4, ±× ¿Ü¿¡ 0
+var controller=new element();		// controllerì˜ elementë“¤ì„ ëª¨ìœ¼ê¸° ìœ„í•œ ë³€ìˆ˜
+var service=new element();		// serviceì˜ elementë“¤ì„ ëª¨ìœ¼ê¸° ìœ„í•œ ë³€ìˆ˜
+var dao=new element();			// daoì˜ elementë“¤ì„ ëª¨ìœ¼ê¸° ìœ„í•œ ë³€ìˆ˜
+var vo=new vo_element();				// voì˜ elementë“¤ì„ ì €ì¥í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
+
+
+// doucment(input íƒœê·¸ë“¤)ì˜ idë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•´ ì‚¬ìš© ë˜ëŠ” ë³€ìˆ˜
+var c_name;							// documentì˜ classnameì— í•´ë‹¹ë˜ëŠ” input íƒœê·¸ì˜ idë¥¼ ë°›ì•„ì™€ ì €ì¥í•  ë³€ìˆ˜
+var v_name = new Array();			// documentì˜ valuenameì— í•´ë‹¹ë˜ëŠ” input íƒœê·¸ì˜ idë¥¼ ë°›ì•„ì™€ ì €ì¥í•  ë°°ì—´
+var m_name = new Array();			// documentì˜ methodnameì— í•´ë‹¹ë˜ëŠ” input íƒœê·¸ì˜ idë¥¼ ë°›ì•„ì™€ ì €ì¥í•  ë°°ì—´
+var select_val = new Array();		// documentì˜ select box(value)ì˜ ê°’ì„ ì €ì¥í•˜ê¸° ìœ„í•œ ë°°ì—´
+var	select_func = new Array();		// documentì˜ select box(method)ì˜ ê°’ì„ ì €ì¥í•˜ê¸° ìœ„í•œ ë°°ì—´
+var connectclass;					// documentì˜ connectclassì— í•´ë‹¹ë˜ëŠ” input íƒœê·¸ì˜ idë¥¼ ë°›ì•„ì™€ ì €ì¥í•  ë³€ìˆ˜
+
+var isConn=false;		// ì—°ê²°í•˜ëŠ”ì§€ check
+var gubun=-1; //controllerì´ë©´ 1, serviceë©´ 2, daoë©´ 3, ì„¸ê°œë‹¤(mvc)ì´ë©´ 4, ê·¸ ì™¸ì— 0
 
 
 
-// °¢ ListÀÇ count¸¦ ¼¼ÁÙ º¯¼ö(Áï listÀÇ index°ª, class¸¦ »ı¼ºÇÒ ‹š¸¶´Ù 1°³¾¿ Áõ°¡ÇÏ´Â index)
-var con_cnt = 0;		// controllerListÀÇ index°ª
-var ser_cnt = 0;		// serviceListÀÇ index°ª
-var dao_cnt = 0;		// daoListÀÇ index°ª
+// ê° Listì˜ countë¥¼ ì„¸ì¤„ ë³€ìˆ˜(ì¦‰ listì˜ indexê°’, classë¥¼ ìƒì„±í•  ë–„ë§ˆë‹¤ 1ê°œì”© ì¦ê°€í•˜ëŠ” index)
+var con_cnt = 0;		// controllerListì˜ indexê°’
+var ser_cnt = 0;		// serviceListì˜ indexê°’
+var dao_cnt = 0;		// daoListì˜ indexê°’
+var vo_cnt = 0;			// voListì˜ indexê°’
 
-// Å½»öµîÀ» ÆÇ´ÜÇÏ±â À§ÇÑ boolean °ªµé
-var check_name = false;			// Áßº¹À» Ã¼Å©ÇÏ±â À§ÇÑ boolean°ª (false¸é Áßº¹µÊ)
-var conn_con = false;			// connectclassÀÇ °ªÀ» Ã£±â À§ÇÑ º¯¼ö (controllerList¿¡ °ªÀÌ ÀÖÀ¸¸é true)
-var conn_ser = false;			// connectclassÀÇ °ªÀ» Ã£±â À§ÇÑ º¯¼ö (serviceList¿¡ °ªÀÌ ÀÖÀ¸¸é true)
-var conn_dao = false;			// connectclassÀÇ °ªÀ» Ã£±â À§ÇÑ º¯¼ö (daoList¿¡ °ªÀÌ ÀÖÀ¸¸é true)
+// íƒìƒ‰ë“±ì„ íŒë‹¨í•˜ê¸° ìœ„í•œ boolean ê°’ë“¤
+var check_name = false;			// ì¤‘ë³µì„ ì²´í¬í•˜ê¸° ìœ„í•œ booleanê°’ (falseë©´ ì¤‘ë³µë¨)
+var conn_con = false;			// connectclassì˜ ê°’ì„ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜ (controllerListì— ê°’ì´ ìˆìœ¼ë©´ true)
+var conn_ser = false;			// connectclassì˜ ê°’ì„ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜ (serviceListì— ê°’ì´ ìˆìœ¼ë©´ true)
+var conn_dao = false;			// connectclassì˜ ê°’ì„ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜ (daoListì— ê°’ì´ ìˆìœ¼ë©´ true)
 
-var modify_choice = false;		// ¼öÁ¤ buttonÀÌ ´­·È´ÂÁö ¾Æ´ÑÁö ÆÇ´ÜÇÏ±â À§ÇÑ booleanr°ª
+var modify_choice = false;		// ìˆ˜ì • buttonì´ ëˆŒë ¸ëŠ”ì§€ ì•„ë‹Œì§€ íŒë‹¨í•˜ê¸° ìœ„í•œ booleanrê°’
 
-// Å½»ö¿¡¼­ Ã£Àº index
-var conn_index = -1;		// connectclass¸¦ Ã£¾ÒÀ» ¶§ ±× index¸¦ ÀúÀåÇÏ±â À§ÇÑ º¯¼ö
-var modify_index = -1;		// ¼öÁ¤ÇÒ ¶§ ±× ´©¸¥ °ª°ú ÀÌ¸§ÀÌ °°Àº class¸¦ Ã£±â À§ÇÑ º¯¼ö
-var delete_index = -1;		// »èÁ¦ÇÒ ¶§ ±× ´©¸¥ °ª°ú ÀÌ¸§ÀÌ °°Àº class¸¦ Ã£±â À§ÇÑ º¯¼ö
+// íƒìƒ‰ì—ì„œ ì°¾ì€ index
+var conn_index = -1;		// connectclassë¥¼ ì°¾ì•˜ì„ ë•Œ ê·¸ indexë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
+var modify_index = -1;		// ìˆ˜ì •í•  ë•Œ ê·¸ ëˆ„ë¥¸ ê°’ê³¼ ì´ë¦„ì´ ê°™ì€ classë¥¼ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜
+var delete_index = -1;		// ì‚­ì œí•  ë•Œ ê·¸ ëˆ„ë¥¸ ê°’ê³¼ ì´ë¦„ì´ ê°™ì€ classë¥¼ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜
+var modify_vo_index = -1;	// voë¥¼ ìˆ˜ì •í•  ë•Œ ê·¸ ëˆ„ë¥¸ ê°’ê³¼ ì´ë¦„ì´ ê°™ì€ classë¥¼ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜
+var delete_vo_index = -1;	// voë¥¼ ì‚­ì œí•  ë•Œ ê·¸ ëˆ„ë¥¸ ê°’ê³¼ ì´ë¦„ì´ ê°™ì€ classë¥¼ ì°¾ê¸° ìœ„í•œ ë³€ìˆ˜
 
 /**
- * ¼öÁ¤À» ÇÒ ¶§ ÇÊ¿äÇÑ º¯¼öµé
+ * ìˆ˜ì •ì„ í•  ë•Œ í•„ìš”í•œ ë³€ìˆ˜ë“¤
  */
-var modify_class;			// ¼öÁ¤ÇÒ classÀÇ ÀÌ¸§À» ÀúÀåÇÏ´Â º¯¼ö
+var modify_class;			// ìˆ˜ì •í•  classì˜ ì´ë¦„ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
+var modify_vo_class;		// ìˆ˜ì •í•  voì˜ ì´ë¦„ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 
-// Å½»ö ÈÄ °ªÀ» Ã£¾ÒÀ» ‹š ¾î¶² list¿¡ ÀÖ´Â °ªÀÎÁö ±¸ºĞÇÏ±â À§ÇÑ boolean°ª
-var modify_con;				// controllerList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
-var modify_ser;				// serviceList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
-var modify_dao;				// daoList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
-var m_conn_list=[]; //¿¬°áµÈ classµéÀÇ ¸®½ºÆ®
+// íƒìƒ‰ í›„ ê°’ì„ ì°¾ì•˜ì„ ë–„ ì–´ë–¤ listì— ìˆëŠ” ê°’ì¸ì§€ êµ¬ë¶„í•˜ê¸° ìœ„í•œ booleanê°’
+var modify_con;				// controllerListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var modify_ser;				// serviceListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var modify_dao;				// daoListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var m_conn_list=[]; //ì—°ê²°ëœ classë“¤ì˜ ë¦¬ìŠ¤íŠ¸
 var m_conn_size=0;
 
+var modify_vo;					// voListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+
+var modify_choice = false;		// ìˆ˜ì •ì¸ì§€ ì•„ë‹ˆë©´ ìƒì„±ì¸ì§€ í™•ì¸í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
+var modify_vo_choice = false;	// voì— ëŒ€í•´ì„œ ìˆ˜ì •ì¸ì§€ ì•„ë‹ˆë©´ ìƒì„±ì¸ì§€ í™•ì¸í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
+
+
 /**
- * »èÁ¦¸¦ ÇÒ ¶§ ÇÊ¿äÇÑ º¯¼öµé 
+ * ì‚­ì œë¥¼ í•  ë•Œ í•„ìš”í•œ ë³€ìˆ˜ë“¤ 
  */
-var delete_class;			// »èÁ¦ÇÒ classÀÇ ÀÌ¸§À» ÀúÀåÇÏ´Â º¯¼ö
+var delete_class;			// ì‚­ì œí•  classì˜ ì´ë¦„ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
+var delete_vo_class;		// ì‚­ì œí•  voì˜ ì´ë¦„ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 
-//Å½»ö ÈÄ °ªÀ» Ã£¾ÒÀ» ‹š ¾î¶² list¿¡ ÀÖ´Â °ªÀÎÁö ±¸ºĞÇÏ±â À§ÇÑ boolean°ª
-var delete_con;				// controllerList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
-var delete_ser;				// serviceList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
-var delete_dao;				// daoList¿¡¼­ Ã£¾ÒÀ» °æ¿ì¿¡ ¾²±â À§ÇÑ boolean°ª
+//íƒìƒ‰ í›„ ê°’ì„ ì°¾ì•˜ì„ ë–„ ì–´ë–¤ listì— ìˆëŠ” ê°’ì¸ì§€ êµ¬ë¶„í•˜ê¸° ìœ„í•œ booleanê°’
+var delete_con;				// controllerListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var delete_ser;				// serviceListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var delete_dao;				// daoListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
+var delete_vo;				// voListì—ì„œ ì°¾ì•˜ì„ ê²½ìš°ì— ì“°ê¸° ìœ„í•œ booleanê°’
 
-var d_conn_list=[]; //¿¬°áµÈ classµéÀÇ ¸®½ºÆ®
+var d_conn_list=[]; //ì—°ê²°ëœ classë“¤ì˜ ë¦¬ìŠ¤íŠ¸
 var d_conn_size=0;
+
+
+/**
+ * canvasë¥¼ ì›€ì§ì´ê¸° ìœ„í•´ ì‚¬ìš©ë˜ëŠ” ë³€ìˆ˜ë“¤.
+ */
+var sx;					// ì‹œì‘í•˜ëŠ” xì¢Œí‘œë¥¼ ì˜ë¯¸...(ì˜¯ê¸¸ ë•Œ ë§ˆìš°ìŠ¤ê°€ ì°ì€ ìœ„ì¹˜...)
+var sy;					// ì‹œì‘í•˜ëŠ” yì¢Œí‘œë¥¼ ì˜ë¯¸...(ì˜¯ê¸¸ ë–„ ë§ˆìš°ìŠ¤ê°€ ì°ì€ ìœ„ì¹˜...)
+var moving;				// ì´ë™ ì¤‘ì¸ ë„í˜•ì˜ index.
+var move_con;			// controllerListì—ì„œ ì›€ì§ì´ëŠ” ë¬¼ì²´ë¥¼ ì°¾ì•˜ì„ ë•Œ ì‚¬ìš© í•˜ê¸° ìœ„í•œ booleanê°’
+var move_ser;			// serviceListì—ì„œ ì›€ì§ì´ëŠ” ë¬¼ì²´ë¥¼ ì°¾ì•˜ì„ ë•Œ ì‚¬ìš© í•˜ê¸° ìœ„í•œ booleanê°’
+var move_dao;			// daoListì—ì„œ ì›€ì§ì´ëŠ” ë¬¼ì²´ë¥¼ ì°¾ì•˜ì„ ë•Œ ì‚¬ìš© í•˜ê¸° ìœ„í•œ booleanê°’
+var drawing = false;	// trueë©´ ì›€ì§ì¸ ì¢Œí‘œë¥¼ í† ëŒ€ë¡œ ê³„ì† ê·¸ë¦¼ì„ ê·¸ë¦¼
+var ex;					// ë xì¢Œí‘œë¥¼ ì˜ë¯¸...(ë§ˆìš°ìŠ¤ê°€ ì˜®ê²¨ì§„ ìœ„ì¹˜...)
+var ey;					// ë yì¢Œí‘œë¥¼ ì˜ë¯¸...(ë§ˆìš°ìŠ¤ê°€ ì˜®ê²¨ì§„ ìœ„ì¹˜...)
+
+
+/**
+ * DBì— ì„¤ì •í•  ID, PW, PORT, SIDë¥¼ ì„¤ì •í•´ì£¼ê¸° ìœ„í•œ ë³€ìˆ˜
+ */
+var db=new db_element();
+db.dbid='';
+db.dbpw='';
+db.dbport='';
+db.dbsid='';
+function db_element(){
+	var dbid='';
+	var dbpw='';
+	var dbport='';
+	var dbsid='';
+}
+function All_Init(){
+	ValuesInit();
+	ModifyInit();
+	DeleteInit();
+	ModifyVOInit();
+	DeleteVOInit();
+	DrawInit();
+	FormInit();
+}

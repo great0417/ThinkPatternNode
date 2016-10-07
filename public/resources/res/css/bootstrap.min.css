@@ -1828,10 +1828,11 @@ pre code {
 }
 
 .container {
-	padding-right: 15px;
-	padding-left: 15px;
+
 	margin-right: auto;
-	margin-left: auto
+	margin-left: auto;
+	    margin-top: 60px;
+
 }
 
 @media ( min-width :768px) {
@@ -1848,7 +1849,7 @@ pre code {
 
 @media ( min-width :1200px) {
 	.container {
-		width: 1170px
+		    width: auto;
 	}
 }
 
@@ -1860,8 +1861,8 @@ pre code {
 }
 
 .row {
-	margin-right: -15px;
-	margin-left: -15px
+/* 	margin-right: -15px;
+	margin-left: -15px */
 }
 
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3,
@@ -1874,8 +1875,7 @@ pre code {
 	.col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
 	position: relative;
 	min-height: 1px;
-	padding-right: 15px;
-	padding-left: 15px
+
 }
 
 .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3,
@@ -2703,13 +2703,13 @@ table td[class*=col-], table th[class*=col-] {
 	.table>tfoot>tr>td.warning, .table>tfoot>tr>th.warning, .table>thead>tr.warning>td,
 	.table>thead>tr.warning>th, .table>thead>tr>td.warning, .table>thead>tr>th.warning
 	{
-	background-color: #fcf8e3
+	background-color: #4fa7ef
 }
 
 .table-hover>tbody>tr.warning:hover>td, .table-hover>tbody>tr.warning:hover>th,
 	.table-hover>tbody>tr:hover>.warning, .table-hover>tbody>tr>td.warning:hover,
 	.table-hover>tbody>tr>th.warning:hover {
-	background-color: #faf2cc
+	background-color: #4fa7ef
 }
 
 .table>tbody>tr.danger>td, .table>tbody>tr.danger>th, .table>tbody>tr>td.danger,
@@ -7410,10 +7410,5 @@ button.close {
 		display: none !important
 	}
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e39eb71ed89483a72c818cbd5f5346c31b6a96cb
 /*# sourceMappingURL=bootstrap.min.css.map */
 
