@@ -1,6 +1,6 @@
-ï»¿// app.js
+// app.js
 
-// ëª¨ë“ˆ ì¶”ì¶œ
+// ¸ğµâ ÃßÃâ
 
 var socketio = require('socket.io');
 var express = require('express');
@@ -12,44 +12,44 @@ var url = require('url');
 var querystring = require('querystring');
 var nodemailer = require('nodemailer');
 
-// ì›¹ ì„œë²„ ìƒì„±
+// À¥ ¼­¹ö »ı¼º
 var app = express();
 app.use(app.router);
 app.use(express.static('public'));
 
  
 
-// ì›¹ ì„œë²„ ì‹¤í–‰
+// À¥ ¼­¹ö ½ÇÇà
 var server = http.createServer(app);
 server.listen(8210, function() {
     console.log('Server Running at http://127.0.0.1:8210');
 });
 
  
-// ì†Œì¼“ ì„œë²„ ìƒì„±
+// ¼ÒÄÏ ¼­¹ö »ı¼º
 var io = socketio.listen(server);
 io.set('log level', 2);
 
 
-//.jsíŒŒì¼ì„ app.jsì— includeì‹œí‚¤ê¸° ìœ„í•œ í•¨ìˆ˜ 
+//.jsÆÄÀÏÀ» app.js¿¡ include½ÃÅ°±â À§ÇÑ ÇÔ¼ö 
 function include(file_) {
 	with (global) {
-		eval(fs.readFileSync(file_) + ''); // fs ê°ì²´ë¥¼ ì´ìš©í•´ì„œ ë™ê¸°ë°©ì‹ íŒŒì¼ include 
+		eval(fs.readFileSync(file_) + ''); // fs °´Ã¼¸¦ ÀÌ¿ëÇØ¼­ µ¿±â¹æ½Ä ÆÄÀÏ include 
 	};
 };
 
 
 
-//postì˜ì—­
+//post¿µ¿ª
 var getid;
 var getcanvas;
 //var participant = new Array();
 var url;
 var getTempid;
 var clients = {};
-// ë¼ìš°íŠ¸ ìˆ˜í–‰
-//server.on('request'...)ê³¼ ê°™ì€ ì˜ë¯¸ì¼ë“¯. ì²˜ìŒì— ì›¹ ì„œë²„ì‹œ fs.readfileê³¼ ê°™ì´ 
-// ì•„ë¬´ê²ƒë„ ì—†ëŠ” '/' ì¼ë•Œ ì´ ì´ë²¤íŠ¸ ë°œìƒì‹œí‚¤ê²Œ ì„¤ì •í•œë“¯?
+// ¶ó¿ìÆ® ¼öÇà
+//server.on('request'...)°ú °°Àº ÀÇ¹ÌÀÏµí. Ã³À½¿¡ À¥ ¼­¹ö½Ã fs.readfile°ú °°ÀÌ 
+// ¾Æ¹«°Íµµ ¾ø´Â '/' ÀÏ¶§ ÀÌ ÀÌº¥Æ® ¹ß»ı½ÃÅ°°Ô ¼³Á¤ÇÑµí?
 
 app.get('/', function (req, res) {
 	fs.readFile('usingPost.html', function (err, data) {
@@ -72,7 +72,7 @@ app.get('/download/', function(req, res)
 
 
 
-//postë°©ì‹ìœ¼ë¡œ ë£¸ì´ë¦„ê³¼ ì•„ì´ë”” ì •ë³´ë¥¼ ë°›ê¸° ìœ„í•´ /tempìª½ìœ¼ë¡œ ì´ë™ì‹œí‚¨ë‹¤.
+//post¹æ½ÄÀ¸·Î ·ëÀÌ¸§°ú ¾ÆÀÌµğ Á¤º¸¸¦ ¹Ş±â À§ÇØ /tempÂÊÀ¸·Î ÀÌµ¿½ÃÅ²´Ù.
 app.get('/temp', function(req, res) {
 	fs.readFile('tempcanvas.html', function (err, data) {
 		getcanvas=req.param('room');
@@ -87,7 +87,7 @@ app.get('/lobby', function(req, res) {
 	url = req.url;
 	fs.readFile('Lobby.html', function (err, data) {
 		
-		console.log('getidë°›ì•„ì˜¤ëŠ”ê²ƒì€');
+		console.log('getid¹Ş¾Æ¿À´Â°ÍÀº');
 		console.log(getid);
         res.send(ejs.render(data.toString(), {getid: getid}));
     });
@@ -96,16 +96,17 @@ app.get('/lobby', function(req, res) {
 
 
 function roomcanvas(){
-	var roomname=''; //ë°©ì´ë¦„
-	var canvaslist=[]; //canvas ì •ë³´ë“¤ì˜ ë¦¬ìŠ¤íŠ¸
-	var cl_size=0; //ì „ì²´ class ë¦¬ìŠ¤íŠ¸
+	var roomname=''; //¹æÀÌ¸§
+	var canvaslist=[]; //canvas Á¤º¸µéÀÇ ¸®½ºÆ®
+	var tablelist=[];// @¼öÁ¤ tablelist ,tb°ü·Ãº¯¼ö ´Ù Ãß°¡..
+	var cl_size=0; //ÀüÃ¼ class ¸®½ºÆ®
 	var participant=[];
 	var p_size=0;
-	var db=new db_element(); //ì¶”ê°€ì¶”ê°€.. dbì •ë³´
+	var db=new db_element(); //Ãß°¡Ãß°¡.. dbÁ¤º¸
 }
 
 
-//ì¶”ê°€ì¶”ê°€..dbêµ¬ì¡°ì²´
+//Ãß°¡Ãß°¡..db±¸Á¶Ã¼
 function db_element(){
 	var dbid='';
 	var dbpw='';
@@ -115,18 +116,19 @@ function db_element(){
 
 
 var cl=[];
+var tb=[];
 
-var creator=false; //í˜„ì¬ ì ‘ì†í•œ ë°©ì˜ ë°©ìƒì„±ìì¸ì§€ ì•„ë‹Œì§€  
-var db=db=new db_element(); //í˜„ì¬ ì ‘ì†í•œ ë°©ì˜ ë””ë¹„ì •ë³´ **ì¶”ê°€ì¶”ê°€
+var creator=false; //ÇöÀç Á¢¼ÓÇÑ ¹æÀÇ ¹æ»ı¼ºÀÚÀÎÁö ¾Æ´ÑÁö  
+var db=db=new db_element(); //ÇöÀç Á¢¼ÓÇÑ ¹æÀÇ µğºñÁ¤º¸ **Ãß°¡Ãß°¡
 
-var rc=[]; //roomcanvasë“¤ì˜ ë°°ì—´ (ë°©ë§ˆë‹¤ canvaslistë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•´
-rc_size=0; //rcë°°ì—´ì˜ ì‚¬ì´ì¦ˆ.
-
-
+var rc=[]; //roomcanvasµéÀÇ ¹è¿­ (¹æ¸¶´Ù canvaslist¸¦ ±¸ºĞÇÏ±â À§ÇØ
+rc_size=0; //rc¹è¿­ÀÇ »çÀÌÁî.
 
 
-//requestMapping? web.xml? ê°™ì€ ëŠë‚Œ. Lobby.htmlì—ì„œ ë°›ì•„ì£¼ëŠ” ê°’ì„ ì§€ì •í•´ ì£¼ì—ˆë‹¤. 
-app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21  21ë²ˆ ë°©ì— ì‚¬ìš©ì ì ‘ì†
+
+
+//requestMapping? web.xml? °°Àº ´À³¦. Lobby.html¿¡¼­ ¹Ş¾ÆÁÖ´Â °ªÀ» ÁöÁ¤ÇØ ÁÖ¾ú´Ù. 
+app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21  21¹ø ¹æ¿¡ »ç¿ëÀÚ Á¢¼Ó
 	
 	
 	url = req.url;
@@ -161,18 +163,22 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 			
 			console.log('p_size = ' + rc[i].p_size);
 			cl=rc[i].canvaslist;
+			tb=rc[i].tablelist;
 			creator=false;
 			db=rc[i].db;
 			istrue=true;
+			
 			console.log('p_size = ' + rc[i].p_size + 'participant[' + rc[i].p_size + '] = ' + rc[i].participant[rc[i].p_size]);
 		}
 		
 	}
 	if(!istrue){
 			cl=[];
+			tb=[];
 			rc[rc_size]=new roomcanvas();
 			rc[rc_size].roomname=roomname;
 			rc[rc_size].canvaslist=[];
+			rc[rc_size].tablelist=[];
 			rc[rc_size].cl_size=0;
 			
 			rc[rc_size].db=new db_element();
@@ -187,7 +193,7 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 			
 			rc[rc_size].participant=[];
 			rc[rc_size].p_size=0;
-			console.log('is tureê°€ trueì„');
+			console.log('is ture°¡ trueÀÓ');
 			console.log('p_size = ' + rc[rc_size].p_size);
 			console.log('getid = ' + getid);
 			//rc[rc_size].participant[] = getid;
@@ -195,7 +201,7 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 			rc[rc_size].participant[rc[rc_size].p_size]=getid;
 			
 			
-			console.log('ë°›ì•„ì˜¨ ê°’ì€ ' + rc[rc_size].participant[rc[rc_size].p_size]);
+			console.log('¹Ş¾Æ¿Â °ªÀº ' + rc[rc_size].participant[rc[rc_size].p_size]);
 			console.log('p_size = ' + rc[rc_size].p_size + 'participant[' + rc[rc_size].p_size + '] = ' + rc[rc_size].participant[rc[rc_size].p_size]);
 			rc[rc_size].p_size++;
 			
@@ -217,40 +223,40 @@ app.get('/canvas', function (req, res) {      //http://localhost:8210/canvas/21 
 	
 	fs.readFile('canvas.html', 'utf8', function (err, data) {
 		
-    	 res.send(ejs.render(data, {room: getcanvas, userid: getid,canvaslist:cl,creator:creator,db:db }));
+    	 res.send(ejs.render(data, {room: getcanvas, userid: getid,canvaslist:cl,creator:creator,db:db, tablelist:tb }));
     });
 });
 
  
 
-//roomArray ë³€ìˆ˜ë¥¼ JSON íŒŒì¼ë¡œ ì œê³µí•˜ê¸° ìœ„í•œ í˜ì´ì§€.
+//roomArray º¯¼ö¸¦ JSON ÆÄÀÏ·Î Á¦°øÇÏ±â À§ÇÑ ÆäÀÌÁö.
 app.get('/room', function (req, res) {
-	/* í˜„ì¬ ì €ì¥ë˜ì–´ ìˆëŠ” ëª¨ë“  ë£¸ì˜ ëª©ë¡ì„ ë¦¬í„´í•œë‹¤.  */
+	/* ÇöÀç ÀúÀåµÇ¾î ÀÖ´Â ¸ğµç ·ëÀÇ ¸ñ·ÏÀ» ¸®ÅÏÇÑ´Ù.  */
 
     res.send(io.sockets.manager.rooms);
 });
 
  
 
-// ì†Œì¼“ ì„œë²„ì˜ ì´ë²¤íŠ¸ë¥¼ ì—°ê²°
+// ¼ÒÄÏ ¼­¹öÀÇ ÀÌº¥Æ®¸¦ ¿¬°á
 
 
-//'connection' -> í´ë¼ì´ì–¸íŠ¸ê°€ ì—°ê²° ë  ë•Œ í•¨ìˆ˜ ì‹¤í–‰
+//'connection' -> Å¬¶óÀÌ¾ğÆ®°¡ ¿¬°á µÉ ¶§ ÇÔ¼ö ½ÇÇà
 io.sockets.on('connection', function(socket) {
 	
 	if(clients[socket.id] == null)
 	{
 		clients[socket.id] = getid;
-		console.log('ë°›ì•„ì˜´!!');
+		console.log('¹Ş¾Æ¿È!!');
 	}
 	
 	
-	//'join' ì´ë²¤íŠ¸ ë°œìƒ joinì€ ì‚¬ìš©ìê°€ ì´ë¦„ì„ ì •ì˜í•œ ì‚¬ìš©ì ì •ì˜ ì´ë²¤íŠ¸ socket.on -> ì†Œì¼“ ì´ë²¤íŠ¸ë¥¼ ì—°ê²°
-	//ë‚´ê°€ ì‚¬ìš©í•˜ëŠ” htmlë¬¸ì—  (ìš°ë¦¬ì˜ ê²½ìš°ì—ëŠ” Canvas.html) joinê³¼ ê´€ë ¨ëœ ë¬´ì–¸ê°€ê°€ ìˆì„ ê±°ì„. 
+	//'join' ÀÌº¥Æ® ¹ß»ı joinÀº »ç¿ëÀÚ°¡ ÀÌ¸§À» Á¤ÀÇÇÑ »ç¿ëÀÚ Á¤ÀÇ ÀÌº¥Æ® socket.on -> ¼ÒÄÏ ÀÌº¥Æ®¸¦ ¿¬°á
+	//³»°¡ »ç¿ëÇÏ´Â html¹®¿¡  (¿ì¸®ÀÇ °æ¿ì¿¡´Â Canvas.html) join°ú °ü·ÃµÈ ¹«¾ğ°¡°¡ ÀÖÀ» °ÅÀÓ. 
 	socket.on('join', function(data) {
-        //í´ë¼ì´ì–¸íŠ¸ê°€ ì „ì†¡í•œ ë°ì´í„°ë¥¼ socket.joinì‹œí‚´ -> í´ë¼ì´ì–¸íŠ¸ë¥¼ ë°©ì— ì§‘ì–´ë„£ìŒ.
+        //Å¬¶óÀÌ¾ğÆ®°¡ Àü¼ÛÇÑ µ¥ÀÌÅÍ¸¦ socket.join½ÃÅ´ -> Å¬¶óÀÌ¾ğÆ®¸¦ ¹æ¿¡ Áı¾î³ÖÀ½.
 		socket.join(data);
-		//í´ë¼ì´ì–¸íŠ¸ì—ì„œ 'room'ìœ¼ë¡œ ë³´ë‚¸ ë°ì´í„°ë¥¼ ì„œë²„ì— ì €ì¥. ì´ ê²½ìš°ì—ëŠ” í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ìì‹ ì˜ ë°© ë²ˆí˜¸ë¥¼ ë¶€ì—¬.
+		//Å¬¶óÀÌ¾ğÆ®¿¡¼­ 'room'À¸·Î º¸³½ µ¥ÀÌÅÍ¸¦ ¼­¹ö¿¡ ÀúÀå. ÀÌ °æ¿ì¿¡´Â Å¬¶óÀÌ¾ğÆ®¿¡°Ô ÀÚ½ÅÀÇ ¹æ ¹øÈ£¸¦ ºÎ¿©.
         socket.set('room', data);
     });
 	
@@ -265,7 +271,7 @@ io.sockets.on('connection', function(socket) {
 	
 	
 	
-	//ì±„íŒ…ê³¼ ê´€ë ¨ëœ ë©”ì†Œë“œ
+	//Ã¤ÆÃ°ú °ü·ÃµÈ ¸Ş¼Òµå
 	socket.on('chatMessage', function(data) {
 		socket.get('room', function(err, room) {
 			io.sockets.in(room).emit('chatMessage', data);						
@@ -273,12 +279,12 @@ io.sockets.on('connection', function(socket) {
 		
 	});
 	
-	//ë©”ì¼ìš”ì²­ì‹œ
+	//¸ŞÀÏ¿äÃ»½Ã
 	socket.on('sendEmail', function(data) {
-		console.log('sendmailë¡œ ì˜´~~~~~~');
+		console.log('sendmail·Î ¿È~~~~~~');
 		console.log(data.mail.toString());	
 			
-			//ë©”ì¼ ë³´ë‚´ëŠ” ì˜ì—­
+			//¸ŞÀÏ º¸³»´Â ¿µ¿ª
 			var smtpTransport = nodemailer.createTransport("SMTP", {
 				service:'Gmail',
 				auth: {
@@ -290,8 +296,8 @@ io.sockets.on('connection', function(socket) {
 			var mailOptions = {
 					from: 'great0417@gmail.com',
 					to:data.mail.toString(),
-					subject:'ë””ìì¸íŒ¨í„´ ì´ˆëŒ€ ë§í¬ì…ë‹ˆë‹¤.',
-					html: '<a href="http://localhost:8080/invite?room=' + data.room + '">í˜ì´ì§€ ì´ë™</a>',
+					subject:'µğÀÚÀÎÆĞÅÏ ÃÊ´ë ¸µÅ©ÀÔ´Ï´Ù.',
+					html: '<a href="http://localhost:8080/invite?room=' + data.room + '">ÆäÀÌÁö ÀÌµ¿</a>',
 			}
 			
 			smtpTransport.sendMail(mailOptions, function(error, response) {
@@ -309,13 +315,13 @@ io.sockets.on('connection', function(socket) {
 	});
 	
 	
-	//ì°¸ì—¬ë¦¬ìŠ¤íŠ¸ì™€ ê´€ë ¨ëœ ë©”ì†Œë“œ
+	//Âü¿©¸®½ºÆ®¿Í °ü·ÃµÈ ¸Ş¼Òµå
 	socket.on('participant', function() {
 		socket.get('room', function(err, room) {
 			//participant.push(getid);
 			for(var i=0;i<rc.length;i++){
 				if(rc[i].roomname==roomname){					
-					//ì´ ë¶€ë¶„ í•˜ê³  ìˆëŠ” ì¤‘.....
+					//ÀÌ ºÎºĞ ÇÏ°í ÀÖ´Â Áß.....
 					io.sockets.in(room).emit('participant', rc[i].participant);
 					console.log(rc[i].participant.toString());
 				}
@@ -326,10 +332,10 @@ io.sockets.on('connection', function(socket) {
 	
 	
 /*	socket.on('deletefile', function() {
-		//ì‚­ì œ ì˜ì—­
+		//»èÁ¦ ¿µ¿ª
 		for(var i=0; i<flist.length;i++){
-			console.log('ì‚­ì œì˜ì—­ìœ¼ë¡œ ì˜´');
-			//filedata í•¨ìˆ˜ì— ì‚¬ìš© ì •ë³´ë“¤ ìˆëŠ”ê±° ê·¸..í´ë˜ìŠ¤ë„¤ì„..ë©”ì†Œë“œ... ê·¸ê±°ê·¸ë¦¬ê³  ë³€ìˆ˜ ì´ë¦„ ë“±ë“± ìˆëŠ”ê±°.....
+			console.log('»èÁ¦¿µ¿ªÀ¸·Î ¿È');
+			//filedata ÇÔ¼ö¿¡ »ç¿ë Á¤º¸µé ÀÖ´Â°Å ±×..Å¬·¡½º³×ÀÓ..¸Ş¼Òµå... ±×°Å±×¸®°í º¯¼ö ÀÌ¸§ µîµî ÀÖ´Â°Å.....
 			if(flist[i].gb==1) delfile(1, flist[i].class);
 			else if(flist[i].gb==2) delfile(2, flist[i].class);
 			else if(flist[i].gb==3) delfile(3, flist[i].class);
@@ -342,7 +348,7 @@ io.sockets.on('connection', function(socket) {
 	
 	/*function delfolder()
 	{
-		var folder='';//ìƒì„±ë íŒŒì¼ê²½ë¡œíŒŒì¼ì´ë¦„
+		var folder='';//»ı¼ºµÉÆÄÀÏ°æ·ÎÆÄÀÏÀÌ¸§
 		
 		
 		var mvc='';
@@ -356,10 +362,10 @@ io.sockets.on('connection', function(socket) {
 			
 			if(i!=4)
 			{
-				console.log('mvcëŠ”!!!');
+				console.log('mvc´Â!!!');
 				console.log(mvc);
 				folder='./mvc/' + roominfo + "/"  +mvc;	
-				console.log('ì‚­ì œí•  í´ë”ëŠ”');
+				console.log('»èÁ¦ÇÒ Æú´õ´Â');
 				console.log(folder);
 				
 				fs.rmdir(folder, function(err) {
@@ -369,9 +375,9 @@ io.sockets.on('connection', function(socket) {
 			}
 			else
 			{
-				console.log('iëŠ” 4ë‹¤!!!')
+				console.log('i´Â 4´Ù!!!')
 				console.log(i);
-				console.log('ì‚­ì œí•  í´ë”ëŠ”');
+				console.log('»èÁ¦ÇÒ Æú´õ´Â');
 				folder='./mvc/' + roominfo;
 				console.log(folder);
 				fs.rmdir(folder, function(err) {
@@ -389,7 +395,7 @@ io.sockets.on('connection', function(socket) {
 	
 	
 /*	function delfile(gb, fc) {
-		var file='';//ìƒì„±ë íŒŒì¼ê²½ë¡œíŒŒì¼ì´ë¦„
+		var file='';//»ı¼ºµÉÆÄÀÏ°æ·ÎÆÄÀÏÀÌ¸§
 		
 		
 		var mvc='';
@@ -400,7 +406,7 @@ io.sockets.on('connection', function(socket) {
 			
 			
 		file='./mvc/' + roominfo + "/"  +mvc+'/'+fc.classname+'.java';	
-		console.log('ì‚­ì œì˜ì—­ ì‚­ì œí•  íŒŒì¼ì€');
+		console.log('»èÁ¦¿µ¿ª »èÁ¦ÇÒ ÆÄÀÏÀº');
 		console.log(file);
 		
 		
@@ -415,18 +421,29 @@ io.sockets.on('connection', function(socket) {
 	
 	
 	
-	//gb = canvas.htmlì—ì„œ ë°›ì•„ì˜¤ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬ ì„œë¹„ìŠ¤ ë“±ë“± êµ¬ë¶„
-	var room='';//í˜„ì¬ë°©ì´ë¦„ ***ì¶”ê°€
+	//gb = canvas.html¿¡¼­ ¹Ş¾Æ¿À´Â ÄÁÆ®·Ñ·¯ ¼­ºñ½º µîµî ±¸ºĞ
+	var room='';//ÇöÀç¹æÀÌ¸§ ***Ãß°¡
 	var fcrea=false;
-	var isExam=false; //ExamController ì¡´ì¬ì—¬ë¶€
-	var conList=[]; //controllerí´ë˜ìŠ¤ë„¤ì„ ë¦¬ìŠ¤íŠ¸
+	var isExam=false; //ExamController Á¸Àç¿©ºÎ
+	var conList=[]; //controllerÅ¬·¡½º³×ÀÓ ¸®½ºÆ®
 	var conSize=0;
-	
-	//class fileì— ë°ì´í„° ì…ë ¥í•˜ëŠ” ì‘ì—…
+	var ismvc=false;
+	var connTb=null; //dao¿Í ¿¬°áµÈ table
+	var splitName=''; //ex)ExamController¶ó¸é Exam
+	var splitName2='';
+	//class file¿¡ µ¥ÀÌÅÍ ÀÔ·ÂÇÏ´Â ÀÛ¾÷
 	function filedata(gb, fc, conn){
+		
 		fcrea=false;
-		var data='';//íŒŒì¼ì— ì…ë ¥í•  ë°ì´í„°
-		var file='';//ìƒì„±ë íŒŒì¼ê²½ë¡œíŒŒì¼ì´ë¦„
+		ismvc=false; //mvc ÀÚµ¿»ı¼º±â·Î ¸¸µé¾îÁ³°í Å×ÀÌºí¿¬°áµÇÀÖ´ÂÁö checkÇÏ´Â º¯¼ö
+		var data='';//ÆÄÀÏ¿¡ ÀÔ·ÂÇÒ µ¥ÀÌÅÍ
+		var file='';//»ı¼ºµÉÆÄÀÏ°æ·ÎÆÄÀÏÀÌ¸§
+		splitName=''; 
+		splitName2='';
+		
+		ismvc=isMvc(gb, fc);
+		
+		
 
 		var mvc='';
 		if(gb==1) mvc='controller';
@@ -435,7 +452,7 @@ io.sockets.on('connection', function(socket) {
 		else if(gb==0) mvc='basic'
 
 			data='package '+mvc+';\n\n';
-		//ì—°ê²°ëœí´ë˜ìŠ¤ë“¤ importì‹œí‚¤ê¸°
+		//¿¬°áµÈÅ¬·¡½ºµé import½ÃÅ°±â
 		if(conn.length!=0){
 			for(var d=0;d<conn.length;d++){
 				data+='import ';
@@ -448,11 +465,21 @@ io.sockets.on('connection', function(socket) {
 		}
 
 		if(gb==1){ 
-		data+='import java.io.IOException;\nimport javax.servlet.RequestDispatcher;\nimport javax.servlet.ServletException;\nimport javax.servlet.http.HttpServlet;\nimport javax.servlet.http.HttpServletRequest;\nimport javax.servlet.http.HttpServletResponse;\n'
-		if(fc.classname=='ExamController'){ //***ì¶”ê°€
-			data+='import vo.ExamVO;\nimport java.util.ArrayList;\n'
+			data+='import java.io.IOException;\nimport javax.servlet.RequestDispatcher;\nimport javax.servlet.ServletException;\nimport javax.servlet.http.HttpServlet;\nimport javax.servlet.http.HttpServletRequest;\nimport javax.servlet.http.HttpServletResponse;\n'
+			if(fc.classname=='ExamController'){ //***Ãß°¡
+				data+='import vo.ExamVO;\nimport java.util.ArrayList;\n'
 			}
 		}
+//¼öÁ¤Áß!!!!!!!!!!!!
+		if(ismvc&&connTb!=null&&isDB){
+			data+='import vo.'+connTb.tablename+'VO;\nimport java.util.ArrayList;\nimport java.sql.SQLException;\n'
+			if(gb==1){
+				data+='import commons.DBUtil;\nimport commons.OracleDBConnection;\n';
+			}else if(gb==3){
+				data+='';
+			}
+		}
+		
 		data+='\npublic class '+fc.classname;
 		if(gb==1){
 			data+=' extends HttpServlet';
@@ -460,9 +487,9 @@ io.sockets.on('connection', function(socket) {
 
 		data+='{\n';
 
-		//ì—°ê²°í´ë˜ìŠ¤ ë„£ê¸°
+		//¿¬°áÅ¬·¡½º ³Ö±â
 		
-		//***ì¶”ê°€
+		//***Ãß°¡
 		function makeReturnVal(val){
 			if(val=='String') return 'return "";';
 			else if(val=='int') return 'return 1;';
@@ -474,21 +501,46 @@ io.sockets.on('connection', function(socket) {
 			}
 		}
 
-		//ë³€ìˆ˜ë¦¬ìŠ¤íŠ¸ ëŒë©´ì„œ ë„£ê¸°
+		//º¯¼ö¸®½ºÆ® µ¹¸é¼­ ³Ö±â
 		for(var j=0; j<fc.valuename.length;j++){
-			data+='\t'+fc.selectvalue[j]+" "+fc.valuename[j]+';\n';
+			if(fc.directvalue[j]==""&&fc.valuename[j]!=""){
+				data+='\t'+fc.selectvalue[j]+" "+fc.valuename[j]+';\n';
+			}else if(fc.directvalue[j]!=""&&fc.valuename[j]!=""){
+				data+='\t'+fc.directvalue[j]+" "+fc.valuename[j]+';\n';
+			}
 		}
 		data+='\n\n';
-		//ë©”ì†Œë“œë¦¬ìŠ¤íŠ¸ ëŒë©´ì„œ ë„£ê¸°
+		//¸Ş¼Òµå¸®½ºÆ® µ¹¸é¼­ ³Ö±â
 		for(var j=0; j<fc.methodname.length;j++){
-			data+='\tpublic '+fc.selectmethod[j]+" "+fc.methodname[j]+'(){\n\t\t'+makeReturnVal(fc.selectmethod[j])+'\n\t}\n\n';
+			if(fc.directmethod[j]==""&&fc.methodname[j]!=""){
+				data+='\tpublic '+fc.selectmethod[j]+" "+fc.methodname[j]+'(){\n\t\t'+makeReturnVal(fc.selectmethod[j])+'\n\t}\n\n';
+			}else if(fc.directmethod[j]!=""&&fc.methodname[j]!=""){
+				data+='\tpublic '+fc.directmethod[j]+" "+fc.methodname[j]+'(){\n\t\t'+makeReturnVal(fc.directmethod[j])+'\n\t}\n\n';
+			}
 		}
 
-		//ì»¨íŠ¸ë¡¤ëŸ¬ë©´ doGet,doPostë©”ì†Œë“œ ë„£ê¸° ***ì¶”ê°€
+		if(gb==2){
+			if(ismvc&&connTb!=null&&isDB){
+				data+='\n\n';
+				data+='\t@Override\n\tpublic ArrayList<'+connTb.tablename+'VO> select'+connTb.tablename+'() throws SQLException {\n\t\t// TODO Auto-generated method stub\n\t\ttry {\n\t\t\tArrayList<'+connTb.tablename+'VO> list = '+splitName2+'DAO.select'+connTb.tablename+'();\n\t\t\treturn list;\n\t\t} catch (SQLException e){\n\n\t\t\tArrayList<'+connTb.tablename+'VO> error=new ArrayList<'+connTb.tablename+'VO>();\n\t\t\terror=null;\n\t\t\te.printStackTrace();\n\t\t\tSystem.out.println("select fail");\n\t\t\treturn error;\n\t\t}\n\t}\n\n';
+
+			}
+		}
+
+		if(gb==3){
+			if(ismvc&&connTb!=null&&isDB){
+				data+='\n\n';
+				data+='';
+			}
+		}
+
+		//ÄÁÆ®·Ñ·¯¸é doGet,doPost¸Ş¼Òµå ³Ö±â ***Ãß°¡
 		if(gb==1){
-			data+='\tprotected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n';
+			data+='\tprotjcted void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n';
 			if(fc.classname=='ExamController'){
-				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\tArrayList<ExamVO> list = new ArrayList<ExamVO>();\n\t\tExamVO exam=new ExamVO();\n\t\texam.setName("ìœ ì¬ìš©");\n\t\texam.setPhone("010-1111-1111");\n\t\texam.setEmail("aaa@naver.com");\n\t\tlist.add(exam);\n\n\t\tExamVO exam1=new ExamVO();\n\t\texam1.setName("ì†¡í¬ì—½");\n\t\texam1.setPhone("010-2222-2222");\n\t\texam1.setEmail("bbb@naver.com");\n\t\tlist.add(exam1);\n\n\t\tExamVO exam2=new ExamVO();\n\t\texam2.setName("ë°©ë¯¼ì„­");\n\t\texam2.setPhone("010-3333-3333");\n\t\texam2.setEmail("ccc@naver.com");\n\t\tlist.add(exam2);\n\n\t\tExamVO exam3=new ExamVO();\n\t\texam3.setName("ê¹€ì†Œí¬");\n\t\texam3.setPhone("010-4444-4444");\n\t\texam3.setEmail("ddd@naver.com");\n\t\tlist.add(exam3);\n\n\t\tExamVO exam4=new ExamVO();\n\t\texam4.setName("í™ë¯¼ì¬");\n\t\texam4.setPhone("010-5555-5555");\n\t\texam4.setEmail("eee@naver.com");\n\t\tlist.add(exam4);\n\n\t\tRequestDispatcher rd = request.getRequestDispatcher("exam.jsp"); \n\t\trequest.setAttribute("USERLIST", list);\n\t\trd.forward(request, response);';
+				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\tArrayList<ExamVO> list = new ArrayList<ExamVO>();\n\t\tExamVO exam=new ExamVO();\n\t\texam.setName("À¯Àç¿ë");\n\t\texam.setPhone("010-1111-1111");\n\t\texam.setEmail("aaa@naver.com");\n\t\tlist.add(exam);\n\n\t\tExamVO exam1=new ExamVO();\n\t\texam1.setName("¼ÛÈñ¿±");\n\t\texam1.setPhone("010-2222-2222");\n\t\texam1.setEmail("bbb@naver.com");\n\t\tlist.add(exam1);\n\n\t\tExamVO exam2=new ExamVO();\n\t\texam2.setName("¹æ¹Î¼·");\n\t\texam2.setPhone("010-3333-3333");\n\t\texam2.setEmail("ccc@naver.com");\n\t\tlist.add(exam2);\n\n\t\tExamVO exam3=new ExamVO();\n\t\texam3.setName("±è¼ÒÈñ");\n\t\texam3.setPhone("010-4444-4444");\n\t\texam3.setEmail("ddd@naver.com");\n\t\tlist.add(exam3);\n\n\t\tExamVO exam4=new ExamVO();\n\t\texam4.setName("È«¹ÎÀç");\n\t\texam4.setPhone("010-5555-5555");\n\t\texam4.setEmail("eee@naver.com");\n\t\tlist.add(exam4);\n\n\t\tRequestDispatcher rd = request.getRequestDispatcher("exam.jsp"); \n\t\trequest.setAttribute("USERLIST", list);\n\t\trd.forward(request, response);';
+			}else if(ismvc&&connTb!=null&&isDB){
+				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\ttry{\n\n\t\t\tOracleDBConnection odb = new OracleDBConnection();\n\t\t\tDBUtil.setDBMSConnector(odb);\n\n\t\t\tArrayList<'+connTb.tablename+'VO> list = new ArrayList<'+connTb.tablename+'VO>();\n\t\t\tlist='+splitName2+'Service.select'+connTb.tablename+'();\n\n\t\t\tRequestDispatcher rd = request.getRequestDispatcher("/views/list.jsp");\n\n\t\t\trequest.setAttribute("list", list);\n\t\t\trd.forward(request, response);\n\n\t\t}catch(SQLException e){\n\t\t//TODO Auto-generated catch block\n\t\t\te.printStackTrace();\n\t\t}\n\n'
 			}
 			data+='\n\t}\n\tprotected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n\t\tdoGet(request, response);\n\t}\n\n';
 
@@ -498,7 +550,7 @@ io.sockets.on('connection', function(socket) {
 	 
 		file='./mvc/'+room+'/src/'+mvc+'/'+fc.classname+'.java';
 		
-		//fileì— dataì“°ê¸°
+		//file¿¡ data¾²±â
 		var writer = fs.createWriteStream(file);
 		writer.write(data);
 
@@ -515,11 +567,11 @@ io.sockets.on('connection', function(socket) {
 	}
 	
 	
-	//vo class fileì— ë°ì´í„° ì…ë ¥í•˜ëŠ” ì‘ì—…
+	//vo class file¿¡ µ¥ÀÌÅÍ ÀÔ·ÂÇÏ´Â ÀÛ¾÷
 	function vofiledata(fc){
 		fcrea=false;
-		var data='';//íŒŒì¼ì— ì…ë ¥í•  ë°ì´í„°
-		var file='';//ìƒì„±ë íŒŒì¼ê²½ë¡œíŒŒì¼ì´ë¦„
+		var data='';//ÆÄÀÏ¿¡ ÀÔ·ÂÇÒ µ¥ÀÌÅÍ
+		var file='';//»ı¼ºµÉÆÄÀÏ°æ·ÎÆÄÀÏÀÌ¸§
 
 		var mvc='vo';
 		
@@ -530,12 +582,12 @@ io.sockets.on('connection', function(socket) {
 		data+='{\n';
 
 
-		//ë³€ìˆ˜ë¦¬ìŠ¤íŠ¸ ëŒë©´ì„œ ë„£ê¸°
+		//º¯¼ö¸®½ºÆ® µ¹¸é¼­ ³Ö±â
 		for(var j=0; j<fc.valuename.length;j++){
 			data+='\tprivate '+fc.selectvalue[j]+" "+fc.valuename[j]+';\n';
 		}
 		data+='\n\n';
-		//ë©”ì†Œë“œë¦¬ìŠ¤íŠ¸ ëŒë©´ì„œ ë„£ê¸°
+		//¸Ş¼Òµå¸®½ºÆ® µ¹¸é¼­ ³Ö±â
 		for(var j=0; j<fc.valuename.length;j++){
 			data+='\tpublic '+fc.selectvalue[j]+" get"+fc.valuename[j].substring(0,1).toUpperCase()+fc.valuename[j].substring(1)+'(){\n\t\treturn '+fc.valuename[j]+';\n\t}\n';
 			data+='\tpublic void set'+fc.valuename[j].substring(0,1).toUpperCase()+fc.valuename[j].substring(1)+'('+fc.selectvalue[j]+' '+fc.valuename[j]+'){\n\t\tthis.'+fc.valuename[j]+' = '+fc.valuename[j]+';\n\t}\n';
@@ -547,7 +599,7 @@ io.sockets.on('connection', function(socket) {
 	 
 		file='./mvc/'+room+'/src/'+mvc+'/'+fc.classname+'.java';
 		
-		//fileì— dataì“°ê¸°
+		//file¿¡ data¾²±â
 		var writer = fs.createWriteStream(file);
 		writer.write(data);
 
@@ -566,22 +618,260 @@ io.sockets.on('connection', function(socket) {
 	
 	
 	
-	
-	
-	
+	//sqlÆÄÀÏ »ı¼º
+	socket.on('createtb', function() {
+      socket.get('room', function(err, froom) {
+		 
+
+         room = froom;
+         var tlist =[];
+         
+         
+         for(var i = 0; i < rc.length; i++)
+         {
+            if(rc[i].roomname==froom){
+               roominfo = froom
+               tlist=rc[i].tablelist;
+            }   
+         }
+         
+         var dir='';
+
+         //µğ·ºÅä¸®»ı¼º
+
+         dir='./table';
+
+         if(!fs.existsSync(dir)){
+             fs.mkdirSync(dir);
+         }
+         
+         
+    
+         sqldata(tlist);
+         
 
 	
-	//var flist=[]; //ê° íŒŒì¼ì— ì…ë ¥í•  ì •ë³´ë¥¼ ë°›ê¸°ìœ„í•œ ë³€ìˆ˜
-	//í”„ë¡œì íŠ¸ íŒŒì¼ìƒì„± 
-	//í”„ë¡œì íŠ¸ íŒŒì¼ìƒì„± 
+
+
+
+      });
+   });
+   
+   // ¡Ù  .sql ÀÛ¼ºÇÏ´Â °Í
+   function sqldata(tlist) {
+     var data='';
+      var file = '';
+      
+      
+      
+     file='./table/'+roominfo+'.sql';
+
+      if(tlist.length!=0){
+         for(var d=0;d<tlist.length;d++){
+            data+='CREATE '+tlist[d].tablename+'{\n';
+            for(var i = 0; i < tlist[d].datatype.length; i++ )
+            {
+               
+               if(i == 0)
+               {
+                  if(tlist[d].directtype[i] =="")
+                  {
+                     data += tlist[d].columnname[i] +' '+ tlist[d].datatype[i] +  '(1000) PRIMARY KEY, \n';
+                     
+                  }
+                  else
+                  {
+                     data += tlist[d].columnname[i] +' '+  tlist[d].directtype[i] +  '(1000) PRIMARY KEY, \n';
+                  }
+               }
+               else if(i == tlist[d].datatype.length -1 )
+               {
+                  if(tlist[d].directtype[i] =="")
+                  {
+                     data += tlist[d].columnname[i]+' '+  tlist[d].datatype[i] +  '(1000)\n';
+                     
+                  }
+                  else
+                  {
+                     data += tlist[d].columnname[i] +' '+  tlist[d].directtype[i] +  '(1000)\n';
+                  }
+               }
+               else
+               {
+                  if(tlist[d].directtype[i] =="")
+                  {
+                     data += tlist[d].columnname[i]+' '+  tlist[d].datatype[i] +  '(1000),\n';
+                     
+                  }
+                  else
+                  {
+                     data += tlist[d].columnname[i] +' '+  tlist[d].directtype[i] +  '(1000),\n';
+                  }
+               }
+            
+            }
+            data += '};\n\n';
+         }
+		 
+		 //file¿¡ data¾²±â
+		  var writer = fs.createWriteStream(file);
+		  writer.write(data);
+
+		  
+
+		  writer.end('');
+		  writer.on('finish', function() {
+			 console.log('file create..');
+		  });
+      }
+
+
+      
+      
+      
+      
+      
+   }
+
+//list¾È¿¡ ÇØ´ç Å¬·¡½º ÀÖ´ÂÁö Ã£±â
+var isInList=false;
+function inList(cname){
+		var flist1=[];
+		isInList=false;
+		for(var i=0;i<rc.length;i++){
+			if(rc[i].roomname==room){
+				flist1=rc[i].canvaslist;	
+			}	
+		}
+		for(var j=0;j<flist1.length;j++){
+			if(flist1[j].class.classname==cname){
+				isInList=true;
+			}
+		}
+		return isInList;
+}
+
+
+
+function isTb(c){
+	var tlist1=[];
+	
+	var isConnTb=false;
+	for(var i = 0; i < rc.length; i++)
+         {
+            if(rc[i].roomname==room){
+               tlist1=rc[i].tablelist;
+            }   
+         }
+	for(var j=0;j<tlist1.length;j++){
+			if(tlist1[j].conn_dao==c){
+				connTb=tlist1[j];
+				isConnTb=true;
+			}
+		}
+	return isConnTb;
+         
+}
+
+//mvcÀÚµ¿»ı¼º±â·Î ¸¸µé¾îÁ³À¸¸ç Å×ÀÌºí dao¿Í ¿¬°áµÇ¾îÀÖ´ÂÁö check
+var mvc=false;
+function isMvc(gb, fc){
+	mvc=false;
+	var c1='';
+	var c2='';
+	var con=false;
+	var ser=false;
+	var dao=false;
+	var tb=false;
+	if(gb==1){
+		
+		var c1=fc.classname.split('Controller');
+		splitName=c1[0];
+		splitName2=splitName.substring(0,1).toLowerCase()+splitName.substring(1);
+		c2=c1[0]+'Service';
+		
+
+		
+		if(inList(c2)) {
+			ser=true;
+			c2=c1[0]+'DAO';
+			
+			if(inList(c2)){
+				dao=true;
+				if(isTb(c2)){
+					tb=true;
+				}
+			}
+		}
+		if(ser&&dao&&tb){
+			mvc=true;
+		
+		}
+		
+		return mvc;
+
+
+	}else if(gb==2){
+		var c1=fc.classname.split('Service');
+		splitName=c1[0];
+		splitName2=splitName.substring(0,1).toLowerCase()+splitName.substring(1);
+		c2=c1[0]+'Controller';
+		
+		if(inList(c2)) {
+			con=true;
+			c2=c1[0]+'DAO';
+			
+			if(inList(c2)){
+				dao=true;
+				if(isTb(c2)){
+					tb=true;
+				}
+			}
+		}
+		if(con&&dao&&tb){
+			mvc=true;
+			
+		}
+		return mvc;
+	}else if(gb==3){
+		if(isTb(fc.classname)){
+			tb=true;
+		}
+		var c1=fc.classname.split('DAO');
+		splitName=c1[0];
+		splitName2=splitName.substring(0,1).toLowerCase()+splitName.substring(1);
+		c2=c1[0]+'Controller';
+		
+		if(inList(c2)) {
+			con=true;
+			c2=c1[0]+'Service';
+			
+			if(inList(c2)){
+				ser=true;
+			}
+		}
+		if(ser&&con&&tb){
+			mvc=true;
+		}
+		
+		return mvc;
+	}
+	 
+}
+
+	
+	
+	//var flist=[]; //°¢ ÆÄÀÏ¿¡ ÀÔ·ÂÇÒ Á¤º¸¸¦ ¹Ş±âÀ§ÇÑ º¯¼ö
+	//ÇÁ·ÎÁ§Æ® ÆÄÀÏ»ı¼º 
+	//ÇÁ·ÎÁ§Æ® ÆÄÀÏ»ı¼º 
 	socket.on('createpj',function(){
 		socket.get('room', function(err, froom) {
-		room=froom; //***ì¶”ê°€
-		var flist=[]; //ê° íŒŒì¼ì— ì…ë ¥í•  ì •ë³´ë¥¼ ë°›ê¸°ìœ„í•œ ë³€ìˆ˜
-		var isDB=false; //dbì •ë³´ ìˆëŠ”ì§€
+		room=froom; //***Ãß°¡
+		var flist=[]; //°¢ ÆÄÀÏ¿¡ ÀÔ·ÂÇÒ Á¤º¸¸¦ ¹Ş±âÀ§ÇÑ º¯¼ö
+		var isDB=false; //dbÁ¤º¸ ÀÖ´ÂÁö
 		var dbInfor=new db_element();
 
-		//rcë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ë°©ì´ë¦„ì´ ì¡´ì¬í•˜ë©´ canvaslistë¥¼ flistì— ë„£ëŠ”ë‹¤
+		//rc¸®½ºÆ®¿¡ ÇöÀç ¹æÀÌ¸§ÀÌ Á¸ÀçÇÏ¸é canvaslist¸¦ flist¿¡ ³Ö´Â´Ù
 		for(var i=0;i<rc.length;i++){
 			if(rc[i].roomname==froom){
 				roominfo = froom
@@ -598,7 +888,7 @@ io.sockets.on('connection', function(socket) {
 		
 	var dir='';
 
-	//ë””ë ‰í† ë¦¬ìƒì„±
+	//µğ·ºÅä¸®»ı¼º
 
 	dir='./mvc';
 
@@ -606,7 +896,7 @@ io.sockets.on('connection', function(socket) {
 	    fs.mkdirSync(dir);
 	}
 
-	//ì¶”ê°€- í”„ë¡œì íŠ¸ê¸°ë³¸ í´ë”ì¹´í”¼í•˜ê¸°ìœ„í•´.(java projectë¡œìƒì„±í• ë•Œ)
+	//Ãß°¡- ÇÁ·ÎÁ§Æ®±âº» Æú´õÄ«ÇÇÇÏ±âÀ§ÇØ.(java project·Î»ı¼ºÇÒ¶§)
 	var copydir = require('copy-dir');
 
 	fcrea=false;
@@ -663,12 +953,12 @@ io.sockets.on('connection', function(socket) {
 
 
 	isExam=false;
-	//javalistëŒë©´ì„œ ì½”ë“œí™”
+	//javalistµ¹¸é¼­ ÄÚµåÈ­
 	for(var i=0; i<flist.length;i++){
 	fcrea=false;
-		//ì—°ê²°ëœí´ë˜ìŠ¤ë“¤ ë¦¬ìŠ¤íŠ¸ë§Œë“¤ê¸°
-		var conn_list = []; //ì—°ê²°ë¦¬ìŠ¤íŠ¸
-		var conn_idx = 0; //ì—°ê²°ì¸ë±ìŠ¤
+		//¿¬°áµÈÅ¬·¡½ºµé ¸®½ºÆ®¸¸µé±â
+		var conn_list = []; //¿¬°á¸®½ºÆ®
+		var conn_idx = 0; //¿¬°áÀÎµ¦½º
 
 		for(var c=0;c<flist.length;c++){
 			if(flist[i].class.classname == flist[c].class.connclassname){
@@ -677,6 +967,7 @@ io.sockets.on('connection', function(socket) {
 			}
 		}
 
+	
 	if(flist[i].gb==1){ 
 		filedata(1, flist[i].class, conn_list);
 		var cn=flist[i].class.classname;
@@ -699,7 +990,7 @@ io.sockets.on('connection', function(socket) {
 	while(true){
 
 		if(fcrea){
-				//zipíŒŒì¼ë¡œ ì••ì¶•
+				//zipÆÄÀÏ·Î ¾ĞÃà
 
 	var EasyZip = require('easy-zip').EasyZip;
 
@@ -725,24 +1016,24 @@ io.sockets.on('connection', function(socket) {
 	zip1.writeToFile(dirname);
 
 
-	//.settingí´ë”ì— org.eclipse.wst.commoní”„ë¡œì íŠ¸ì´ë¦„ ìˆ˜ì •í›„ ì¶”ê°€
+	//.settingÆú´õ¿¡ org.eclipse.wst.commonÇÁ·ÎÁ§Æ®ÀÌ¸§ ¼öÁ¤ÈÄ Ãß°¡
 	var data1='<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">\n\t<wb-module deploy-name="'+froom+'">\n\t\t<wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>\n\t\t<wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>\n\t\t<property name="context-root" value="'+froom+'"/>\n\t\t<property name="java-output-path" value="/'+froom+'/build/classes"/>\n\t</wb-module>\n</project-modules>';
 	zip1.file('.settings/org.eclipse.wst.common.component',data1);	
 
 
-	//.classpath íŒŒì¼ì¶”ê°€
+	//.classpath ÆÄÀÏÃß°¡
 	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<classpath>\n\t<classpathentry kind="src" path="src"/>\n\t<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_73">\n\t\t<attributes>\n\t\t\t<attribute name="owner.project.facets" value="java"/>\n\t\t</attributes>\n\t</classpathentry>\n\t<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">\n\t\t<attributes>\n\t\t\t<attribute name="owner.project.facets" value="jst.web"/>\n\t\t</attributes>\n\t</classpathentry>\n\t<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>\n\t<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>\n\t<classpathentry kind="output" path="build/classes"/>\n</classpath>\n';
 	zip1.file('.classpath',data1);
 
 
 
 
-	//.project íŒŒì¼ í”„ë¡œì íŠ¸ì´ë¦„ ìˆ˜ì •í›„ ì¶”ê°€
+	//.project ÆÄÀÏ ÇÁ·ÎÁ§Æ®ÀÌ¸§ ¼öÁ¤ÈÄ Ãß°¡
 	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<projectDescription>\n\t<name>'+froom+'</name>\n\t<comment></comment>\n\t<projects>\n\t</projects>\n\t<buildSpec>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.jdt.core.javabuilder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.wst.common.project.facet.core.builder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t\t<buildCommand>\n\t\t\t<name>org.eclipse.wst.validation.validationbuilder</name>\n\t\t\t<arguments>\n\t\t\t</arguments>\n\t\t</buildCommand>\n\t</buildSpec>\n\t<natures>\n\t\t<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>\n\t\t<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>\n\t\t<nature>org.eclipse.wst.common.project.facet.core.nature</nature>\n\t\t<nature>org.eclipse.jdt.core.javanature</nature>\n\t\t<nature>org.eclipse.wst.jsdt.core.jsNature</nature>\n\t</natures>\n</projectDescription>\n';
 	zip1.file('.project',data1);
 	zip1.writeToFile(dirname);//write zip data to disk
 
-	//isExamì´ trueì´ë©´ exam.jspì¶”ê°€í•´ì£¼ê¸°
+	//isExamÀÌ trueÀÌ¸é exam.jspÃß°¡ÇØÁÖ±â
 	if(isExam){
 		zip1.addFile('WebContent/exam.jsp','./pj/exam.jsp',function(){
 	    		zip1.writeToFile(dirname);
@@ -753,7 +1044,7 @@ io.sockets.on('connection', function(socket) {
 	 	
 	}
 
-	//dbì •ë³´ìˆìœ¼ë©´ dbì—°ê²°í´ë˜ìŠ¤ì¶”ê°€
+	//dbÁ¤º¸ÀÖÀ¸¸é db¿¬°áÅ¬·¡½ºÃß°¡
 	if(isDB){
 		zip1.addFile('src/commons/DBUtil.java','./pj/optestpj/src/commons/DBUtil.java',function(){
 	    		zip1.writeToFile(dirname);
@@ -774,7 +1065,7 @@ io.sockets.on('connection', function(socket) {
 
 	}
 
-	//controllerì˜ë¼ì£¼ê³  ì²«ê¸€ì ì†Œë¬¸ìë¡œ ë°”ê¿”ì£¼ëŠ” ë©”ì†Œë“œ
+	//controllerÀß¶óÁÖ°í Ã¹±ÛÀÚ ¼Ò¹®ÀÚ·Î ¹Ù²ãÁÖ´Â ¸Ş¼Òµå
 	function urlmaker(string){
 	  	var sp = string.split('Controller');
 	      	var sp2=sp[0].substring(0,1).toLowerCase()+sp[0].substring(1,sp[0].length);
@@ -782,7 +1073,7 @@ io.sockets.on('connection', function(socket) {
 	   
 	}
 
-	//web.xmlì— ê° ì»¨íŠ¸ë¡¤ëŸ¬ë§ˆë‹¤ servlet mappingí•´ì£¼ê¸° 
+	//web.xml¿¡ °¢ ÄÁÆ®·Ñ·¯¸¶´Ù servlet mappingÇØÁÖ±â 
 	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">\n\t<display-name>'+froom+'</display-name>\n\t<welcome-file-list>\n\t\t<welcome-file>index.html</welcome-file>\n\t\t<welcome-file>index.htm</welcome-file>\n\t\t<welcome-file>index.jsp</welcome-file>\n\t\t<welcome-file>default.html</welcome-file>\n\t\t<welcome-file>default.htm</welcome-file>\n\t\t<welcome-file>default.jsp</welcome-file>\n\t</welcome-file-list>\n';
 	for(var i=0; i<conSize; i++){
 		data1+='\t<servlet>\n\t\t<servlet-name>'+conList[i]+'</servlet-name>\n\t\t<servlet-class>controller.'+conList[i]+'</servlet-class>\n\t</servlet>\n\t<servlet-mapping>\n\t\t<servlet-name>'+conList[i]+'</servlet-name>\n\t\t<url-pattern>/'+urlmaker(conList[i])+'</url-pattern>\n\t</servlet-mapping>\n';
@@ -807,10 +1098,10 @@ io.sockets.on('connection', function(socket) {
 
 
 
-	//ì¶”ê°€ì¶”ê°€..dbì •ë³´ ë°›ê¸°
+	//Ãß°¡Ãß°¡..dbÁ¤º¸ ¹Ş±â
 	socket.on('db_infor', function(data) {
 
-	//rcë¦¬ìŠ¤íŠ¸ë¥¼ ëŒë©´ì„œ roomnameì— í˜„ì¬ì ‘ì†í•œ ë£¸ì´ ìˆìœ¼ë©´ canvaslist ë‹¤ìŒ ì¸ë±ìŠ¤ì— //ë””ë¹„ ì •ë³´ë“¤ì„ ë°›ì•„ì„œ ì €ì¥í•œë‹¤.	
+	//rc¸®½ºÆ®¸¦ µ¹¸é¼­ roomname¿¡ ÇöÀçÁ¢¼ÓÇÑ ·ëÀÌ ÀÖÀ¸¸é canvaslist ´ÙÀ½ ÀÎµ¦½º¿¡ //µğºñ Á¤º¸µéÀ» ¹Ş¾Æ¼­ ÀúÀåÇÑ´Ù.	
 	socket.get('room', function(err, room) {
 		for(var i=0;i<rc.length;i++){
 			if(rc[i].roomname==room){
@@ -836,7 +1127,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('draw', function(data) {
     	
     	
-    	//rcë¦¬ìŠ¤íŠ¸ë¥¼ ëŒë©´ì„œ roomnameì— í˜„ì¬ì ‘ì†í•œ ë£¸ì´ ìˆìœ¼ë©´ canvaslist ë‹¤ìŒ ì¸ë±ìŠ¤ì— //canvasì— ê·¸ë ¤ì§„ ì •ë³´ë“¤ì„ ë°›ì•„ì„œ ì €ì¥í•œë‹¤.	
+    	//rc¸®½ºÆ®¸¦ µ¹¸é¼­ roomname¿¡ ÇöÀçÁ¢¼ÓÇÑ ·ëÀÌ ÀÖÀ¸¸é canvaslist ´ÙÀ½ ÀÎµ¦½º¿¡ //canvas¿¡ ±×·ÁÁø Á¤º¸µéÀ» ¹Ş¾Æ¼­ ÀúÀåÇÑ´Ù.	
         socket.get('room', function(err, room) {
         	for(var i=0;i<rc.length;i++){
         		if(rc[i].roomname==room){
@@ -849,11 +1140,30 @@ io.sockets.on('connection', function(socket) {
         });
     });
     
+
+    socket.on('draw_table', function(data) {
+    	
+    	
+    	//rc¸®½ºÆ®¸¦ µ¹¸é¼­ roomname¿¡ ÇöÀçÁ¢¼ÓÇÑ ·ëÀÌ ÀÖÀ¸¸é tablelist ´ÙÀ½ ÀÎµ¦½º¿¡ //table¿¡ ±×·ÁÁø Á¤º¸µéÀ» ¹Ş¾Æ¼­ ÀúÀåÇÑ´Ù.	
+        socket.get('room', function(err, room) {
+        	for(var i=0;i<rc.length;i++){
+        		if(rc[i].roomname==room){
+        			var tb_size=rc[i].tablelist.length;
+        			rc[i].tablelist[tb_size]=data.table;
+    			
+        		}
+        	}
+            io.sockets.in(room).emit('tb_line', data);               
+        });
+    });
+
+
+
     
-  //ì¶”ê°€.. canvas ìˆ˜ì •emití•œê±° ë°›ì•„ì„œ ì²˜ë¦¬
+  //Ãß°¡.. canvas ¼öÁ¤emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
     socket.on('modifyCanvas', function(data) {
 
-    //ì‚¬ìš©ìê°€ ìˆ˜ì •í•œí´ë˜ìŠ¤ì´ë¦„ê³¼ ê°™ì€ê±¸ì°¾ì•„ì„œ canvaslistìˆ˜ì •í•´ì¤€ë‹¤.
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
     socket.get('room', function(err, room) {
     	for(var i=0;i<rc.length;i++){
     		if(rc[i].roomname==room){
@@ -886,11 +1196,41 @@ io.sockets.on('connection', function(socket) {
 
         });
     
-    
-  //ì¶”ê°€.. canvas ì‚­ì œemití•œê±° ë°›ì•„ì„œ ì²˜ë¦¬
+ 
+  // table ¼öÁ¤emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
+    socket.on('modifyTable', function(data) {
+
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var tb_size=rc[i].tablelist.length;
+    			for(var j=0;j<tb_size;j++){
+    							if(rc[i].tablelist[j].tablename==data.m_class){
+    					rc[i].tablelist[j] =data.table;
+    				}
+    			}
+    			
+
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('mod_tb_line', data);
+
+    	
+            });
+
+        });
+    	
+
+
+  //canvas »èÁ¦emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
     socket.on('deleteCanvas', function(data) {
 
-    //ì‚¬ìš©ìê°€ ìˆ˜ì •í•œí´ë˜ìŠ¤ì´ë¦„ê³¼ ê°™ì€ê±¸ì°¾ì•„ì„œ canvaslistìˆ˜ì •í•´ì¤€ë‹¤.
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
     socket.get('room', function(err, room) {
     	for(var i=0;i<rc.length;i++){
     		if(rc[i].roomname==room){
@@ -928,11 +1268,42 @@ io.sockets.on('connection', function(socket) {
 
         });
     
-    
-  //ì¶”ê°€.. canvas move emití•œê±° ë°›ì•„ì„œ ì²˜ë¦¬
+    //table »èÁ¦emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
+    socket.on('deleteTable', function(data) {
+
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var tb_size=rc[i].tablelist.length;
+    			
+    			
+    			for(var j=0;j<tb_size;j++){
+    				if(rc[i].tablelist[j].tablename==data.d_class){
+    					rc[i].tablelist.splice(j,1);
+    					
+    					break;
+    				}
+    			}
+
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('del_tb_line', data);
+
+    	
+            });
+
+        });
+      
+	
+  // canvas move emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
     socket.on('moveCanvas', function(data) {
 
-    //ì‚¬ìš©ìê°€ ìˆ˜ì •í•œí´ë˜ìŠ¤ì´ë¦„ê³¼ ê°™ì€ê±¸ì°¾ì•„ì„œ canvaslistìˆ˜ì •í•´ì¤€ë‹¤.
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
     socket.get('room', function(err, room) {
     	for(var i=0;i<rc.length;i++){
     		if(rc[i].roomname==room){
@@ -940,10 +1311,10 @@ io.sockets.on('connection', function(socket) {
     			for(var j=0;j<cl_size;j++){
     							if(rc[i].canvaslist[j].class.classname==data.mv_class.classname){
     					var r=rc[i].canvaslist[j].class;
-    					r.start_point_x += (data.ex - data.sx);
-    					r.start_point_y += (data.ey - data.sy);
-    					r.end_point_x = r.start_point_x + data.gx;
-    					r.end_point_y = r.start_point_y + data.gy;
+    					r.start_point_x = data.start_x;
+    					r.start_point_y = data.start_y;
+    					r.end_point_x =data.end_x;
+    					r.end_point_y =data.end_y;
     				}
     			}
     		
@@ -960,15 +1331,84 @@ io.sockets.on('connection', function(socket) {
 
         });
 
+  // table move emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
+    socket.on('moveTable', function(data) {
+
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var tb_size=rc[i].tablelist.length;
+    			for(var j=0;j<tb_size;j++){
+    							if(rc[i].tablelist[j].tablename==data.mv_table.tablename){
+    					var r=rc[i].tablelist[j];
+    					r.start_point_dbx = data.start_x;
+    					r.start_point_dby = data.start_y;
+    					r.end_point_dbx =data.end_x;
+    					r.end_point_dby =data.end_y;
+    				}
+    			}
+    		
+    						
+
+    		}
+    	}
+
+
+                io.sockets.in(room).emit('move_tb_line', data);
+
+    	
+            });
+
+        });
+
+
     
     
+  //canvas ¿¬°á¹Ù²ÛÁ¤º¸ emitÇÑ°Å ¹Ş¾Æ¼­ Ã³¸®
+    socket.on('connCanvas', function(data) {
+
+    //»ç¿ëÀÚ°¡ ¼öÁ¤ÇÑÅ¬·¡½ºÀÌ¸§°ú °°Àº°ÉÃ£¾Æ¼­ canvaslist¼öÁ¤ÇØÁØ´Ù.
+    socket.get('room', function(err, room) {
+    	for(var i=0;i<rc.length;i++){
+    		if(rc[i].roomname==room){
+    			var cl_size=rc[i].cl_size;
+    			var start='';
+			var end='';
+    			
+    			for(var j=0;j<cl_size;j++){
+    							if(rc[i].canvaslist[j].class.classname==data.start_cn){
+    					start=rc[i].canvaslist[j].class;
+    				}
+    			}
+
+    			
+    			for(var j=0;j<cl_size;j++){
+    							if(rc[i].canvaslist[j].class.classname==data.end_cn){
+    					end=rc[i].canvaslist[j].class;
+    				}
+    			}
+
+    						
+
+    		}
+    	}
+
+		 start.connclassname = end.classname;
+                io.sockets.in(room).emit('conn_line', data);
+
+    	
+            });
+
+        });
+
     
 
     socket.on('create_room', function(data) {
     	
         io.sockets.emit('create_room', data.room.toString());
         console.log(data.room);
-      //  console.log('ì—¬ê¸°ì„œ êº¼ì§');
+      //  console.log('¿©±â¼­ ²¨Áü');
 
         
     });
@@ -976,19 +1416,19 @@ io.sockets.on('connection', function(socket) {
 
    if(url == '/canvas')
    {
-	   //canvasì— ì˜¤ê³  ë‚˜ì„œ disconnectë  ì‹œì—
+	   //canvas¿¡ ¿À°í ³ª¼­ disconnectµÉ ½Ã¿¡
 	   socket.on('disconnect', function() {
 		   //var intonum = req.param('index');
 		   for(var i=0;i<rc.length;i++){
 				if(rc[i].roomname==roomname){
 					
-					//socket.idì— í•´ë‹¹í•˜ëŠ” ê³ ìœ  ì •ë³´ë¥¼ ë°›ì•„ ì™€ì„œ ë‚˜ê°€ì§„ ì‚¬ëŒì˜ ì •ë³´ë¥¼ ë„ì›€
+					//socket.id¿¡ ÇØ´çÇÏ´Â °íÀ¯ Á¤º¸¸¦ ¹Ş¾Æ ¿Í¼­ ³ª°¡Áø »ç¶÷ÀÇ Á¤º¸¸¦ ¶ç¿ò
 					for(var j = 0; j < rc[i].p_size; j++)
 					{
 						if(rc[i].participant[j] == clients[socket.id])
 						{
 							console.log(j);
-							console.log('ë‚˜ê°€ì¡ŒìŒ');
+							console.log('³ª°¡Á³À½');
 							console.log(rc[i].participant[j]);
 							console.log(clients[socket.id]);
 							

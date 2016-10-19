@@ -1,4 +1,4 @@
- var color = '#000000';
+﻿ var color = '#000000';
 
  var isDown = false;     // 마우스 버튼을 눌렀나 안 눌렀나
 
@@ -39,6 +39,8 @@ var draw_valueName = [];	// class의 value들을 저장하는 배열
 var draw_methodName = [];	// class의 method들을 저장하는 배열
 var draw_select_val = [];	// value의 자료형을 저장하는 배열
 var draw_select_func = [];	// method의 리턴형을 저장하는 배열
+var draw_direct_val = [];	// value의 자료형을 선택할 떄 '직접입력'을 선택할 경우 직접입력한 자료형을 저장하는 배열
+var draw_direct_func = [];	// method의 반환형을 선택할 떄 '직접입력'을 선택할 경우 직접입력한 반환형을 저장하는 배열
 var end_xpos = 0;			// class의 끝점을 저장하는 x좌표
 var end_ypos = 0;			// class의 끝점을 저장하는 y좌표
 var conn_point_X = 0;		// 연결하고 싶은 class의 끝점 x좌표
@@ -58,8 +60,10 @@ function element(){
 	var classname = "";					// class의 이름을 저장하기 위한 element
 	var valuename = new Array();		// claee의 value들을 저장하기 위한 element 배열
 	var selectvalue = new Array();		// value의 자료형을 저장하기 위한 element 배열
+	var directvalue = new Array();		// 직접입력한 자료형을 저장하기 위한 element 배열
 	var methodname = new Array();		// claee의 method들을 저장하기 위한 element 배열
 	var selectmethod = new Array();		// method의 반환형을 저장하기 위한 element 배열
+	var directmethod = new Array();		// 직접입력한 반환형을 저장하기 위한 element 배열
 	var connclassname = "";				// 해당 클래스가 연결하고 있는 class의 name을 저장하는 element
 	var start_point_x;					// 클래스의 시작 x좌표
 	var start_point_y;					// 클래스의 시작 y좌표
@@ -85,6 +89,8 @@ var v_name = new Array();			// document의 valuename에 해당되는 input 태�
 var m_name = new Array();			// document의 methodname에 해당되는 input 태그의 id를 받아와 저장할 배열
 var select_val = new Array();		// document의 select box(value)의 값을 저장하기 위한 배열
 var	select_func = new Array();		// document의 select box(method)의 값을 저장하기 위한 배열
+var direct_val = new Array();		// document의 value의 직접입력을 위한 input box의 값을 저장하기 위한 배열
+var direct_func = new Array();		// document의 method의 직접입력을 위한 input box의 값을 저장하기 위한 배열
 var connectclass;					// document의 connectclass에 해당되는 input 태그의 id를 받아와 저장할 변수
 
 var isConn=false;		// 연결하는지 check
@@ -163,6 +169,38 @@ var ey;					// 끝 y좌표를 의미...(마우스가 옮겨진 위치...)
 
 
 /**
+ * button을 이요한 start connection에 필요한 변수
+ */
+var connect_btncheck = false;		// '연결' button이 눌렀는지 체크하기 위한 변수 darg & drop을 할 경우가 여러가지라서 구별하기 위한 변수
+var conn_startX;					// 연결하기 위한 시작 x좌표
+var conn_startY;					// 연결하기 위한 시작 y좌표				
+var btnconn_startindex;				// 찾은 class의 start index를 저장하는 변수
+var btnconn_startcon = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 start boolean값(controller 전용)
+var btnconn_startser = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 start boolean값(service 전용)
+var btnconn_startdao = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 start boolean값(dao 전용)
+var startList;						// 찾은 index 값에 있는 list를 저장하는 start 변수
+
+/**
+ * button을 이요한 start connection에 필요한 변수
+ */		
+var conn_endX;					// 연결하기 위한 끝 x좌표
+var conn_endY;					// 연결하기 위한 끝 y좌표
+var btnconn_endindex;			// 찾은 class의 end index를 저장하는 변수
+var btnconn_endcon = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 end boolean값(controller 전용)
+var btnconn_endser = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 end boolean값(service 전용)
+var btnconn_enddao = false;		// 찾은 class가 어떤 list에 있는지 확인하기 위한 end boolean값(dao 전용)
+var endList;					// 찾은 index 값에 있는 list를 저장하는 end 변수
+
+
+
+/**
+ * 직접입력을 위해서 사용할 변수
+ */
+var dival_cnt = 1;			// 직접입력 value form의 id값을 위한 변수
+var difunc_cnt = 1;			// 직접입력 method form의 id값을 위한 변수
+
+
+/**
  * DB에 설정할 ID, PW, PORT, SID를 설정해주기 위한 변수
  */
 var db=new db_element();
@@ -184,4 +222,5 @@ function All_Init(){
 	DeleteVOInit();
 	DrawInit();
 	FormInit();
+	MouseEventInit();
 }
