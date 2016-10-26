@@ -76,6 +76,13 @@ app.get('/downloadsql', function (req, res) {
 	   res.download(filepath)
 });
 
+//test6 : 라이브러리 다운로드 구현
+app.get('/downloadlibrary', function (req, res){
+		var filepath = './pj/ojdbc6.jar';
+		console.log(filepath);
+		res.download(filepath);
+});
+
 //post방식으로 룸이름과 아이디 정보를 받기 위해 /temp쪽으로 이동시킨다.
 app.get('/temp', function(req, res) {
 	fs.readFile('tempcanvas.html', function (err, data) {
@@ -839,9 +846,7 @@ io.sockets.on('connection', function(socket) {
 
 
 	}
-	
-	
-	
+		
 	//test5 : tlist => tlist3으로	
 	//sql파일 생성
 	socket.on('createtb', function() {

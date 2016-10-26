@@ -434,6 +434,12 @@ input#sendmail {
 	color: white;
 	margin-top: -1px;
 }
+
+/* test6 : button css 추가 */
+#oracle_buttons{
+	margin : 10px 0 10px 30px;
+}
+
 </style>
 
 <script>
@@ -802,6 +808,12 @@ input#sendmail {
 							</div>
 							<div id="tablelist"></div>
 						</div>
+						<!-- test6 : 버튼 위치 수정 -->
+						<div id="oracle_buttons">
+						<button type="button" class="btn btn-secondary" id="connect_oralce">Oracle</button>
+						<button class="btn btn-info create_sql">sql문 생성</button>
+						<button type="button" class="btn Library">Library</button>
+						</div>
 					</div>
 					<div class="col-md-7 canvas_css">
 					<!-- test5 : 민섭 -->
@@ -829,9 +841,6 @@ input#sendmail {
 						<div class="button-position">
 							<button type="button" class="btn btn-primary"
 								id="select_template">템플릿 선택</button>
-							<button type="button" class="btn btn-secondary"
-								id="connect_oralce">Oracle</button>
-							<button class="btn btn-info create_sql">sql문 생성</button>
 							<button class="btn btn-info create_file">파일 생성</button>
 
 						</div>
@@ -3598,6 +3607,10 @@ function MVC_List_View(){
 				$('.create_sql').click(function (){
 		                socket.emit('createtb');       // 소켓 이벤트 발생
 		      	});
+				/* test6 : 라이브버리 다운로드하라고 window.location함 */
+				$('.Library').click(function(){
+					window.location ='/downloadlibrary/';
+				});
 		
 		        // 이벤트 연결
 		
@@ -5381,5 +5394,8 @@ function template_cancel(){
 	$('.t_img').css('box-shadow', '2px 2px 5px 0px #333');
 	$('.t_img').css('opacity', '1');
 	$('.t_img').css('width', '90%');
+}
+function Select_img(){
+	alert(select_img+"번 템플렛을 선택하였습니다.");
 }
 </script>
