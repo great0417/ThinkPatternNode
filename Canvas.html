@@ -81,13 +81,13 @@
 
 .chatContent {
 	height: 655px;
-	background: #94c2e9;
-	border-right: 1px solid #94c2e9;
+	background: #dbdfe2;
+	border-right: 1px solid #d1d4d7;
 }
 
 .insert_css {
 	border: 1px black;
-	background-color: #337ab7;
+	background-color: #3a3636;
 	padding: 15px 15px 25px 15px;
 }
 
@@ -104,7 +104,7 @@
 
 .select_canvas {
 	margin: 20px 10px 20px 20px;
-	border: 1px solid #559edd;
+	border: 1px solid #494949;
 	background: white;
 	border-radius: 5px;
 	float: left;
@@ -134,25 +134,32 @@ div.mvc_css {
 }
 
 .chat_btn {
-    margin: 7px 0px 0px 0px;
-    height: 48px;
-    float: right;
-    border-radius: 5px;
-    background-color: #19558a;
+	margin: 7px 0px 0px 0px;
+	height: 48px;
+	float: right;
+	border-radius: 5px;
+	background-color: #0c0c0c;
+	border-color: #585353;
+}
+
+.chat_btn:hover {
+	background-color: #202020;
+	border-color: #000000;
 }
 
 .add_person {
 	margin: 10px 0px 0px 0px;
 }
 
-.create_file {
+.button-position {
+	margin-top: -20px;
+	z-index: 5;
+	/* height: 0; */
 	float: right;
-
 }
-
 /* mvc select */
 .mvc_select_main {
-	background: #337ab7;
+	background: #494949;
 	color: white;
 	padding: 10px 0px 10px 0px;
 	text-align: center;
@@ -161,7 +168,7 @@ div.mvc_css {
 .mvc_select1 {
 	margin: 20px 0px 20px 0px;
 	width: 200px;
-	border: 1px solid #bcd9f1;
+	border: 1px solid #8d8888;
 }
 
 .C_select {
@@ -181,32 +188,34 @@ div.mvc_css {
 .mvc_all {
 	width: 314px;
 	text-align: center;
-	border-bottom: 1px solid #94c2e9;
+	border-bottom: 1px solid #cfc7c7;
 }
 
 .controller_add {
 	width: 314px;
 	text-align: center;
-	border-bottom: 1px solid #94c2e9;
+	border-bottom: 1px solid #cfc7c7;
 	padding: 5px 0px 5px 0px;
 }
 
 .dao_add {
 	width: 314px;
 	text-align: center;
-	 	border-bottom: 1px solid #94c2e9; 
+	border-bottom: 1px solid #cfc7c7;
 	padding: 5px 0px 5px 0px;
 }
+
 .vo_add {
 	width: 314px;
 	text-align: center;
 	/*  	border-bottom: 1px solid #94c2e9;  */
 	padding: 5px 0px 5px 0px;
 }
+
 .service_add {
 	width: 314px;
 	text-align: center;
-	border-bottom: 1px solid #94c2e9;
+	border-bottom: 1px solid #cfc7c7;
 	padding: 5px 0px 5px 0px;
 }
 
@@ -214,7 +223,7 @@ div.mvc_css {
 	margin: 0px 0px 10px 0px;
 	/* padding-bottom: 10px; */
 	height: 40px;
-	border-bottom: 1px solid blue;
+	border-bottom: 1px solid #6e6c6c;
 }
 
 .select_main_add>span {
@@ -247,17 +256,18 @@ div#p_list {
 input.del {
 	margin: 10px 0px 10px 10px;
 }
-input.mail_input {
-    width: 200px;
-}
 
+input.mail_input {
+	width: 200px;
+}
 
 /*채팅 입력  */
 input#chatMessage {
-    width: 270px;
-    border-radius: 0px;
-    margin-left: 5px;
+	width: 270px;
+	border-radius: 0px;
+	margin-left: 5px;
 }
+
 .plus {
 	width: 347px;
 	height: 40px;
@@ -292,134 +302,138 @@ input#sendmail {
 	margin: -5px 0px 5px 10px;
 }
 
-.oracle_list{
+.oracle_list {
 	margin: 20px 10px 20px 20px;
-    border: 1px solid #559edd;
-    background: white;
-    border-radius: 5px;
-    float: left;
+	border: 1px solid #494949;
+	background: white;
+	border-radius: 5px;
+	float: left;
 }
 
-.Oracle_main{
-	background: #337ab7;
+.Oracle_main {
+	background: #494949;
 	color: white;
 	padding: 10px 0px 10px 0px;
 	text-align: center;
 }
 
-.t_img{
+.t_img {
 	width: 90%;
 	height: auto;
 	position: relative;
 	font-size: 12px;
-    padding: 15px;
-    border : 0px;
-    box-shadow: 2px 2px 5px 0px #333;
+	padding: 15px;
+	border: 0px;
+	box-shadow: 2px 2px 5px 0px #333;
 }
-.t_img:hover{
-	cursor : pointer;
-	opacity : 0.4;
+
+.t_img:hover {
+	cursor: pointer;
+	opacity: 0.4;
 	width: 100%;
 	font-size: 12px;
-    padding: 15px;
-    border : 0px solid #4285f4;
-    
+	padding: 15px;
+	border: 0px solid #4285f4;
 }
-.templete{
+
+.template {
 	width: 1200px;
 	height: 800px;
 }
-.t_table tr > td{
-	position:relative;
-	width:500px;
-	height:400px;
-}
-#temp_t_img{
-	position:absolute;
-	width:45%;
-	height:auto;
-	z-index:2;
-}
-.big_img{
-	border : 0px solid #333;
-	/* box-shadow: 2px 2px 5px 0px #333; */
-	box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+
+.t_table tr>td {
+	position: relative;
+	width: 500px;
+	height: 400px;
 }
 
-.big_img:hover{
-	cursor : pointer;
+#temp_t_img {
+	position: absolute;
+	width: 45%;
+	height: auto;
+	z-index: 2;
+}
+
+.big_img {
+	border: 0px solid #333;
+	/* box-shadow: 2px 2px 5px 0px #333; */
+	box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
+}
+
+.big_img:hover {
+	cursor: pointer;
 }
 
 .table_add {
 	width: 314px;
 	text-align: center;
-	 	border-bottom: 1px solid #94c2e9; 
+	border-bottom: 1px solid #94c2e9;
 	padding: 5px 0px 5px 0px;
 }
 
-.tabs{
+.tabs {
 	margin: 0;
-    padding: 0;
-    float: left;
-    list-style: none;
-    height: 32px;
-    border-left: 1px solid #eee;
-    width: 100%;
-    font-family:'dotum';
-    font-size:12px;
-    margin-left: -1px;
-}
-
-.umlcreate{
+	padding: 0;
 	float: left;
-    text-align:center;
-    top: -15%;
-    cursor: pointer;
-    width:82px;
-    height: 31px;
-    line-height: 31px;
-    border: 1px solid black;
-    font-weight: bold;
-    background: white;
-    overflow: hidden;
-    position: relative;
-    border-radius:0px 0px 10px 10px;
-    width:180px;
-    color:black;
-    margin-top:-1px;
-    border-top-color : white;
-    border-left-color : black;
+	list-style: none;
+	height: 32px;
+	border-left: 1px solid #eee;
+	width: 100%;
+	font-family: 'dotum';
+	font-size: 12px;
+	margin-left: -1px;
 }
 
-.umlcreate:hover{
-    cursor : pointer;
-    background: #bbb;
-    
-}
-.dbcreate:hover{
-    cursor : pointer;
-    background: #bbb;
-}
-.dbcreate{
+.umlcreate {
 	float: left;
-    text-align:center;
-    cursor: pointer;
-    top: -15%;
-    width:82px;
-    height: 31px;
-    line-height: 31px;
-    border: 0px solid black;
-    border-left: none;
-    font-weight: bold;
-    background: #333;
-    overflow: hidden;
-    position: relative;
-    border-radius:0px 0px 10px 10px;
-    width:180px;
-    color:white;
-    margin-top:-1px;
+	text-align: center;
+	top: -15%;
+	cursor: pointer;
+	width: 82px;
+	height: 31px;
+	line-height: 31px;
+	border: 1px solid black;
+	font-weight: bold;
+	background: white;
+	overflow: hidden;
+	position: relative;
+	border-radius: 0px 0px 10px 10px;
+	width: 180px;
+	color: black;
+	margin-top: -1px;
+	border-top-color: white;
+	border-left-color: black;
 }
 
+.umlcreate:hover {
+	cursor: pointer;
+	background: #bbb;
+}
+
+.dbcreate:hover {
+	cursor: pointer;
+	background: #bbb;
+}
+
+.dbcreate {
+	float: left;
+	text-align: center;
+	cursor: pointer;
+	top: -15%;
+	width: 82px;
+	height: 31px;
+	line-height: 31px;
+	border: 0px solid black;
+	border-left: none;
+	font-weight: bold;
+	background: #333;
+	overflow: hidden;
+	position: relative;
+	border-radius: 0px 0px 10px 10px;
+	width: 180px;
+	color: white;
+	margin-top: -1px;
+}
 </style>
 
 <script>
@@ -470,12 +484,15 @@ input#sendmail {
 
 						socket.on('completepj', function() {
 							alert('압축완성');
-
-							//socket.emit('deletefile');
+							//test5:주석풀음
+							socket.emit('deletefile');
 							window.location = '/download/';
 
 						});
-
+						/* test5 : sql문 다운로드 추가 */
+						socket.on('downloadsql', function() {
+		                     window.location ='/downloadsql/';
+		                  })
 						//참여자 목록을 받아옴
 						socket.on('participant', function(data) {
 							//참여자 목록을 저장시킨 후
@@ -629,7 +646,7 @@ input#sendmail {
 
 			var dbtn = $(this).attr("rel");
 			if(dbtn=='oraclego'){
-
+				$('')
 				$('.select_canvas').hide();
 				$('.oracle_list').show();
 				$('#canvas1').hide();
@@ -644,6 +661,17 @@ input#sendmail {
 			
 			
 		});
+		
+		$('.li').click(function(){
+			if($(this).css("color")=="rgb(255, 255, 255)"){
+				$(this).css('border','1px solid black');
+				$(this).css('background','white');
+				$(this).css('color','black');
+				$(".li").not(this).css('border','0px solid black');
+				$(".li").not(this).css('background','#333');
+				$(".li").not(this).css('color','white');
+			}
+		});
 	});
     
 </script>
@@ -651,7 +679,8 @@ input#sendmail {
 
 <div class="w3-top">
 	<ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
-		<li><a href="http://192.168.43.65:8081" class="w3-teal  w3-middle-home"><img
+		<li><a href="http://localhost:8081"
+			class="w3-teal  w3-middle-home"><img
 				src="/resources/res/images/i.png" width="40" height="40"
 				class="logo_think">THINKPATTERN</a></li>
 		<li class="w3-hide-medium w3-hide-large w3-mright"><a
@@ -660,18 +689,19 @@ input#sendmail {
 				class="fa fa-bars"></i></a></li>
 
 		<div class="middle">
-			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081">MANUAL</a></li>
-			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081/pattern/list">DESIGN
-					PATTERN</a></li>
-			<li class="w3-hide-small w3-middle"><a href="http://192.168.43.65:8081/notice/list">SERVICE
-					CENTER</a></li>
+			<li class="w3-hide-small w3-middle"><a
+				href="http://localhost:8081">MANUAL</a></li>
+			<li class="w3-hide-small w3-middle"><a
+				href="http://localhost:8081/pattern/list">DESIGN PATTERN</a></li>
+			<li class="w3-hide-small w3-middle"><a
+				href="http://localhost:8081/notice/list">SERVICE CENTER</a></li>
 		</div>
 
 		<div class="log_m">
-		<span><%= userid %>님 환영합니다.</span>
-			<li class="w3-hide-small w3-right"><a
-				href="/user/modifyConfirm" class="button small"><i
-					class="fa fa-user" aria-hidden="true"></i> modify</a></li>
+			<span><%= userid %>님 환영합니다.</span>
+			<li class="w3-hide-small w3-right"><a href="/user/modifyConfirm"
+				class="button small"><i class="fa fa-user" aria-hidden="true"></i>
+					modify</a></li>
 			<li class="w3-hide-small w3-right"><a href="/user/logout"
 				class="button small"><i class="fa fa-sign-out"
 					aria-hidden="true"></i> logout</a></li>
@@ -688,7 +718,7 @@ input#sendmail {
 		<li class="w3-middle"><a href="../">MANUAL</a></li>
 		<li class="w3-middle"><a href="http://localhost:8210/?id=aaa">DESIGN
 				PATTERN</a></li>
-		<li class="w3-middle"><a href="http://localhost:8080/notice/list">SERVICE
+		<li class="w3-middle"><a href="http://localhost:8081/notice/list">SERVICE
 				CENTER</a></li>
 
 		<div class="log_in">
@@ -752,46 +782,69 @@ input#sendmail {
 
 								<div id="volist"></div>
 							</div>
+						
+						</div>
 							<!--**수정-->
 							<div>
-								<button type ="button" class="btn btn-secondary" id="connect_button"> 연결 </button><br/><br/>
+								<button type="button" class="btn btn-secondary"
+									id="connect_button">연결</button>
+							
 							</div>
-						</div>
 					</div>
 					<!-- oracle 왼쪽 메뉴 -->
-					<div class="col-md-2 oracle_list" style="display:none">
+			<div class="col-md-2 oracle_list" style="display: none">
 						<div class="Oracle_main">Oracle Table</div>
-						<div>
-      						<br/>
-      						<br/>
-      						Table
-      						<button type ="button" class="btn btn-success" id="crea_table"> + </button>
-      						<br/>
-     	 					<div id = "tablelist">
-      						</div>
-   						</div>
+						<div class="controller_add">
+							<div class="select_main_add">
+								<span> Table</span> <i class="fa fa-plus-square fa-2x C_select"
+									id="crea_table" aria-hidden="true"></i>
+
+							</div>
+							<div id="tablelist"></div>
+						</div>
 					</div>
 					<div class="col-md-7 canvas_css">
-						<canvas id="canvas1" height="760" width="1150"></canvas>
-						<canvas id="canvas2" height="760" width="1150" style="display:none"></canvas>
-						
+					<!-- test5 : 민섭 -->
+					
+					<!-- 
+					<div style="float:left; width:1600px; overflow:hidden;">
+      <canvas id="canvas1" height="900" width="5000" style= "position: absolute;">This browser doesn't support canvas</canvas>
+					 -->
+					
+					
+					
+					<!-- <div style="float:left; width:5000; overflow:hidden;">
+      				<canvas id="canvas1" height="900" width="1150" style= "position: absolute;"></canvas>
+      				<canvas id="canvas2" height="900" width="1150" style= "position: absolute; display: none"></canvas> -->
+					<canvas id="canvas1" height="760" width="1150"></canvas>
+						<canvas id="canvas2" height="760" width="1150"
+							style="display: none"></canvas>
+
 						<!-- 탭 메뉴 -->
-						<ul class="tabs">
-							<li class="umlcreate" rel="umlgo">UML 생성</li>
-							<li class="dbcreate" rel="oraclego">DB 생성</li>
+										<ul class="tabs">
+							<li class="umlcreate li" rel="umlgo">UML 생성</li>
+							<li class="dbcreate li" rel="oraclego">DB 생성</li>
 						</ul>
 
-                        <button type="button" class="btn" id="select_templete">템플릿 선택</button>
-						<button type="button" class="btn btn-secondary" id="connect_oralce">Oracle</button>
-						<button class="btn btn-info create_file">파일 생성</button>
-						<button class="btn btn-info create_sql">sql문 생성</button>
+						<div class="button-position">
+							<button type="button" class="btn btn-primary"
+								id="select_template">템플릿 선택</button>
+							<button type="button" class="btn btn-secondary"
+								id="connect_oralce">Oracle</button>
+							<button class="btn btn-info create_sql">sql문 생성</button>
+							<button class="btn btn-info create_file">파일 생성</button>
+
+						</div>
+
 
 						<!-- Modal -->
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 										<h3 class="modal-title" id="myModalLabel">Class Add</h3>
@@ -801,42 +854,45 @@ input#sendmail {
 
 										Class Name : <input type="text" id="classname" />
 										<div id="valueDiv">
-											<br /> <input type="Button" value="Value추가" onclick="AddValueForm()"> 
-	<input type="Button" value="Value삭제" onclick="DelValueForm()"> <br />
-	Value0 : <input type="text" id="valuename0" /> 
-	<select id="select_value0"  class="select_value">
-												
-											</select> 
-<input type="hidden" id="direct_input_val0">
-<br />
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddValueForm()"> <input type="Button"
+												value="Value삭제" onclick="DelValueForm()"> <br />
+											Value0 : <input type="text" id="valuename0" class="valuename"/> <select
+												id="select_value0" class="select_value">
+
+											</select> <input type="hidden" id="direct_input_val0"> <br />
 										</div>
 										<br />
 										<div id="methodDiv">
-											<input type="Button" value="Method추가" onclick="AddMethodForm()"> 
-<input type="Button" value="Method삭제" onclick="DelMethodForm()"> <br />
-											Method0 : <input type="text" id="methodname0" /> 
-	<select id="select_method0" class="select_method">
+											<input type="Button" value="Method추가"
+												onclick="AddMethodForm()"> <input type="Button"
+												value="Method삭제" onclick="DelMethodForm()"> <br />
+											Method0 : <input type="text" id="methodname0" class="methodname"/> <select
+												id="select_method0" class="select_method">
 
-	</select>
-	<input type="hidden" id="direct_input_func0">											 <br />
+											</select> <input type="hidden" id="direct_input_func0"> <br />
 										</div>
 										<br /> Connet Class : <select id="connectclass">
 											<option value="init">--선택하세요--</option>
 										</select><br />
-</div>
-<div class="modal-footer">
-										<button type="button" class="btn btn-primary" onclick="OnOK()" data-dismiss="modal">Save</button>
-										<button type="button" class="btn btn-default" onclick="OnCancel()" data-dismiss="modal">Close</button>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="OnOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- VO 전용 Modal -->
-						<div class="modal fade" id="voModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="voModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
@@ -846,29 +902,35 @@ input#sendmail {
 
 										Class Name : <input type="text" id="voname" />
 										<div id="voDiv">
-											<br /> <input type="Button" value="Value추가" onclick="AddVOForm()"> 
-	<input type="Button" value="Value삭제" onclick="DelVOForm()"> <br />
-											Value0 : <input type="text" id="vo_valname0" /> <select id="select_voval0">
-										
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddVOForm()"> <input type="Button"
+												value="Value삭제" onclick="DelVOForm()"> <br />
+											Value0 : <input type="text" id="vo_valname0" /> <select
+												id="select_voval0">
+
 												<option value="int">int</option>
 												<option value="String">String</option>
 											</select> <br />
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-primary" onclick="VOOK()" data-dismiss="modal">Save</button>
-										<button type="button" class="btn btn-default" onclick="OnCancel()" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" onclick="VOOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						<!-- DB 전용 Modal -->
-						<div class="modal fade" id="dbModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="dbModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
@@ -876,72 +938,74 @@ input#sendmail {
 									<div class="modal-body">
 										<!-- modal의 body 여기안에 input box들을 넣음. -->
 
-										ID : <input type="text" id="dbid" /><br /> 
-PW : <input type="text" id="dbpw" /><br /> 
-PORT : <input type="text" id="dbport" /><br /> 
-SID : <input type="text" id="dbsid" /><br />
+										ID : <input type="text" id="dbid" /><br /> PW : <input
+											type="text" id="dbpw" /><br /> PORT : <input type="text"
+											id="dbport" /><br /> SID : <input type="text" id="dbsid" /><br />
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-primary" onclick="DBOK()" data-dismiss="modal">Save</button>
-										<button type="button" class="btn btn-default" onclick="OnCancel()" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" onclick="DBOK()"
+											data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="OnCancel()" data-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- 오라클 modal 추가 -->
-					<!-- DB 전용 Modal -->
-      <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                  </button>
-                  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-               </div>
-               <div class="modal-body">
-               <!-- modal의 body 여기안에 input box들을 넣음. -->
-               
-               Table Name : <input type="text" id="tablename" />
-               <div id="tableDiv">
-                  <br />
-                  <input type="Button" value="Value추가" onclick="AddColumnForm()"> 
-                  <input type="Button" value="Value삭제" onclick="DelColumnForm()"> <br />
-                  Column0 :<input type="text" id="column_name0" />
-                  <select id="select_datatype0" class="select_datatype">
-                     <option value="NUMBER">NUMBER</option>
-                     <option value="VARCHAR2">VARCHAR2</option>
-                     <option value="직접입력">직접입력</option>
-                  </select>
-                  <input type="hidden" id="direct_column0">
-                  <br/>
-               </div>
-			   <div>
-			    DAO :
-				  <select id="connect_dao">
-                     
-                  </select>
-				  </div>
-               <br/> 
-               <!-- Connet Table : 
+						<!-- DB 전용 Modal -->
+						<div class="modal fade" id="tableModal" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+									</div>
+									<div class="modal-body">
+										<!-- modal의 body 여기안에 input box들을 넣음. -->
+
+										Table Name : <input type="text" id="tablename" />
+										<div id="tableDiv">
+											<br /> <input type="Button" value="Value추가"
+												onclick="AddColumnForm()"> <input type="Button"
+												value="Value삭제" onclick="DelColumnForm()"> <br />
+											Column0 :<input type="text" id="column_name0" class="column_name"/> <select
+												id="select_datatype0" class="select_datatype">
+												<option value="NUMBER">NUMBER</option>
+												<option value="VARCHAR2">VARCHAR2</option>
+												<option value="직접입력">직접입력</option>
+											</select> <input type="hidden" id="direct_column0"> <br />
+										</div>
+										<div>
+											DAO : <select id="connect_dao">
+
+											</select>
+										</div>
+										<br />
+										<!-- Connet Table : 
                <select id="connecttable"> 
                   
                </select> -->
-               <br/>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="TableOK()" data-dismiss="modal">Save</button>
-                  <button type="button" class="btn btn-default" onclick="DBCancel()" data-dismiss="modal">Close</button>
-               </div>
-             </div>
-             
-         </div>
-      </div>
+										<br />
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="TableOK()" data-dismiss="modal">Save</button>
+										<button type="button" class="btn btn-default"
+											onclick="DBCancel()" data-dismiss="modal">Close</button>
+									</div>
+								</div>
 
-					<!-- 템플릿 선택 모달 -->
-						<div class="modal fade" id="templete" tabindex="-1" role="dialog"
+							</div>
+						</div>
+
+						<!-- 템플릿 선택 모달 -->
+						<div class="modal fade" id="template" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog templete">
+							<div class="modal-dialog template">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal"
@@ -953,23 +1017,26 @@ SID : <input type="text" id="dbsid" /><br />
 									<div class="modal-body">
 										<!-- modal의 body 여기안에 input box들을 넣음. -->
 										<table class="t_table" style="border-collapse: inherit;">
-										<div id="temp_t_img">
-										</div>
+											<div id="temp_t_img"></div>
 											<tr>
-												<td><img class="t_img" src="/resources/res/images/naver.PNG" alt="naver"/></td>
-												<td><img class="t_img" src="/resources/res/images/daum.PNG" alt="daum"/></td>												
+												<td><img class="t_img"
+													src="/resources/res/images/1.PNG" alt="1" /></td>
+												<td><img class="t_img"
+													src="/resources/res/images/2.PNG" alt="2" /></td>
 											</tr>
 											<tr>
-												<td><img class="t_img" src="/resources/res/images/google.PNG" alt="google"/></td>
-												<td><img class="t_img" src="/resources/res/images/nate.PNG" alt="nate"/></td>
+												<td><img class="t_img"
+													src="/resources/res/images/3.PNG" alt="3" /></td>
+												<td><img class="t_img"
+													src="/resources/res/images/4.PNG" alt="4" /></td>
 											</tr>
 										</table>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-primary" onclick="TempleteOk()"
-											data-dismiss="modal">Save</button>
+									<div class="modal-footer"><!-- test5 -->
+										<button type="button" class="btn btn-primary"
+											onclick="Select_img()" data-dismiss="modal">Save</button>
 										<button type="button" class="btn btn-default"
-											onclick="OnCancel()" data-dismiss="modal">Close</button>
+											onclick="template_cancel()" data-dismiss="modal">Close</button>
 									</div>
 								</div>
 							</div>
@@ -993,12 +1060,13 @@ SID : <input type="text" id="dbsid" /><br />
 										<div class="P_list_add">참여자 목록</div>
 										<i class="fa fa-plus-square fa-2x P_select" aria-hidden="true"
 											id="addmail"></i>
-                                        <div id="participant" style="margin-bottom:20px ; margin-left:20px">
-                                        </div>
-									</div><br/>
+										<div id="participant"
+											style="margin-bottom: 20px; margin-left: 20px"></div>
+									</div>
+									<br />
 
 
-									<form id="maillist" name="maillist" ></form>
+									<form id="maillist" name="maillist"></form>
 
 									<input type="button" value="메일 보내기  " id="sendmail" />
 
@@ -1011,9 +1079,9 @@ SID : <input type="text" id="dbsid" /><br />
 							<div class="insert_css">
 								<span>아이디 : </span> <input id="chatName" value=""
 									readonly="readonly" class="insertnick_input" /> <span>방
-									:</span> <input id="room" value="" readonly
-									class="insertnick_input" /> <span>메시지 입력 :</span><input
-									id="chatMessage" type="text" class="insertchat_css" />
+									:</span> <input id="room" value="" readonly class="insertnick_input" />
+								<span>메시지 입력 :</span><input id="chatMessage" type="text"
+									class="insertchat_css" />
 
 								<button id="chatButton" class="btn btn-primary chat_btn">입력</button>
 							</div>
@@ -1128,36 +1196,38 @@ SID : <input type="text" id="dbsid" /><br />
 /**
  * value form을 하나하나 증가시켜주는 함수
  */
- /* test4 : 민섭's 수정 */
- function AddValueForm() {
-	   var addedValFormDiv = document.getElementById("valueDiv");
-	   var str = "Value";
-	   str += val_count + ":" + "<input type='text' id='valuename" + val_count + "' class='valuename'><select id = 'select_value"+ select_valcnt +"' class='select_value'>"
-	                  + "<option value='int'>int</option> <option value='String'>String</option></select>"
-	                  + "<input type='hidden' id='direct_input_val" + dival_cnt + "'></input>";
-	   // 추가할 폼(에 들어갈 HTML)
-	   var addedValDiv = document.createElement("div"); // 폼 생성
-	   addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
-	   addedValDiv.innerHTML = str; // 폼 Div안에 HTML삽입
-	   addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
-	   
-	   for(var i=0; i<voList.length; i++){
-	      $('<option value="'+ voList[i].vo_name +'">' + voList[i].vo_name + '</option>').appendTo('#select_value' + select_valcnt);
-	   }
-	   
-	   $('<option value="직접입력">직접입력</option>').appendTo('#select_value' + select_valcnt);
-	   
-	   var temp_val_string = document.getElementById("select_value0").value;
-	   var temp_func_string = document.getElementById("select_method0").value;
-	   
-	   val_count++;
-	   select_valcnt++;
-	   dival_cnt++;
-	   Dynamic_Connect_List();
-	   
-	   document.getElementById("select_value0").value = temp_val_string;
-	   document.getElementById("select_method0").value = temp_func_string;
-	}
+ /* test6 : 민섭's 수정 */
+function AddValueForm() {
+   var addedValFormDiv = document.getElementById("valueDiv");
+   var str = "Value";
+   str += val_count + ":" + "<input type='text' id='valuename" + val_count + "' class='valuename'><select id = 'select_value"+ select_valcnt +"' class='select_value'>"
+                  + "<option value='int'>int</option> <option value='String'>String</option></select>"
+                  + "<input type='hidden' id='direct_input_val" + dival_cnt + "'></input>";
+   // 추가할 폼(에 들어갈 HTML)
+   var addedValDiv = document.createElement("div"); // 폼 생성
+   addedValDiv.id = "added_value" + val_count; // 폼 Div에 ID 부여 (삭제를 위해)
+   addedValDiv.innerHTML = str; // 폼 Div안에 HTML삽입
+   addedValFormDiv.appendChild(addedValDiv); // 삽입할 DIV에 생성한 폼 삽입
+   
+   for(var i=0; i<voList.length; i++){
+      $('<option value="'+ voList[i].vo_name +'">' + voList[i].vo_name + '</option>').appendTo('#select_value' + select_valcnt);
+   }
+   
+   $('<option value="직접입력">직접입력</option>').appendTo('#select_value' + select_valcnt);
+   
+   var temp_val_string = document.getElementById("select_value0").value;
+   var temp_func_string = document.getElementById("select_method0").value;
+   var temp_conn_string = document.getElementById("connectclass").value;
+   
+   val_count++;
+   select_valcnt++;
+   dival_cnt++;
+   Dynamic_Connect_List();
+   
+   document.getElementById("select_value0").value = temp_val_string;
+   document.getElementById("select_method0").value = temp_func_string;
+   document.getElementById("connectclass").value = temp_conn_string;
+}
 
 /**
  * value form을 하나 감소시켜주는 함수
@@ -1195,35 +1265,38 @@ function DelValueAllForm()
 /**
  * method form을 하나하나 증가시켜주는 함수
  */
+ /* test6 : 민섭수정 */
 function AddMethodForm() {
-	var addedMFormDiv = document.getElementById("methodDiv");
-	var str = "Method";
-	str += m_count + ":" + "<input type='text' id='methodname" + m_count + "'><select id = 'select_method"+ select_mcnt +"' class='select_method'>"
-						+ "<option value='void'>void</option> <option value='int'>int</option> <option value='String'>String</option></select>"
-						+ "<input type='hidden' id='direct_input_func" + difunc_cnt + "'></input>";
-	// 추가할 폼(에 들어갈 HTML)
-	var addedMDiv = document.createElement("div"); // 폼 생성
-	addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
-	addedMDiv.innerHTML = str; // 폼 Div안에 HTML삽입
-	addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
-	
-	for(var i=0; i<voList.length; i++){
-		$('<option value="'+ voList[i].vo_name +'">' + voList[i].vo_name + '</option>').appendTo('#select_method' + select_mcnt);
-	}
-	
-	$('<option value="직접입력">직접입력</option>').appendTo('#select_method' + select_mcnt);
-	
-	var temp_val_string = document.getElementById("select_value0").value;
-	var temp_func_string = document.getElementById("select_method0").value;
-	
-	m_count++;
-	select_mcnt++;
-	difunc_cnt++;
-	Dynamic_Connect_List();
+    var addedMFormDiv = document.getElementById("methodDiv");
+    var str = "Method";
+    str += m_count + ":" + "<input type='text' id='methodname" + m_count + "' class='methodname'><select id = 'select_method"+ select_mcnt +"' class='select_method'>"
+                   + "<option value='void'>void</option> <option value='int'>int</option> <option value='String'>String</option></select>"
+                   + "<input type='hidden' id='direct_input_func" + difunc_cnt + "'></input>";
+    // 추가할 폼(에 들어갈 HTML)
+    var addedMDiv = document.createElement("div"); // 폼 생성
+    addedMDiv.id = "added_method" + m_count; // 폼 Div에 ID 부여 (삭제를 위해)
+    addedMDiv.innerHTML = str; // 폼 Div안에 HTML삽입
+    addedMFormDiv.appendChild(addedMDiv); // 삽입할 DIV에 생성한 폼 삽입
+    
+    for(var i=0; i<voList.length; i++){
+       $('<option value="'+ voList[i].vo_name +'">' + voList[i].vo_name + '</option>').appendTo('#select_method' + select_mcnt);
+    }
+    
+    $('<option value="직접입력">직접입력</option>').appendTo('#select_method' + select_mcnt);
+    
+    var temp_val_string = document.getElementById("select_value0").value;
+    var temp_func_string = document.getElementById("select_method0").value;
+    var temp_conn_string = document.getElementById("connectclass").value;
+    
+    m_count++;
+    select_mcnt++;
+    difunc_cnt++;
+    Dynamic_Connect_List();
 
-	document.getElementById("select_value0").value = temp_val_string;
-	document.getElementById("select_method0").value = temp_func_string;
-}
+    document.getElementById("select_value0").value = temp_val_string;
+    document.getElementById("select_method0").value = temp_func_string;
+    document.getElementById("connectclass").value = temp_conn_string;
+ }
 
 /**
  * method form을 하나하나 삭제시켜주는 함수
@@ -1404,7 +1477,7 @@ function MVC_List_View(){
 				+'<label value="' + voList[i].classname + '">' + voList[i].classname + '</label>').appendTo('#volist');
 		$('<div style="float:left; margin-bottom:10px;margin-left:40px">'
 				+'<button class="btn btn-primary" onclick="VOList_Modify('+"\'" + voList[i].classname +"\'" +')">수정</button>').appendTo('#volist');
-		$('<!-- <div style="margin-bottom:10px">'
+		$(' <div style="margin-bottom:10px">'
 				+'<button class="btn btn-danger" onclick="VOList_Delete('+"'" + voList[i].classname +"'" +')">삭제</button></br>').appendTo('#volist');
 			}
 		}
@@ -1972,12 +2045,18 @@ function MVC_List_View(){
 			dao = new element();
 			
 			var temp = [];
-			temp[0]='';
-			        connectclass = "init";
-		            draw_className = c_name + "Controller";
+			temp[0]="";
+			connectclass = "init";
+		    draw_className = c_name + "Controller";
 			
-			//var c_length = draw_className.length - 10;
-			Connect_SavePoint(draw_className.length,temp.length, temp.length);
+		    /* test4 : 민섭 */
+		    var v_length = 0;
+			var m_length = 0;
+			var sv_length = 0;
+			var sm_length = 0;
+			
+			var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+			Connect_SavePoint(c_length,temp.length, temp.length);
 			// controller 값을 list에 저장
 			
 			gubun=1;
@@ -2003,8 +2082,15 @@ function MVC_List_View(){
 		            connectclass =  draw_className;
 		            draw_className = c_name + "Service";
 			
-			//var c_length = draw_className.length - 7;
-			Connect_SavePoint(draw_className.length,temp.length, draw_methodName.length);
+		            /* test4 : 민섭 */
+				    var v_length = 0;
+					var m_length = array_Compare(draw_methodName);
+					var sv_length = 0;
+					var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+					
+					var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+					Connect_SavePoint(c_length,temp.length, draw_methodName.length);
+		    
 			gubun=2;
 			service.classname = draw_className;
 			service.valuename = temp;
@@ -2028,8 +2114,14 @@ function MVC_List_View(){
 			connectclass =  draw_className;
 		            draw_className = c_name + "DAO";
 			
-			//var c_length = draw_className.length - 3;
-			Connect_SavePoint(draw_className.length,draw_valueName.length, draw_methodName.length);
+		            /* test4 : 민섭 */
+				    var v_length = array_Compare(draw_valueName);
+					var m_length = array_Compare(draw_methodName);
+					var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+					var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+					
+					var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+					Connect_SavePoint(c_length,draw_valueName.length, draw_methodName.length);
 			gubun=3;
 			dao.classname = draw_className;
 			dao.valuename = draw_valueName;
@@ -2928,7 +3020,24 @@ function MVC_List_View(){
 		Duplication_Check();
 		Call_Value();
 		
-		Connect_SavePoint(draw_className.length,val_count, m_count);
+		/* test4 : 민섭 */
+		var v_length = array_Compare(draw_valueName);
+		var m_length = array_Compare(draw_methodName);
+		var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+		var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+		
+		var result;
+		if(check_package == "Controller"){
+			result = draw_className.length+10;
+		}else if(check_package == "Service"){
+			result = draw_className.length+7;
+		}else if(check_package == "DAO"){
+			result = draw_className.length+3;
+		}
+		
+		var c_length = Length_Compare(result, v_length + sv_length, m_length + sm_length);
+		
+		Connect_SavePoint(c_length,val_count, m_count);
 		
 		Value_List_Save();
 		
@@ -2942,7 +3051,17 @@ function MVC_List_View(){
 			    Duplication_Check_Modify();
 		Call_Value();
 		
-		Connect_SavePoint(draw_className.length,val_count, m_count);
+		/* test4 : 민섭 */
+		var v_length = array_Compare(draw_valueName);
+		var m_length = array_Compare(draw_methodName);
+		var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+		var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+		
+		var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+		
+		var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+		Connect_SavePoint(c_length,val_count, m_count);
+		
 		
 		Modify_Value_List_Save();
 		
@@ -3164,7 +3283,8 @@ function MVC_List_View(){
 			context.font = '12pt Calibri';
 			
 			// class의 크기에 맞추어서 사각형을 그려줌.
-			context.strokeRect(xpos, ypos, base_xpos + 5*(c_length), base_ypos + 20*(cname_num + val_num) + 15*m_num);
+			/* test4 : 민섭's 수정 */
+			context.strokeRect(xpos, ypos, base_xpos + 3*c_length, base_ypos + 20*(cname_num + val_num) + 15*m_num);
 			
 			// classname 배열에 마지막에 저장된 class name을 출력
 			context.fillText(draw_className, xpos + 10, ypos + 15 * cname_num);
@@ -3211,7 +3331,8 @@ function MVC_List_View(){
 		 */
 		
 		function Connect_SavePoint(c_length, valNum, mNum){
-			width = xpos + base_xpos + 5*(c_length);
+			/* test4 : 민섭's */
+			width = xpos + base_xpos + 3*c_length;
 			height = ypos + base_ypos;
 			
 			end_xpos = width;
@@ -3263,18 +3384,24 @@ function MVC_List_View(){
 		xpos = controllerList[i].start_point_x;
 		ypos = controllerList[i].start_point_y;
 		
+		/* test4 : 민섭 */
+		var v_length = array_Compare(draw_valueName);
+		var m_length = array_Compare(draw_methodName);
+		var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+		var sm_length = array_Compare2(draw_select_func,draw_direct_func);
 		
-		//var c_length = draw_className.length - 10;
-		Connect_SavePoint(draw_className.length,val_num, m_num);
+		var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+		
+		Connect_SavePoint(c_length,val_num, m_num);
 		
 		
 		if(controllerList[i].connclassname != "init"){
 		
 			All_Draw_Connect_Line();
 			DrawConnect();
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}else{
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}
 		DrawInit();
 			}
@@ -3297,16 +3424,23 @@ function MVC_List_View(){
 		xpos = serviceList[i].start_point_x;
 		ypos = serviceList[i].start_point_y;
 		
-		//var c_length = draw_className.length - 7;		
-		Connect_SavePoint(draw_className.length,val_num, m_num);	
+		/* test4 : 민섭 */
+		var v_length = array_Compare(draw_valueName);
+		var m_length = array_Compare(draw_methodName);
+		var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+		var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+		
+		var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+		
+		Connect_SavePoint(c_length,val_num, m_num);
 		
 		if(serviceList[i].connclassname != "init"){
 		
 			All_Draw_Connect_Line();
 			DrawConnect();
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}else{
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}
 		DrawInit();
 			}
@@ -3330,17 +3464,23 @@ function MVC_List_View(){
 		xpos = daoList[i].start_point_x;
 		ypos = daoList[i].start_point_y;
 			
-		//var c_length = draw_className.length - 3;
-			
-		Connect_SavePoint(draw_className.length,val_num, m_num);
+		/* test4 : 민섭 */
+		var v_length = array_Compare(draw_valueName);
+		var m_length = array_Compare(draw_methodName);
+		var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+		var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+		
+		var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+		
+		Connect_SavePoint(c_length,val_num, m_num);
 		
 		if(daoList[i].connclassname != "init"){
 		
 			All_Draw_Connect_Line();
 			DrawConnect();
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}else{
-			DrawClass(draw_className.length);
+			DrawClass(c_length);
 		}
 		DrawInit();
 			}
@@ -3351,6 +3491,66 @@ function MVC_List_View(){
 			
 		}
 		
+		// test4 error
+		// 배열의 요소 길이를 리턴하는 함수
+		function array_Compare(arr){
+			
+			var max_length = arr[0].length;
+			
+			for(var i=0;i<arr.length;i++){
+				if(max_length <= arr[i].length){
+					max_length = arr[i].length;
+				}else{
+					continue;
+				}
+			}
+			
+			return max_length;
+		}
+
+		/* test4 : 민섭 */
+		function array_Compare2(arr1,arr2){
+
+			var max_length = arr1[0].length;
+			
+			for(var i=0;i<arr1.length;i++){
+				if(arr1[i] != "직접입력"){
+					if(max_length <= arr1[i].length){
+						max_length = arr1[i].length;
+					}else{
+						continue;
+					}
+				}else{
+					if(max_length <= arr2[i].length){
+						max_length = arr2[i].length;
+					}else{
+						continue;
+					}
+				}
+			}
+			
+			return max_length;
+		}
+		
+		/**
+		 * input 태그에 입력한 값(class name, value name, method name)의 길이를 비교하기 위한 함수
+		 */
+		 /* test4 : 민섭 */
+		function Length_Compare(n_length,v_length,m_length){
+			if(n_length >= v_length){
+				if(n_length >= m_length){
+					return n_length;
+				}else{
+					return m_length;
+				}
+			}else{
+				if(v_length >= m_length){
+					return v_length;
+				}else{
+					return m_length;
+				}
+			}
+		}
 		
 		/**
 		 * 변수들을 초기화 해주는 함수.
@@ -3385,76 +3585,56 @@ function MVC_List_View(){
 		
 		
 			
-		    $(document).ready(function(){
+		    $(document).ready(function(){		
+				//버튼누르면 프로젝트파일생성하라고 서버에 emit 
+				$('.create_file').click(function (){
+						/* test5 : 민재 */
+						socket.emit('createpj', {
+						template:select_img		
 		
-		
-		
-			//버튼누르면 프로젝트파일생성하라고 서버에 emit 
-			$('.create_file').click(function (){
-		                  
-		                socket.emit('createpj');       // 소켓 이벤트 발생
-		              
+					});
 		         });
-		
-			//버튼누르면 sql문 파일생성하라고 서버에 emit 
-			$('.create_sql').click(function (){
-		                  
+				//버튼누르면 sql문 파일생성하라고 서버에 emit 
+				$('.create_sql').click(function (){
 		                socket.emit('createtb');       // 소켓 이벤트 발생
-		              
-		      });
-		
-		
-		
-		
-		
-		
-			
-		
-		
-		
-		
+		      	});
 		
 		        // 이벤트 연결
 		
 		        canvas.onmousedown = function(event){
 			    context.beginPath();
-		            isDown = true;      // 눌렀다
-			
-		            point= new Point(event, this);      // 현재 마우스 위치를 기록
+			    
+		        isDown = true;      // 눌렀다
+		        point= new Point(event, this);      // 현재 마우스 위치를 기록
 		            
 			    xpos=point.x;
 			    ypos=point.y;
 		
 			    if(isDown&&list_click&& !connect_btncheck){
 		
-			Dynamic_Connect_List();
-			$("#myModal").modal();
-			list_click = false;
-		            
-		       
-		
-		
-		            }else if(!list_click && !connect_btncheck){
-		
-			sx = xpos;
-			sy = ypos;
+					Dynamic_Connect_List();
+					$("#myModal").modal();
+					list_click = false;
+		        }else if(!list_click && !connect_btncheck){		
+					sx = xpos;
+					sy = ypos;
 			
-			MoveRectangle(sx, sy);
+					MoveRectangle(sx, sy);
 			
 				
-			// 도형을 클릭한 것이 아니면 그리기 시작
-			if (moving == -1) {
-				drawing = true;
-			}
-			   }else if(!list_click && connect_btncheck){
-			conn_startX = xpos;
-			conn_startY = ypos;
+					// 도형을 클릭한 것이 아니면 그리기 시작
+					if (moving == -1) {
+						drawing = true;
+					}
+			   		}else if(!list_click && connect_btncheck){
+						conn_startX = xpos;
+						conn_startY = ypos;
 			
-			ConnectStart(conn_startX,conn_startY);
+						ConnectStart(conn_startX,conn_startY);
 			
-			if(btnconn_startcon){
-				startList = controllerList[btnconn_startindex];
-				gubun=1;
+					if(btnconn_startcon){
+						startList = controllerList[btnconn_startindex];
+						gubun=1;
 			}else if(btnconn_startser){
 				startList = serviceList[btnconn_startindex];
 				gubun=2;
@@ -3470,7 +3650,7 @@ function MVC_List_View(){
 		        };
 		
 		        canvas.onmouseup = function(){ isDown = false; drawing = false;
-		    	$(canvas).css('cursor', 'auto');
+		    	$("#canvas1").css('cursor', 'auto');
 		
 		moving = -1;
 		point= new Point(event, this);      // 현재 마우스 위치를 기록
@@ -3486,15 +3666,11 @@ function MVC_List_View(){
 			if (temp_moving != -1) {
 				
 				if(move_con){
-					$(canvas).css('cursor', 'move');
-				
 					gubun=1;
 					EmitMoveCanvas();
 					
 					//Draw_AllList();
 				}else if(move_ser){
-				$(canvas).css('cursor', 'move');
-					
 					gubun=2;
 					EmitMoveCanvas();
 					//r.start_point_x += (ex - sx);
@@ -3504,8 +3680,6 @@ function MVC_List_View(){
 				
 					//Draw_AllList();
 				}else if(move_dao){
-					$(canvas).css('cursor', 'move');
-					
 					gubun=3;
 					EmitMoveCanvas();
 					//r.start_point_x += (ex - sx);
@@ -3684,7 +3858,7 @@ $(document).on('change', '.select_method', function(){
 		
 			context.beginPath();
 			var temp=[];
-			temp[0]='';
+			temp[0]="";
 			//mvc.js   
 			// controller의 값들을 변수에 저장.
 			controller = new element();
@@ -3696,7 +3870,16 @@ $(document).on('change', '.select_method', function(){
 			draw_className = c_name+"Controller";
 			connectclass = "init";
 			
-			Connect_SavePoint(draw_className.length,temp.length, temp.length);
+			// test4 error
+			/* test4 : 민섭 */
+			var v_length = 0;
+			var m_length = 0;
+			var sv_length = 0;
+			var sm_length = 0;
+			
+			var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+			
+			Connect_SavePoint(c_length,temp.length, temp.length);
 			// element에 초기값을 저장함.
 			
 			controller.classname = draw_className;
@@ -3737,7 +3920,15 @@ $(document).on('change', '.select_method', function(){
 			m_num  = draw_methodName.length;
 			connectclass = "ExamController";
 			
-			Connect_SavePoint(draw_className.length,temp.length, draw_methodName.length);
+			/* test4 : 민섭 */
+			var v_length = 0;
+			var m_length = array_Compare(draw_methodName);
+			var sv_length = 0;
+			var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+			
+			var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+			
+			Connect_SavePoint(c_length,temp.length, draw_methodName.length);
 		
 			service.classname = draw_className;
 			service.valuename = temp;
@@ -3781,7 +3972,15 @@ $(document).on('change', '.select_method', function(){
 			m_num  = draw_methodName.length;
 			connectclass = "ExamService";
 			
-			Connect_SavePoint(draw_className.length,val_num, m_num);
+			/* test4 : 민섭 */
+			var v_length = array_Compare(draw_valueName);
+			var m_length = array_Compare(draw_methodName);
+			var sv_length = array_Compare2(draw_select_val,draw_direct_val);
+			var sm_length = array_Compare2(draw_select_func,draw_direct_func);
+			
+			var c_length = Length_Compare(draw_className.length, v_length + sv_length, m_length + sm_length);
+			
+			Connect_SavePoint(c_length,val_num, m_num);
 		
 			
 			dao.classname = draw_className;
@@ -3908,13 +4107,13 @@ $(document).on('change', '.select_method', function(){
 			function mod_conn(conn_c){
 		if(conn_c.m_conn_gb==1){
 			controllerList[conn_c.m_conn_idx].connclassname=data.class.classname;
-			alert('연결바꿀클래스'+controllerList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+			/* alert('연결바꿀클래스'+controllerList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname); */
 		}else if(conn_c.m_conn_gb==2){
 			serviceList[conn_c.m_conn_idx].connclassname=data.class.classname;
-			alert('연결바꿀클래스'+serviceList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+			/* alert('연결바꿀클래스'+serviceList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname); */
 		}else if(conn_c.m_conn_gb==3){
 			daoList[conn_c.m_conn_idx].connclassname=data.class.classname;
-			alert('연결바꿀클래스'+daoList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname);
+			/* alert('연결바꿀클래스'+daoList[conn_c.m_conn_idx].classname+'연결된거바꾸는 이름:'+data.class.classname); */
 		}
 		
 			}
@@ -4094,7 +4293,8 @@ $(document).on('change', '.select_method', function(){
 		
 		
 		
-		    </script> -->
+		    </script>
+-->
 
 <script>
 
@@ -4183,7 +4383,14 @@ if(tablelist.length==0&& creator){%>   //방생성자면
    db_ypos = 50;
    draw_className = "USERS";
    
-   DB_Connect_SavePoint(draw_className.length,comn_num);
+   /* test4 : 민섭*/
+	var v_length = array_Compare(draw_columnName);
+	var sv_length = array_Compare2(draw_dataType,draw_direct_type);
+	   
+	var c_length = Length_Compare(draw_tableName.length, v_length + sv_length,0);
+	   
+	DB_Connect_SavePoint(c_length,comn_num);
+
 
    // element에 초기값을 저장함.
    table = new db_element();
@@ -4252,9 +4459,7 @@ if(tablelist.length==0&& creator){%>   //방생성자면
 
 
 window.onload = function() {
-   
-   
-   
+	
    // 모든 event를 등록하는 곳.
    list_click_db = false;
    
@@ -4323,7 +4528,101 @@ window.onload = function() {
 		}	 
       DB_All_Init();
    });
+   /* test4 : 민섭's */
+   $("#classname").bind("keyup",function(){
+		var classname = $("#classname").val();
+		var ss = /[`~!@\#%<>^&*\()\-=+\'\s";:\\|\{},.]/gi;
+		var fn = /[0-9]/gi;
+		
+		if(classname.length == 1){
+			if(ss.test(classname)){
+				$("#classname").val(classname.replace(ss,""));
+			}else if(fn.test(classname)){
+				$("#classname").val(classname.replace(fn,""));
+			}
+		}else{
+			if(ss.test(classname)){ //특수문자가 포함되면 삭제하여 값으로 다시셋팅
+				$("#classname").val(classname.replace(ss,""));
+			}
+		}
+	});/* test4 : 민섭 */
+   	$("#tablename").bind("keyup",function(){
+	      var tablename = $("#tablename").val();
+	      var ss = /[`~!@\$#%<>^&*\()\-=+\_'\s";:\\|\{},.]/gi;
+	      var sw = /[`~!@\%<>^&*\()\-=+\'\s";:\\|\{},.]/gi;
+	      
+	      if(tablename.length == 1){
+	         if(ss.test(tablename)){
+	            $("#tablename").val(tablename.replace(ss,""));
+	         }
+	      }else{
+	         if(sw.test(tablename)){ //특수문자가 포함되면 삭제하여 값으로 다시셋팅
+	            $("#tablename").val(tablename.replace(sw,""));
+	         }
+	      }
+	   });
+
+	
+
 }
+
+$(document).on("keyup",".valuename",function(){
+	var index = $(this).attr("id").substring(9);
+	var valuename = $(this).val();
+	var ss = /[`~!@\#%<>^&*\()\-=+\'\s";:\\|\{},.]/gi;
+	var fn = /[0-9]/gi;
+	
+	if(valuename.length == 1){
+		if(ss.test(valuename)){
+			$("#valuename" + index).val(valuename.replace(ss,""));
+		}else if(fn.test(valuename)){
+			$("#valuename" + index).val(valuename.replace(fn,""));
+		}
+	}else{
+		if(ss.test(valuename)){ //특수문자가 포함되면 삭제하여 값으로 다시셋팅
+			$("#valuename" + index).val(valuename.replace(ss,""));
+		}
+	}
+});
+
+
+
+/* test4 : 민섭 */
+$(document).on("keyup",".methodname",function(){
+	var index = $(this).attr("id").substring(10);
+	var methodname = $(this).val();
+	var ss = /[`~!@\#%<>^&*\()\-=+\'\s";:\\|\{},.]/gi;
+	var fn = /[0-9]/gi;
+	
+	if(methodname.length == 1){
+		if(ss.test(methodname)){
+			$("#methodname" + index).val(methodname.replace(ss,""));
+		}else if(fn.test(methodname)){
+			$("#methodname" + index).val(methodname.replace(fn,""));
+		}
+	}else{
+		if(ss.test(methodname)){ //특수문자가 포함되면 삭제하여 값으로 다시셋팅
+			$("#methodname" + index).val(methodname.replace(ss,""));
+		}
+	}
+});
+/* test4 : 민섭 */
+$(document).on("keyup",".column_name",function(){
+	   var index = $(this).attr("id").substring(11);
+	   var column_name = $(this).val();
+	   var ss = /[`~!@\$#%<>^&*\()\-=+\_'\s";:\\|\{},.]/gi;
+	   var sw = /[`~!@\%<>^&*\()\-=+\'\s";:\\|\{},.]/gi;
+	   
+	   if(column_name.length == 1){
+	      if(ss.test(column_name)){
+	         $("#column_name" + index).val(column_name.replace(ss,""));
+	      }
+	   }else{
+	      if(sw.test(column_name)){ //특수문자가 포함되면 삭제하여 값으로 다시셋팅
+	         $("#column_name" + index).val(column_name.replace(sw,""));
+	      }
+	   }
+	});
 
 
 /**
@@ -4364,7 +4663,7 @@ function canvas2Y(clientY) {
 
 /* DB db_modal.js */
 /**
- * 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.
+ * 각 input box의 id값을 가져와서 배열에 저장하고 canvas를 그려주는 함수. modal창의 ok button을 누르면 실행됨.*/
 
  function TableOK() {
 		
@@ -4373,7 +4672,13 @@ function canvas2Y(clientY) {
 			Duplication_DB_Check();
 			Call_DB_Value();
 			
-			DB_Connect_SavePoint(draw_className.length,comn_count);
+			 /* test4 : 민섭*/
+			var v_length = array_Compare(draw_columnName);
+			var sv_length = array_Compare2(draw_dataType,draw_direct_type);
+			   
+		 	var c_length = Length_Compare(draw_tableName.length, v_length + sv_length,0);
+			
+			DB_Connect_SavePoint(c_length,comn_count);
 			
 			Value_TableList_Save();
 			
@@ -4387,7 +4692,13 @@ function canvas2Y(clientY) {
 			Duplication_Check_DB_Modify();
 			Call_DB_Value();
 			
-			DB_Connect_SavePoint(draw_className.length,comn_count);
+			/* test4 : 민섭*/
+			var v_length = array_Compare(draw_columnName);
+			var sv_length = array_Compare2(draw_dataType,draw_direct_type);
+			   
+		 	var c_length = Length_Compare(draw_tableName.length, v_length + sv_length,0);
+			
+			DB_Connect_SavePoint(c_length,comn_count);
 
 			Modify_Value_DBList_Save();
 			
@@ -4641,6 +4952,7 @@ function Modify_Value_DBList_Save(){
       table.start_point_dby = tableList[modify_dbindex].start_point_dby;
       table.end_point_dbx = end_db_xpos;
       table.end_point_dby = end_db_ypos;
+      table.conn_dao=draw_conn_dao;
       
 	  EmitModifyTable();
       //tableList[modify_dbindex] = table;
@@ -4666,8 +4978,8 @@ function ModifyDBInit(){
  */
 function AddColumnForm() {
    var addedComnFormDiv = document.getElementById("tableDiv");
-   var str = "Column";
-   str += comn_count + " :" + "<input type='text' id='column_name" + comn_count + "'><select id = 'select_datatype"+ select_comncnt +"' class='select_datatype'>"
+   var str = "Column";/* test4 : 민섭 */
+   str += comn_count + " :" + "<input type='text' id='column_name" + comn_count + "' class='column_name'><select id = 'select_datatype"+ select_comncnt +"' class='select_datatype'>"
                   + "<option value='NUMBER'>NUMBER</option> <option value='VARCHAR2'>VARCHAR2</option></select>"
                   + "<input type='hidden' id='direct_column" + dicomn_cnt + "'></input>";
    // 추가할 폼(에 들어갈 HTML)
@@ -4719,17 +5031,19 @@ function DelColumnAllForm()
 /**
  * side에 list들을 전부 띄워주는 함수. (실행하면 list들을 삭제하고 다시 그려준다.)
  */
-function DB_List_View(){
-   
-   $('#tablelist').empty();
-   
-   for(var i=0;i<tableList.length;i++){
-      $('<label value="' + tableList[i].tablename + '">' + tableList[i].tablename + '</label>').appendTo('#tablelist');
-      $('<button onclick="DBList_Modify('+"\'" + tableList[i].tablename +"\'" +')">수정</button>').appendTo('#tablelist');
-      $('<button onclick="DBList_Delete('+"\'" + tableList[i].tablename +"\'" +')">삭제</button></br>').appendTo('#tablelist');
-   }
-}
-
+ function DB_List_View(){
+	   
+	   $('#tablelist').empty();
+	   
+	   for(var i=0;i<tableList.length;i++){
+	      $('<div style=" width:120px;float:left; margin-left:20px; margin-top:5px">'
+	+'<label value="' + tableList[i].tablename + '">' + tableList[i].tablename + '</label>').appendTo('#tablelist');
+	      $('<div style="float:left; margin-bottom:10px;margin-left:40px">'
+	+'<button class="btn btn-primary" onclick="DBList_Modify('+"\'" + tableList[i].tablename +"\'" +')">수정</button>').appendTo('#tablelist');
+	      $('<div style="margin-bottom:10px">'
+	+'<button class="btn btn-danger" onclick="DBList_Delete('+"\'" + tableList[i].tablename +"\'" +')">삭제</button></br>').appendTo('#tablelist');
+	   }
+	}
 /**
  * form을 초기화 해주는 함수.
  * */
@@ -4760,7 +5074,7 @@ function DrawTable(t_length) {
 	context2.font = '12pt Calibri';
    
    // table의 크기에 맞추어서 사각형을 그려줌.
-   context2.strokeRect(db_xpos, db_ypos, base_db_xpos + 5*(t_length), base_db_ypos + 20*(tname_num + comn_num));
+   context2.strokeRect(db_xpos, db_ypos, base_db_xpos + 4*(t_length), base_db_ypos + 20*(tname_num + comn_num));
    
    // table의 이름을 그려줌.
    context2.fillText(draw_tableName, db_xpos + 10, db_ypos + 15 * tname_num);
@@ -4800,7 +5114,7 @@ function DrawDBLine() {
  * table의 좌표를 이어주기 위해 좌표를 계산하는 함수. ( list에 저장하기 전에 DrawTable()를 사용하기 전에 사용.)
  */
 function DB_Connect_SavePoint(t_length,colnum){
-	db_width = db_xpos + base_db_xpos  + 5*(t_length);
+	db_width = db_xpos + base_db_xpos  + 4*(t_length);
 	db_height = db_ypos + base_db_ypos;
 	
 	end_db_xpos = db_width;
@@ -4837,8 +5151,14 @@ function DB_Draw_AllList(){
       db_xpos = tableList[i].start_point_dbx;
       db_ypos = tableList[i].start_point_dby;
       
-      DB_Connect_SavePoint(draw_tableName.length,comn_num);
-	  DrawTable(draw_tableName.length);
+      /* test4 : 민섭*/
+		var v_length = array_Compare(draw_columnName);
+		var sv_length = array_Compare2(draw_dataType,draw_direct_type);
+		   
+	 	var c_length = Length_Compare(draw_tableName.length, v_length + sv_length,0);
+      
+      DB_Connect_SavePoint(c_length,comn_num);
+	  DrawTable(c_length);
       
       DrawDBInit();
    }
@@ -5004,15 +5324,12 @@ function DBMouseEventInit(){
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	var select_img;
     
-    $('#myModal').on('hidden.bs.modal', function () {//모달창이 close되었을때 발생하는 이벤트
- 		OnCancel();
+    $('#template').on('hidden.bs.modal', function () {//모달창이 close되었을때 발생하는 이벤트
 	});
     
-    $('#select_templete').click(function(){
-        $("#templete").modal();
+    $('#select_template').click(function(){
+        $("#template").modal();
     });
 	
 	$('.t_img').on('click',function(){
@@ -5031,7 +5348,7 @@ $(document).ready(function(){
 	$('.t_img').on('dblclick', function(){
 		if($(this).css('position') == 'relative'){
 			var img = $(this).attr('alt');
-			$('#temp_t_img').append('<img class="big_img" style="width:200%;height:auto;z-index:2;" src="/resources/res/images/'+img+'.PNG">');
+			$('#temp_t_img').append('<img class="big_img" style="width:200%;height:auto;z-index:2;" src="/resources/res/images/'+img+'_1.PNG">');
 		}		
 	});
 	$(document).on('click',".big_img", function(){
@@ -5055,5 +5372,14 @@ $(document).ready(function(){
 			$(this).css('width','90%');
 		}
 	});
+	
 });
+/* test7 : template로 안바꿨던것들 수정 (replaceAll로 바꾸면 2개인가 바뀔거) / 취소버튼 눌렀을때 select_img 1(기본)으로 바꿔주고 모든 템플릿 이미지들 css 기본으로 변경 */
+function template_cancel(){
+	select_img = '1';
+	$('.t_img').css('border', '0px solid #333');
+	$('.t_img').css('box-shadow', '2px 2px 5px 0px #333');
+	$('.t_img').css('opacity', '1');
+	$('.t_img').css('width', '90%');
+}
 </script>
