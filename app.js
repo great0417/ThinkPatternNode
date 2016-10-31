@@ -77,11 +77,22 @@ app.get('/downloadsql', function (req, res) {
 });
 
 //test6 : 라이브러리 다운로드 구현
-app.get('/downloadlibrary', function (req, res){
-		var filepath = './pj/ojdbc6.jar';
-		console.log(filepath);
-		res.download(filepath);
+app.get('/downloadlibrary', function(req, res){
+	var filepath = './pj/ojdbc6.jar';
+	console.log(filepath);
+	res.download(filepath);
 });
+
+//post방식으로 룸이름과 아이디 정보를 받기 위해 /temp쪽으로 이동시킨다.
+app.get('/temp', function(req, res) {
+	fs.readFile('tempcanvas.html', function (err, data) {
+		getcanvas=req.param('room');
+		getid=req.param('id');
+		
+        res.send(data.toString());
+    });
+	
+})
 
 //post방식으로 룸이름과 아이디 정보를 받기 위해 /temp쪽으로 이동시킨다.
 app.get('/temp', function(req, res) {
@@ -350,7 +361,7 @@ io.sockets.on('connection', function(socket) {
 	         else if(flist[i].gb==2) delfile(2, flist[i].class);
 	         else if(flist[i].gb==3) delfile(3, flist[i].class);
 	         else if(flist[i].gb==4) delfile(4, flist[i].class);
-	         
+	         else if(isDB) delfile(5, 'good');
 	         
 	         
 	         
@@ -376,14 +387,15 @@ io.sockets.on('connection', function(socket) {
 	      
 	      
 	      var mvc='';
-	      for(var i = 1; i < 7; i++)
+	      for(var i = 1; i < 8; i++)
 	      {
 	         if(i==1) mvc='controller';
 	         else if(i==2) mvc='service';
 	         else if(i==3) mvc='dao';
 	         else if(i==4) mvc='vo';
-	         else if(i==5) mvc='good';
-	         else if(i==6) mvc='src'
+	         else if(i==5) mvc='commons';
+	         else if(i==6) mvc='good';
+	         else if(i==7) mvc='src'
 	         
 	         if(i < 5)
 	         {
@@ -400,11 +412,18 @@ io.sockets.on('connection', function(socket) {
 	         }
 	         else
 	         {
-	            if(i == 5)
+	            if(i == 6)
 	            {
 	               folder='./mvc/' + roominfo + '/src';
 	            }
-	            else
+	            else if(i==5)
+	            {
+	            	if(isDB)
+	            	{
+	            		folder='./mvc/' + roominfo + '/src/' +mvc;
+	            	}
+	            }
+	            else if(i==7)
 	            {
 	               folder='./mvc/' + roominfo;
 	            }
@@ -443,6 +462,7 @@ io.sockets.on('connection', function(socket) {
 	   
 	   }
 	   
+	   var flaggg= true;
 	   
 	   function delfile(gb, fc) {
 	      var file='';//생성될파일경로파일이름
@@ -453,17 +473,42 @@ io.sockets.on('connection', function(socket) {
 	      else if(gb==2) mvc='service';
 	      else if(gb==3) mvc='dao';
 	      else if(gb==4) mvc='vo'
-	         
-	         
-	      file='./mvc/' + roominfo + "/src/"  +mvc+'/'+fc.classname+'.java';   
-	      console.log('삭제영역 삭제할 파일은');
-	      console.log(file);
-	      
-	      
-	      fs.unlink(file, function(err) {
-	         if(err) throw err;
-	         console.log('successfully deleted file');
-	      });      
+	      else if(gb==5) mvc='commons'
+	      if(gb < 5)
+	      {
+	    	  file='./mvc/' + roominfo + "/src/"  +mvc+'/'+fc.classname+'.java';   
+		      console.log('삭제영역 삭제할 파일은');
+		      console.log(file);
+		      
+		      
+		      fs.unlink(file, function(err) {
+		         if(err) throw err;
+		         console.log('successfully deleted file');
+		      });      
+	      }
+	      else if((gb == 5 )&& flaggg)
+	      {
+	    	  file='./mvc/' + roominfo + "/src/"  +mvc+'/DBUtil.java';
+	    	  fs.unlink(file, function(err) {
+			         if(err) throw err;
+			         console.log('successfully deleted file');
+			      });  
+	    	  
+	    	  file='./mvc/' + roominfo + "/src/"  +mvc+'/IDBConnection.java';
+	    	  fs.unlink(file, function(err) {
+			         if(err) throw err;
+			         console.log('successfully deleted file');
+			      }); 
+	    	  
+	    	  
+	    	  file='./mvc/' + roominfo + "/src/"  +mvc+'/OracleDBConnection.java';
+	    	  fs.unlink(file, function(err) {
+			         if(err) throw err;
+			         console.log('successfully deleted file');
+			      }); 
+	    	  flaggg = false;
+	    	  
+	      }
 	      
 	   
 	   }
@@ -712,7 +757,7 @@ io.sockets.on('connection', function(socket) {
 			if(fc.classname=='ExamController'){
 				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\tArrayList<ExamVO> list = new ArrayList<ExamVO>();\n\t\tExamVO exam=new ExamVO();\n\t\texam.setName("유재용");\n\t\texam.setPhone("010-1111-1111");\n\t\texam.setEmail("aaa@naver.com");\n\t\tlist.add(exam);\n\n\t\tExamVO exam1=new ExamVO();\n\t\texam1.setName("송희엽");\n\t\texam1.setPhone("010-2222-2222");\n\t\texam1.setEmail("bbb@naver.com");\n\t\tlist.add(exam1);\n\n\t\tExamVO exam2=new ExamVO();\n\t\texam2.setName("방민섭");\n\t\texam2.setPhone("010-3333-3333");\n\t\texam2.setEmail("ccc@naver.com");\n\t\tlist.add(exam2);\n\n\t\tExamVO exam3=new ExamVO();\n\t\texam3.setName("김소희");\n\t\texam3.setPhone("010-4444-4444");\n\t\texam3.setEmail("ddd@naver.com");\n\t\tlist.add(exam3);\n\n\t\tExamVO exam4=new ExamVO();\n\t\texam4.setName("홍민재");\n\t\texam4.setPhone("010-5555-5555");\n\t\texam4.setEmail("eee@naver.com");\n\t\tlist.add(exam4);\n\n\t\tRequestDispatcher rd = request.getRequestDispatcher("exam.jsp"); \n\t\trequest.setAttribute("USERLIST", list);\n\t\trd.forward(request, response);';
 			}else if(ismvc&&connTb!=null&&isDB){
-				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\ttry{\n\n\t\t\tOracleDBConnection odb = new OracleDBConnection();\n\t\t\tDBUtil.setDBMSConnector(odb);\n\n\t\t\tArrayList<'+connTb.tablename+'VO> list = new ArrayList<'+connTb.tablename+'VO>();\n\t\t\tlist='+splitName2+'Service.selectAll();\n\n\t\t\tRequestDispatcher rd = request.getRequestDispatcher("/views/'+connTb.tablename.toLowerCase()+'.jsp");\n\n\t\t\trequest.setAttribute("list", list);\n\t\t\trd.forward(request, response);\n\n\t\t}catch(SQLException e){\n\t\t//TODO Auto-generated catch block\n\t\t\te.printStackTrace();\n\t\t}\n\n'
+				data+='\t\trequest.setCharacterEncoding("UTF-8");\n\n\t\ttry{\n\n\t\t\tOracleDBConnection odb = new OracleDBConnection();\n\t\t\tDBUtil.setDBMSConnector(odb);\n\n\t\t\tArrayList<'+connTb.tablename+'VO> list = new ArrayList<'+connTb.tablename+'VO>();\n\t\t\tlist='+splitName2+'Service.selectAll();\n\n\t\t\tRequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/'+connTb.tablename.toLowerCase()+'.jsp");\n\n\t\t\trequest.setAttribute("list", list);\n\t\t\trd.forward(request, response);\n\n\t\t}catch(SQLException e){\n\t\t//TODO Auto-generated catch block\n\t\t\te.printStackTrace();\n\t\t}\n\n'
 			}
 			data+='\n\t}\n\tprotected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {\n\t\tdoGet(request, response);\n\t}\n\n';
 
@@ -846,7 +891,9 @@ io.sockets.on('connection', function(socket) {
 
 
 	}
-		
+	
+	
+	
 	//test5 : tlist => tlist3으로	
 	//sql파일 생성
 	socket.on('createtb', function() {
@@ -1013,7 +1060,7 @@ function isTb(c){
 	return isConnTb;
          
 }
-
+var finishhh = true;
 //mvc자동생성기로 만들어졌으며 테이블 dao와 연결되어있는지 check
 var mvc=false;
 function isMvc(gb, fc){
@@ -1102,7 +1149,7 @@ function isMvc(gb, fc){
 	//test5 : 수정
 	var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
 	var tlist=[];//table리스트
-	
+	var dbInfor=null;
 	//var flist=[]; //각 파일에 입력할 정보를 받기위한 변수
 	//프로젝트 파일생성 
 	//프로젝트 파일생성 
@@ -1112,7 +1159,7 @@ function isMvc(gb, fc){
 		
 		template='';
 		isDB=false; //db정보 있는지
-		var dbInfor=new db_element();
+		dbInfor=new db_element();
 		
 		
 
@@ -1134,7 +1181,31 @@ function isMvc(gb, fc){
 		
 		
 		template=data.template; //사용자가 선택한 template값 넣기
+		creaDir(room);
 		
+
+
+		});
+		/*var sdf=1;
+		while(1)
+		{
+			console.log(sdf);
+			sdf++;
+			if(!finishhh){
+				break;
+			}
+		}*/
+			
+		/*socket.emit('completepj');*/
+		setTimeout(timefinish, 10000);
+		
+	});
+
+	function timefinish(){
+		socket.emit('completepj');
+	}
+
+	function creaDir(froom){
 		var dir='';
 
 		//디렉토리생성
@@ -1210,96 +1281,112 @@ function isMvc(gb, fc){
 			console.log(err);
 		  } else {
 			console.log('ok');
-			temp2=true;
+			creaTemplate(froom,creaFileData);
 		  }
 		});
 		
-		while(temp2){
-		if(template!=null&&template!=''){
-			dir1='./pj/'+froom+'/WebContent/resources';
-			if(!fs.existsSync(dir1)){
-					fs.mkdirSync(dir1);
-			}
-			if(template=='1'){
-				
-				dir1='./pj/'+froom+'/WebContent/resources/template1_css';
+		function creaTemplate(froom,callback){
+			if(template!=null&&template!=''){
+				dir1='./pj/'+froom+'/WebContent/resources';
 				if(!fs.existsSync(dir1)){
 						fs.mkdirSync(dir1);
 				}
-				copydir.sync('./pj/WebContent/resources/template1_css', './pj/'+froom+'/WebContent/resources/template1_css');
-				console.log("test2");
-			}else if(template=='2'){
-				dir1='./pj/'+froom+'/WebContent/resources/template2_css';
-				if(!fs.existsSync(dir1)){
-						fs.mkdirSync(dir1);
+				console.log("test2createmplate");
+				if(template=='1'){
+					
+					dir1='./pj/'+froom+'/WebContent/resources/template1_css';
+					if(!fs.existsSync(dir1)){
+							fs.mkdirSync(dir1);
+					}
+					copydir.sync('./pj/WebContent/resources/template1_css', './pj/'+froom+'/WebContent/resources/template1_css');
+					
+				}else if(template=='2'){
+					dir1='./pj/'+froom+'/WebContent/resources/template2_css';
+					if(!fs.existsSync(dir1)){
+							fs.mkdirSync(dir1);
+					}
+					copydir.sync('./pj/WebContent/resources/template2_css', './pj/'+froom+'/WebContent/resources/template2_css');
+				}else if(template=='3'){
+					dir1='./pj/'+froom+'/WebContent/resources/template3_css';
+					if(!fs.existsSync(dir1)){
+							fs.mkdirSync(dir1);
+					}
+					copydir.sync('./pj/WebContent/resources/template3_css', './pj/'+froom+'/WebContent/resources/template3_css');
+				}else if(template=='4'){
+					dir1='./pj/'+froom+'/WebContent/resources/template4_css';
+					if(!fs.existsSync(dir1)){
+							fs.mkdirSync(dir1);
+					}
+					copydir.sync('./pj/WebContent/resources/template4_css', './pj/'+froom+'/WebContent/resources/template4_css');
 				}
-				copydir.sync('./pj/WebContent/resources/template2_css', './pj/'+froom+'/WebContent/resources/template2_css');
-			}else if(template=='3'){
-				dir1='./pj/'+froom+'/WebContent/resources/template3_css';
-				if(!fs.existsSync(dir1)){
-						fs.mkdirSync(dir1);
-				}
-				copydir.sync('./pj/WebContent/resources/template3_css', './pj/'+froom+'/WebContent/resources/template3_css');
-			}else if(template=='4'){
-				dir1='./pj/'+froom+'/WebContent/resources/template4_css';
-				if(!fs.existsSync(dir1)){
-						fs.mkdirSync(dir1);
-				}
-				copydir.sync('./pj/WebContent/resources/template4_css', './pj/'+froom+'/WebContent/resources/template4_css');
-			}
 
-		}
-		temp2=false;
-		break;
+			}
+			//callback함수 creaFileData 호출.
+			if( typeof callback == "function"){
+				callback(zipFile);
+			}
+		
+	
 
 	
 		}
 
-		
-		isExam=false;
-		//javalist돌면서 코드화
-		for(var i=0; i<flist.length;i++){
-		fcrea=false;
-			//연결된클래스들 리스트만들기
-			var conn_list = []; //연결리스트
-			var conn_idx = 0; //연결인덱스
+		function creaFileData(callback){
+			isExam=false;
+			//javalist돌면서 코드화
+			for(var i=0; i<flist.length;i++){
+			fcrea=false;
+				//연결된클래스들 리스트만들기
+				var conn_list = []; //연결리스트
+				var conn_idx = 0; //연결인덱스
 
-			for(var c=0;c<flist.length;c++){
-				if(flist[i].class.classname == flist[c].class.connclassname){
-					conn_list[conn_idx] = flist[c];
-					conn_idx++;
+				for(var c=0;c<flist.length;c++){
+					if(flist[i].class.classname == flist[c].class.connclassname){
+						conn_list[conn_idx] = flist[c];
+						conn_idx++;
+					}
+				}
+
+			
+			if(flist[i].gb==1){ 
+				filedata(1, flist[i].class, conn_list);
+				var cn=flist[i].class.classname;
+				if(cn=='ExamController') isExam=true;
+				conList[conSize]=cn;
+				conSize++;
+			}else if(flist[i].gb==2) filedata(2, flist[i].class, conn_list);
+			else if(flist[i].gb==3) filedata(3, flist[i].class, conn_list);
+			else if(flist[i].gb==4) vofiledata(flist[i].class);
+
+
+		
+
+			}
+			
+
+			//테이블마다 vo만들기
+			if(tlist.length!=0){
+				for(var i=0;i<tlist.length;i++){
+					tvofiledata(tlist[i]);
 				}
 			}
 
-		
-		if(flist[i].gb==1){ 
-			filedata(1, flist[i].class, conn_list);
-			var cn=flist[i].class.classname;
-			if(cn=='ExamController') isExam=true;
-			conList[conSize]=cn;
-			conSize++;
-		}else if(flist[i].gb==2) filedata(2, flist[i].class, conn_list);
-		else if(flist[i].gb==3) filedata(3, flist[i].class, conn_list);
-		else if(flist[i].gb==4) vofiledata(flist[i].class);
-
-
-
-
-		}
-
-		//테이블마다 vo만들기
-		if(tlist.length!=0){
-			for(var i=0;i<tlist.length;i++){
-				tvofiledata(tlist[i]);
+			//callback함수 zipFile 호출.
+			if( typeof callback == "function"){
+				callback(froom);
 			}
+
 		}
 
-		var dirname='./'+froom+'.zip';
+		
+	
+	}
 
-		while(true){
+	function zipFile(froom){
 
-			if(fcrea){
+		
 					//zip파일로 압축
+		var dirname='./'+froom+'.zip';
 
 		var EasyZip = require('easy-zip').EasyZip;
 
@@ -1367,7 +1454,7 @@ function isMvc(gb, fc){
 
 					data1+='\t\t\t</thead>\n\t\t\t<tbody>\n\t\t\t\t<% for('+tlist[j].tablename+'VO vo:list){ %>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td><%=idx++%></td>\n';
 					for(var t=0;t<tlist[j].columnname.length;t++){
-						data1+='\t\t\t\t\t\t<td>vo.get'+initCap(tlist[j].columnname[t].toLowerCase())+'</td>\n';
+						data1+='\t\t\t\t\t\t<td><%=vo.get'+initCap(tlist[j].columnname[t].toLowerCase())+'()%></td>\n';
 					}						
 			
 					data1+='\t\t\t\t\t</tr>\n\t\t\t\t<%} %>\n\n \t\t\t</tbody>\n\t\t</table>\n</div>\n\n<%@ include file="/WEB-INF/views/template'+template+'/test_footer.jsp"%>\n</html>\n';
@@ -1437,13 +1524,6 @@ function isMvc(gb, fc){
 		
 
 
-	//controller잘라주고 첫글자 소문자로 바꿔주는 메소드
-	function urlmaker(string){
-	  	var sp = string.split('Controller');
-	      	var sp2=sp[0].substring(0,1).toLowerCase()+sp[0].substring(1,sp[0].length);
-	         return  sp2;
-	   
-	}
 
 	//web.xml에 각 컨트롤러마다 servlet mapping해주기 
 	var data1='<?xml version="1.0" encoding="UTF-8"?>\n<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">\n\t<display-name>'+froom+'</display-name>\n\t<welcome-file-list>\n\t\t<welcome-file>index.html</welcome-file>\n\t\t<welcome-file>index.htm</welcome-file>\n\t\t<welcome-file>index.jsp</welcome-file>\n\t\t<welcome-file>default.html</welcome-file>\n\t\t<welcome-file>default.htm</welcome-file>\n\t\t<welcome-file>default.jsp</welcome-file>\n\t</welcome-file-list>\n';
@@ -1453,21 +1533,18 @@ function isMvc(gb, fc){
 	data1+='</web-app>';
 	zip1.file('WebContent/WEB-INF/web.xml',data1);	
 	zip1.writeToFile(dirname);
-
-	break;
-		}
-
+//yyyyyy
+		
+		finishhh = false;
 	}
 
-	
-
-
-		});
-		
-		socket.emit('completepj');
-		
-	});
-
+	//controller잘라주고 첫글자 소문자로 바꿔주는 메소드
+	function urlmaker(string){
+	  	var sp = string.split('Controller');
+	      	var sp2=sp[0].substring(0,1).toLowerCase()+sp[0].substring(1,sp[0].length);
+	         return  sp2;
+	   
+	}
 
 
 	//추가추가..db정보 받기
